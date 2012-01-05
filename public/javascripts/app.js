@@ -9,7 +9,7 @@ $(function(){
   var answerStatsEl = $(".answerStats");
   var qEl = $(".questionContainer");
   var getCurrentQuestion = function(){ return parseInt($("#currentQuestion").val()); };
-  var questionTemplate = _.template("<%= title %> <br> <% _.each(possible_answers, function(answer){ %> <input type='radio' name='my_answer' value='<%= answer %>'> <%= answer %> <br> <% }); %> <button id='final_answer'>This is my final answer!</button>");
+  var questionTemplate = _.template("<p><%= title %><br/><%= code %></p><% _.each(possible_answers, function(answer){ %> <input type='radio' name='my_answer' value='<%= answer %>'> <%= answer %> <br> <% }); %> <button id='final_answer'>This is my final answer!</button>");
   var answerStatsTemplate = _.template("<% _.each(currentAnswers, function(stat, index) {%> <li> <%= stat %> People Answered Option <%= index %> </li> <% }) %>");
   var resetAnswerStats = function(){
     currentAnswers = [0,0,0,0];
@@ -61,7 +61,7 @@ $(function(){
   });
 
   socket.on("scratchUpdate", function(text){
-    var payload = prettyPrintOne(text, "js", true);
+    var payload = methods.prettyPrintCode(text);
     $("div.scratch").html(payload);
   });
 
@@ -71,6 +71,7 @@ $(function(){
     incomingAnswersEl.html("");
     $("#currentQuestion").val(resp.question.number);
 
+    resp.question.code = methods.prettyPrintCode(resp.question.code);
     var markup = questionTemplate(resp.question);
     qEl.html(markup);
   });
@@ -109,6 +110,14 @@ $(function(){
         show().
         delay(3000).
         fadeOut(1000);
+    },
+    prettyPrintCode: function(code){
+      code = code.
+              replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;").
+              replace(/ /g, "&nbsp;").
+              replace(/\n/g, "<br/>");
+
+      return prettyPrintOne(code, "js", true);
     }
   };
 

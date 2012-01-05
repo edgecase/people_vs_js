@@ -41,12 +41,14 @@ app.get('/question/:id', routes.askTheQuestion);
 app.post('/question/:id', routes.answerTheQuestion);
 
 var questions = [{ number: 1,
-    title: "What's 2 + 2?",
+    title: "What does this output?",
+    code: "2 + 2",
     correct_index: 3,
     possible_answers: [ 1,2,3,4 ]
   },
   { number: 2,
-    title: "What's 3 + 3?",
+    title: "What does this output?",
+    code: "function add(x, y) {\n\treturn x + y\n}\nadd(3,3);",
     correct_index: 2,
     possible_answers: [ 2,4,6,8 ]
   }];
@@ -101,7 +103,7 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on("scratchStream", function(text){
-    io.sockets.emit("scratchUpdate", text.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;").replace(/ /g, "&nbsp;").replace(/\n/g, "<br/>"));
+    io.sockets.emit("scratchUpdate", text);
   });
 
   socket.on("setName", function(data, callback){
