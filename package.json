@@ -1,0 +1,11 @@
+{
+    "name": "people_vs_js"
+  , "version": "0.0.1"
+  , "description": "Quiz for helping folks learn JavaScript"
+  , "private": true
+  , "dependencies": {
+      "express": "2.5.4"
+    , "jade": ">= 0.0.1"
+    , "socket.io": ">= 0.8.7"
+  }
+}
