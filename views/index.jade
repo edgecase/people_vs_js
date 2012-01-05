@@ -31,7 +31,7 @@ script
     });
 
     socket.on('msg', function (data) {
-      msgEl.text(data.msg).removeClass().addClass(data.type);
+      msgEl.text(data.msg).removeClass().addClass(data.type).show().fadeOut(3000);
     });
 
     socket.on('next_question', function (data) {
@@ -52,5 +52,5 @@ script
         throw("NOT DONE!");
       }
     };
-    
+
   });
