@@ -46,9 +46,20 @@ io.sockets.on('connection', function (socket) {
 
   socket.emit('welcome', { users: namedClients });
   socket.on("setName", function(data, callback){
-    socket.set("name", data.name, function(){
-      socket.broadcast.emit("joined", data);
+    var existingNamedSocket = _(io.sockets.sockets).find(function(item){
+      return item.store.data.name && item.store.data.name.toLowerCase() === data.name.toLowerCase();
     });
+
+    if (existingNamedSocket){
+      socket.emit("msg", {type: 'error', msg: 'A team with that name already exists, please choose another!'});
+      return;
+    }
+
+    socket.set("name", data.name, function(){
+      socket.broadcast.emit("otherJoined", data);
+      socket.emit("selfJoined", data);
+    });
+
   });
 });
 

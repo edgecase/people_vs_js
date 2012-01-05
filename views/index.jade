@@ -20,13 +20,18 @@ script
       });
     });
 
-    socket.on('joined', function (data) {
-      msgEl.text( data.name + " has joined the fight!" );
+    socket.on('otherJoined', function (data) {
+      msgEl.text( data.name + " has joined the quiz!" );
       methods.addParticipant(data.name);
     });
 
+    socket.on('selfJoined', function (data) {
+      methods.addParticipant(data.name + " (you!) ");
+      qEl.html("Please wait for the quiz to begin");
+    });
+
     socket.on('msg', function (data) {
-      msgEl.text(data.msg);
+      msgEl.text(data.msg).removeClass().addClass(data.type);
     });
 
     socket.on('next_question', function (data) {
@@ -36,8 +41,6 @@ script
     $("#name_button").click(function(e){
       var myName = $("#name").val();
       socket.emit("setName", { name: myName });
-      methods.addParticipant(myName + " (you!) ");
-      qEl.html("Please wait for the quiz to begin");
     });
 
     var methods = {
