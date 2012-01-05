@@ -5,8 +5,14 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , _ = require('underscore')
 
 var app = module.exports = express.createServer();
+var io = require('socket.io').listen(app);
+
+GLOBAL.app = app;
+GLOBAL.io = io;
+GLOBAL._ = _;
 
 // Configuration
 
@@ -27,9 +33,24 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-// Routes
+app.get('/', routes.introduction);
+app.get('/question/:id', routes.askTheQuestion);
+app.post('/question/:id', routes.answerTheQuestion);
 
-app.get('/', routes.index);
+io.sockets.on('connection', function (socket) {
+  var namedClients = _.map(io.sockets.sockets, function(val, key){
+    return val.store.data.name;
+  });
+
+  namedClients = _.compact(namedClients);
+
+  socket.emit('welcome', { users: namedClients });
+  socket.on("setName", function(data, callback){
+    socket.set("name", data.name, function(){
+      socket.broadcast.emit("joined", data);
+    });
+  });
+});
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

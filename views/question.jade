@@ -1,0 +1,14 @@
+script
+
+h1 Question #{question.number}
+p= question.title
+
+form(method="POST")
+  each answer in question.possible_answers
+    label
+      input(type='radio', name='my_answer', value=answer)
+      = answer
+      br
+
+  p
+    input(type="submit")

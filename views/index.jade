@@ -1,2 +1,53 @@
-h1= title
-p Welcome to #{title}
+h1 Welcome and Begin!
+.msg
+.participants
+
+.questionContainer
+  label Select a nickname for your team!
+    br
+    input(name="name", id="name")
+  input(type="button", id="name_button", value="Set")
+
+script
+  $(function(){
+    var participantsList = [];
+    var socket = io.connect('http://localhost');
+    var msgEl = $(".msg");
+    var qEl = $(".questionContainer");
+    socket.on("welcome", function(data){
+      $.each(data.users, function(index, value){
+        methods.addParticipant(value);
+      });
+    });
+
+    socket.on('joined', function (data) {
+      msgEl.text( data.name + " has joined the fight!" );
+      methods.addParticipant(data.name);
+    });
+
+    socket.on('msg', function (data) {
+      msgEl.text(data.msg);
+    });
+
+    socket.on('next_question', function (data) {
+      console.log(data);
+    });
+
+    $("#name_button").click(function(e){
+      var myName = $("#name").val();
+      socket.emit("setName", { name: myName });
+      methods.addParticipant(myName + " (you!) ");
+      qEl.html("Please wait for the quiz to begin");
+    });
+
+    var methods = {
+      addParticipant: function(name){
+        participantsList.push(name);
+        $(".participants").append("<br>"+name);
+      },
+      removeParticipant: function(name){
+        throw("NOT DONE!");
+      }
+    };
+    
+  });
