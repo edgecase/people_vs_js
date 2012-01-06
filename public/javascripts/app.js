@@ -46,6 +46,10 @@ $(function(){
     qEl.html("Please wait for the quiz to begin");
   });
 
+  socket.on('otherQuit', function(data) {
+    methods.removeParticipant(data.name);
+  });
+
   socket.on('msg', function (data) {
     methods.showMessage(data);
   });
@@ -106,10 +110,11 @@ $(function(){
     addParticipant: function(name){
       participantsList.push(name);
       participantsList.sort();
-      $(".participants").append("<br>"+name);
+      $(".participants").append("<li name='" + name + "'>" + name + "</li>");
     },
     removeParticipant: function(name){
-      throw("NOT DONE!");
+      participantsList = _.without(participantsList, name);
+      $(".participants").find("[name=" + name + "]").remove();
     },
     showMessage: function(data){
       msgEl.

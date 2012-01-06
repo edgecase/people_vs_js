@@ -136,6 +136,10 @@ io.sockets.on('connection', function (socket) {
       }
     });
   });
+
+  socket.on("disconnect", function(){
+    socket.broadcast.emit("otherQuit", {name: socket.store.data.name});
+  });
 });
 
 app.listen(3000);
