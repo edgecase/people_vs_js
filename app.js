@@ -60,6 +60,19 @@ function userAnsweredAtIndex(index){
   currentAnswers[index]++;
 }
 
+function calculateAnswerPercentages(){
+  var totalAnswers = _.reduce(currentAnswers, function(memo, num){ return memo + num; }, 0);
+  return _.map(currentAnswers, function(answerCount){
+    return Math.floor((answerCount / totalAnswers) * 100);
+  });
+}
+
+// use polling since heroku does not yet support websockets
+io.configure(function () {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+});
+
 io.sockets.on('connection', function (socket) {
   var namedClients = _.map(io.sockets.sockets, function(val, key){
     return val.store.data.name;
@@ -95,7 +108,7 @@ io.sockets.on('connection', function (socket) {
     socket.get("name", function(err, name){
       io.sockets.emit("remoteAnswer", {
         user: name,
-        currentAnswers: currentAnswers,
+        answerPercentages: calculateAnswerPercentages(),
         answer: data.myAnswer,
         isCorrect: isCorrect
       });
