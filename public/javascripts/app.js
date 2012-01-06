@@ -1,5 +1,5 @@
 $(function(){
-  var currentAnswers = [0,0,0,0];
+  var answerPercentages = [0,0,0,0];
   var participantsList = [];
   var readyToParticipate = false;
   var scratchPresenter = true;
@@ -10,13 +10,13 @@ $(function(){
   var qEl = $(".questionContainer");
   var getCurrentQuestion = function(){ return parseInt($("#currentQuestion").val()); };
   var questionTemplate = _.template("<p><%= title %><br/><%= code %></p><% _.each(possible_answers, function(answer){ %> <input type='radio' name='my_answer' value='<%= answer %>'> <%= answer %> <br> <% }); %> <button id='final_answer'>This is my final answer!</button>");
-  var answerStatsTemplate = _.template("<% _.each(currentAnswers, function(stat, index) {%> <li> <%= stat %> People Answered Option <%= index %> </li> <% }) %>");
+  var answerStatsTemplate = _.template("<% _.each(answerPercentages, function(stat, index) {%> <li> <%= stat %>% answered option <%= index %> </li> <% }) %>");
   var resetAnswerStats = function(){
-    currentAnswers = [0,0,0,0];
+    answerPercentages = [0,0,0,0];
     renderAnswerStats();
   }
   var renderAnswerStats = function(){
-    answerStatsEl.html(answerStatsTemplate({currentAnswers: currentAnswers}));
+    answerStatsEl.html(answerStatsTemplate({answerPercentages: answerPercentages}));
   }
 
   $("#presenterNext").click(function(e){
@@ -52,7 +52,7 @@ $(function(){
 
   socket.on('remoteAnswer', function (data) {
     incomingAnswersEl.append( $("<li>"+ data.user +"</li>").addClass( ((data.isCorrect) ? "good" : "bad") ) );
-    currentAnswers = data.currentAnswers;
+    answerPercentages = data.answerPercentages;
     renderAnswerStats();
   });
 
