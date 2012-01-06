@@ -29,6 +29,13 @@ $(function(){
     socket.emit("moveTo", { questionNumber: getCurrentQuestion()-1 });
   });
 
+  $("#presenterResetQuiz").click(function(e){
+    e.preventDefault();
+    $("#currentQuestion").val(0);
+    readyToParticipate = true;
+    socket.emit("resetQuiz");
+  });
+
   socket.on("welcome", function(data){
     $.each(data.users, function(index, value){
       methods.addParticipant(value);

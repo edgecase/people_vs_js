@@ -52,6 +52,11 @@ var getQuestion = function(questionNumber){
 var currentQuestion = 0;
 var currentAnswers = [0,0,0,0];
 
+function resetQuiz(){
+  currentQuestion = 0;
+  resetCurrentAnswers();
+}
+
 function resetCurrentAnswers(){
   currentAnswers = [0,0,0,0];
 }
@@ -83,17 +88,22 @@ io.sockets.on('connection', function (socket) {
 
   socket.emit('welcome', { users: namedClients });
 
+  socket.on("resetQuiz", function(){
+    var questionToPresent = getQuestion(1);
+    io.sockets.emit("presentQuestion", { question: questionToPresent });
+  });
+
   socket.on("moveTo", function(data){
     resetCurrentAnswers();
-    currentQuestion = data.questionNumber;
 
-    if (currentQuestion > questions.length){
+    if (data.questionNumber > questions.length){
       io.sockets.emit("quizComplete");
     }
-    else if (currentQuestion < 1) {
+    else if (data.questionNumber < 1) {
       return;
     }
     else {
+      currentQuestion = data.questionNumber;
       var questionToPresent = getQuestion(currentQuestion);
       io.sockets.emit("presentQuestion", { question: questionToPresent });
     }
