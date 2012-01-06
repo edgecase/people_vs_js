@@ -1,0 +1,22 @@
+**question
+What is the result of this function?
+**question
+
+**code
+function add(a,b){
+  return a + b;
+}
+
+add(2,2);
+**code
+
+**possible_answers
+1
+2
+3
+4
+**possible_answers
+
+**correct_index
+3
+**correct_index

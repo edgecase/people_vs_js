@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , _ = require('underscore')
+  , ql = require('./lib/question_loader');
 
 var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app);
@@ -40,23 +41,12 @@ app.get('/presenter',
 app.get('/question/:id', routes.askTheQuestion);
 app.post('/question/:id', routes.answerTheQuestion);
 
-var questions = [{ number: 1,
-    title: "What does this output?",
-    code: "2 + 2",
-    correct_index: 3,
-    possible_answers: [ 1,2,3,4 ]
-  },
-  { number: 2,
-    title: "What does this output?",
-    code: "function add(x, y) {\n\treturn x + y\n}\nadd(3,3);",
-    correct_index: 2,
-    possible_answers: [ 2,4,6,8 ]
-  }];
+var questionLoader = new ql.QuestionLoader();
+var questions = [];
+questionLoader.loadAll(function(question){ questions.push(question); });
 
 var getQuestion = function(questionNumber){
-  return _(questions).find(function(question){
-    return questionNumber === question.number;
-  });
+  return questions[questionNumber - 1];
 };
 
 var currentQuestion = 0;
