@@ -1,23 +1,18 @@
 **question
-What is the result of this function?
+What is the result of the following expression?
 **question
 
 **code
-function add(a,b){
-  return a + b;
-}
-
-add(3,3);
+typeof 98.6;
 **code
 
 **possible_answers
-2
-4
-6
-8
+number
+object
+undefined
+integer
 **possible_answers
 
 **correct_index
-2
+0
 **correct_index
-

@@ -1,0 +1,19 @@
+**question
+What is the result of the following expression?
+**question
+
+**code
+typeof /a/g;
+**code
+
+**possible_answers
+Regex
+object
+string
+null
+**possible_answers
+
+**correct_index
+1
+**correct_index
+

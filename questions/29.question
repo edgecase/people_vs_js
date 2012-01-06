@@ -1,0 +1,25 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+var doStuff = function(){
+  function doStuff() {
+    console.log('more stuff');
+  };
+}
+
+doStuff();
+doStuff();
+**code
+
+**possible_answers
+undefined
+more stuff
+ReferenceError
+infinite loop
+**possible_answers
+
+**correct_index
+0
+**correct_index

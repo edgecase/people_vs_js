@@ -1,0 +1,16 @@
+**question
+What is the result of the following expression?
+**question
+
+**code
+0 == '';
+**code
+
+**possible_answers
+true
+false
+**possible_answers
+
+**correct_index
+0
+**correct_index

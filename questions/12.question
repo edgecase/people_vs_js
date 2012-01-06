@@ -1,0 +1,20 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+undefined = 5;
+typeof undefined;
+**code
+
+**possible_answers
+error
+undefined
+'number'
+'string'
+**possible_answers
+
+**correct_index
+2
+**correct_index
+

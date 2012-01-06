@@ -1,0 +1,19 @@
+**question
+What is the result of the following expression?
+**question
+
+**code
+parseInt("08");
+**code
+
+**possible_answers
+0
+8
+error
+NaN
+**possible_answers
+
+**correct_index
+0
+**correct_index
+

@@ -1,0 +1,19 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+bar();
+var foo = function bar() {return 1;};
+**code
+
+**possible_answers
+undefined
+1
+ReferenceError
+TypeError
+**possible_answers
+
+**correct_index
+2
+**correct_index

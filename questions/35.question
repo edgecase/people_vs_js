@@ -1,0 +1,25 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+function toPower(pow){
+  return function(x){
+    return Math.pow(x, pow);
+  }
+}
+
+var square = toPower(2);
+square(5);
+**code
+
+**possible_answers
+25
+undefined
+ReferenceError
+TypeError
+**possible_answers
+
+**correct_index
+0
+**correct_index

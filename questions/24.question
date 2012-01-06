@@ -1,0 +1,24 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+var x = 5;
+x = function(y) {
+  console.log(y);
+}
+
+x(3)
+**code
+
+**possible_answers
+3
+5
+TypeError
+null
+**possible_answers
+
+**correct_index
+0
+**correct_index
+

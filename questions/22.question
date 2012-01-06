@@ -1,0 +1,24 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+function square(x){
+  return y;
+  var y = x * x;
+}
+
+square(5)
+**code
+
+**possible_answers
+ReferenceError
+undefined
+null
+25
+**possible_answers
+
+**correct_index
+1
+**correct_index
+

@@ -50,7 +50,7 @@ var getQuestion = function(questionNumber){
 };
 
 var currentQuestion = 0;
-var currentAnswers = [0,0,0,0];
+var currentAnswers = null;
 
 function resetQuiz(){
   currentQuestion = 0;
@@ -58,7 +58,15 @@ function resetQuiz(){
 }
 
 function resetCurrentAnswers(){
-  currentAnswers = [0,0,0,0];
+  if(currentQuestion > 0){
+    var q = getQuestion(currentQuestion);
+    currentAnswers = [];
+    for(var i=0;i<q.possible_answers.length;i++){
+      currentAnswers.push(0);
+    }
+  } else {
+    currentAnswers = null;
+  }
 }
 
 function userAnsweredAtIndex(index){

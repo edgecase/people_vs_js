@@ -1,0 +1,19 @@
+**question
+What is the result of the following expression?
+**question
+
+**code
+typeof null;
+**code
+
+**possible_answers
+null
+undefined
+false
+object
+**possible_answers
+
+**correct_index
+3
+**correct_index
+

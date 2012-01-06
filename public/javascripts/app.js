@@ -11,8 +11,9 @@ $(function(){
   var getCurrentQuestion = function(){ return parseInt($("#currentQuestion").val()); };
   var questionTemplate = _.template("<p><%= question %><br/><%= code %></p><% _.each(possible_answers, function(answer){ %> <input type='radio' name='my_answer' value='<%= answer %>'> <%= answer %> <br> <% }); %> <button id='final_answer'>This is my final answer!</button>");
   var answerStatsTemplate = _.template("<% _.each(answerPercentages, function(stat, index) {%> <li> <%= stat %>% answered option <%= index %> </li> <% }) %>");
-  var resetAnswerStats = function(){
-    answerPercentages = [0,0,0,0];
+  var resetAnswerStats = function(possible_answers){
+    answerPercentages = [];
+    for(var i=0;i<possible_answers.length;i++) answerPercentages.push(0);
     renderAnswerStats();
   }
   var renderAnswerStats = function(){
@@ -78,7 +79,7 @@ $(function(){
 
   socket.on('presentQuestion', function (resp) {
     if(!readyToParticipate) return;
-    resetAnswerStats();
+    resetAnswerStats(resp.question.possible_answers);
     incomingAnswersEl.html("");
     $("#currentQuestion").val(resp.question.number);
 

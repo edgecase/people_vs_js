@@ -1,0 +1,28 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+var power = 2;
+function toPower(x){
+  return function(x){
+    return Math.pow(x, power);
+  }
+}
+
+var square = toPower(2);
+power = 3
+
+square(5);
+**code
+
+**possible_answers
+25
+125
+ReferenceError
+TypeError
+**possible_answers
+
+**correct_index
+1
+**correct_index
