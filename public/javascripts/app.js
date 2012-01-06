@@ -97,6 +97,11 @@ $(function(){
     });
   });
 
+  $("#name").keydown(function(e){
+    if (e.which === 13)
+      $("#name_button").click();
+  });
+
   var methods = {
     addParticipant: function(name){
       participantsList.push(name);
