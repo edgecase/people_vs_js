@@ -76,6 +76,10 @@ $(function(){
     qEl.html(markup);
   });
 
+  socket.on('quizComplete', function(resp) {
+    $("body").html("<h1> Deliberation Over! </h1><h2>Guilty or Not Guilty - You Decide...</h2>");
+  });
+
   $("#name_button").click(function(e){
     var myName = $("#name").val();
     socket.emit("setName", { name: myName });

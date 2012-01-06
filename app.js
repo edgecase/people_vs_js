@@ -26,11 +26,11 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
 app.configure('production', function(){
-  app.use(express.errorHandler());
+  app.use(express.errorHandler()); 
 });
 
 app.get('/', routes.introduction);
@@ -70,19 +70,6 @@ function userAnsweredAtIndex(index){
   currentAnswers[index]++;
 }
 
-function calculateAnswerPercentages(){
-  var totalAnswers = _.reduce(currentAnswers, function(memo, num){ return memo + num; }, 0);
-  return _.map(currentAnswers, function(answerCount){
-    return Math.floor((answerCount / totalAnswers) * 100);
-  });
-}
-
-// use polling since heroku does not yet support websockets
-io.configure(function () {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
-});
-
 io.sockets.on('connection', function (socket) {
   var namedClients = _.map(io.sockets.sockets, function(val, key){
     return val.store.data.name;
@@ -92,11 +79,21 @@ io.sockets.on('connection', function (socket) {
   var payload = { users: namedClients };
 
   socket.emit('welcome', { users: namedClients });
+
   socket.on("moveTo", function(data){
     resetCurrentAnswers();
     currentQuestion = data.questionNumber;
-    var questionToPresent = getQuestion(currentQuestion);
-    io.sockets.emit("presentQuestion", { question: questionToPresent });
+
+    if (currentQuestion > questions.length){
+      io.sockets.emit("quizComplete");
+    }
+    else if (currentQuestion < 1) {
+      return;
+    }
+    else {
+      var questionToPresent = getQuestion(currentQuestion);
+      io.sockets.emit("presentQuestion", { question: questionToPresent });
+    }
   });
 
   socket.on("provideAnswer", function(data, isCorrectCallback){
@@ -108,7 +105,7 @@ io.sockets.on('connection', function (socket) {
     socket.get("name", function(err, name){
       io.sockets.emit("remoteAnswer", {
         user: name,
-        answerPercentages: calculateAnswerPercentages(),
+        currentAnswers: currentAnswers,
         answer: data.myAnswer,
         isCorrect: isCorrect
       });
@@ -141,6 +138,5 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-var port = process.env.PORT || 3000;
-app.listen(port);
+app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
