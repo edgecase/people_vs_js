@@ -3,7 +3,7 @@ $(function(){
   var participantsList = [];
   var readyToParticipate = false;
   var scratchPresenter = true;
-  var socket = io.connect('http://localhost');
+  var socket = io.connect(window.location.hostname);
   var msgEl = $(".msg");
   var incomingAnswersEl = $(".incomingAnswers");
   var answerStatsEl = $(".answerStats");

@@ -70,6 +70,12 @@ function userAnsweredAtIndex(index){
   currentAnswers[index]++;
 }
 
+// use polling since heroku does not yet support websockets
+io.configure(function () {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+});
+
 io.sockets.on('connection', function (socket) {
   var namedClients = _.map(io.sockets.sockets, function(val, key){
     return val.store.data.name;
