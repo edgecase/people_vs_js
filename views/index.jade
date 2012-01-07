@@ -9,20 +9,21 @@
 
 
 ul.participants
-  li.correct.you SquirrelFishen
+  li.correct SquirrelFishen
   li.incorrect V6s
 
 #panel_container
   #left_panel.panel
     .msg
     .questionContainer
-      h1 Welcome and Begin!
-      label Select a nickname for your team!
+      #welcome
+        h1 Welcome and Begin!
+        label Select a name for your team
+          br
+          br
+          input(name="name", id="name")
         br
-        br
-        input(name="name", id="name")
-        &nbsp;
-      input(type="button", id="name_button", value="Select Name", style="font-size: 16px;")
+        input(type="button", id="name_button", class="student", value="Select Name")
 
   #right_panel.panel
     ul.incomingAnswers

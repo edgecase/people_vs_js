@@ -1,23 +1,42 @@
-h1 Welcome and Begin!
-.msg
+#header
+  #header_left
+    #progress_container
+      #progress
+        span 20/40
+  #header_right
+    #answers_section_button.switch.active
+    #scratch_section_button.switch
+
 ul.participants
-ul.incomingAnswers
-ul.answerStats
-textarea.scratch
-.scratch
 
-.questionContainer
-  label
-    input(type="hidden", name="name", id="name", value="The Presenter")
-    input(type="button", id="name_button", value="Login as Presenter")
+#panel_container
+  #left_panel.panel
+    .msg
+    .questionContainer
+      #welcome
+        h1 Welcome and Begin!
+        input(type="hidden", name="name", id="name", value="The Presenter")
+        br
+        input(type="button", id="name_button", value="Login as Presenter", class="enabled")
 
-a(href="#", id="presenterBack") back
-&nbsp;
-a(href="#", id="presenterNext") next
-br
-a(href="#", id="presenterResetQuiz") reset
+  #right_panel.panel
+    ul.incomingAnswers
+    ul.answerStats
+
+    #scratch_pad
+      textarea.scratch
+      .scratch
+
+  #final_answer_container
+    a#final_answer.enabled(href="#") Submit My Final Answer
+
+  #credits.presenter
+    a(href="#", id="presenterBack") back
+    &nbsp;
+    a(href="#", id="presenterNext") next
+    &nbsp;
+    a(href="#", id="presenterResetQuiz") reset
 
 style
   .good{ background: green; }
   .bad{ background: red; }
-

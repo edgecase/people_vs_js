@@ -50,12 +50,11 @@ $(function(){
     answerStatsEl.html(answerStatsTemplate({answerPercentages: answerPercentages}));
   }
 
-  window.finalAnswer = new function() {
+  var finalAnswerButton = new ECButton('#final_answer', function() {
     var self = this;
-    self.$   = $('#final_answer');
-    self.isDisabled = false;
+    self.disable();
 
-    self.$.click(function(e){
+    self.$.on('click', function(e){
       e.preventDefault();
       if(self.isDisabled) { return; }
 
@@ -69,19 +68,25 @@ $(function(){
         }
       });
     });
+  });
 
-    self.disable = function() {
-      self.isDisabled = true;
-      self.$.addClass('disabled')
-            .removeClass('enabled');
-    };
+  selectNameButton = new ECButton('#name_button', function() {
+    var self = this;
+    if(self.$.hasClass('student')) { self.disable(); }
 
-    self.enable = function() {
-      self.isDisabled = false;
-      self.$.removeClass('disabled')
-            .addClass('enabled');
-    };
-  };
+    self.$.on('click', function(e){
+      e.preventDefault();
+      if(self.isDisabled) { return; }
+      socket.emit("setName", { name: $("#name").val() });
+    });
+
+    $('#name').on('keyup', function(e) {
+      if($(this).val() == '') { self.disable(); }
+      else { self.enable(); }
+    });
+  });
+
+  $('#name').focus();
 
   $('.switch').click(function() {
     $('.switch').removeClass('active');
@@ -100,8 +105,11 @@ $(function(){
 
   $("#presenterResetQuiz").click(function(e){
     e.preventDefault();
-    readyToParticipate = true;
-    socket.emit("resetQuiz");
+    if(confirm('Are you sure you want to reset?')){
+      $("#currentQuestion").val(0);
+      readyToParticipate = true;
+      socket.emit("resetQuiz");
+    }
   });
 
   socket.on("welcome", function(data){
@@ -117,8 +125,8 @@ $(function(){
 
   socket.on('selfJoined', function (data) {
     readyToParticipate = true;
-    methods.addParticipant(data.name + " (you!) ");
-    qEl.html("Please wait for the quiz to begin");
+    methods.addParticipant(data.name + " <span>(you!)</span> ", true);
+    qEl.html('<div id="please_wait">Please wait for the quiz to begin</div>');
   });
 
   socket.on('otherQuit', function(data) {
@@ -152,16 +160,11 @@ $(function(){
     resp.question.code = methods.prettyPrintCode(resp.question.code);
     var markup = templates.questionTemplate(resp.question);
     qEl.html(markup);
-    finalAnswer.enable();
+    finalAnswerButton.enable();
   });
 
   socket.on('quizComplete', function(resp) {
     $("body").html("<h1> Deliberation Over! </h1><h2>Guilty or Not Guilty - You Decide...</h2>");
-  });
-
-  $("#name_button").click(function(e){
-    var myName = $("#name").val();
-    socket.emit("setName", { name: myName });
   });
 
   $("#name").keydown(function(e){
@@ -170,10 +173,10 @@ $(function(){
   });
 
   var methods = {
-    addParticipant: function(name){
+    addParticipant: function(name, you){
       participantsList.push(name);
       participantsList.sort();
-      $(".participants").append("<li name='" + name + "'>" + name + "</li>");
+      $(".participants").append("<li class='" + (you ? 'you' : '') + "' name='" + name + "'>" + name + "</li>");
     },
     removeParticipant: function(name){
       participantsList = _.without(participantsList, name);
