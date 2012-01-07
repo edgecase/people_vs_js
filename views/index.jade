@@ -1,16 +1,46 @@
-h1 Welcome and Begin!
-.msg
-ul.participants
-ul.incomingAnswers
-ul.answerStats
-textarea.scratch
-.scratch
+#header
+  #header_left
+    #progress_container
+      #progress
+        span 20/40
+  #header_right
+    #answers_section_button.switch.active
+    #scratch_section_button.switch
 
-.questionContainer
-  label Select a nickname for your team!
-    br
-    input(name="name", id="name")
-  input(type="button", id="name_button", value="Select Name")
+
+ul.participants
+  li.correct.you SquirrelFishen
+  li.incorrect V6s
+
+#panel_container
+  #left_panel.panel
+    .msg
+    .questionContainer
+      h1 Welcome and Begin!
+      label Select a nickname for your team!
+        br
+        br
+        input(name="name", id="name")
+        &nbsp;
+      input(type="button", id="name_button", value="Select Name", style="font-size: 16px;")
+
+  #right_panel.panel
+    ul.incomingAnswers
+    ul.answerStats
+
+    #scratch_pad
+      textarea.scratch
+      .scratch
+
+  #final_answer_container
+    a#final_answer.enabled(href="#") Submit My Final Answer
+
+  #credits
+    a(href="http://twitter.com/pragma_tech", target="_blank")@pragma_tech
+    a(href="http://twitter.com/rubybuddha",  target="_blank")@rubybuddha
+    a(href="http://twitter.com/edgecase",    target="_blank")@edgecase
+
+input(type="hidden", id="currentQuestion", value="0")
 
 style
   .good{ background: green; }

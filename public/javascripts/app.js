@@ -50,6 +50,44 @@ $(function(){
     answerStatsEl.html(answerStatsTemplate({answerPercentages: answerPercentages}));
   }
 
+  window.finalAnswer = new function() {
+    var self = this;
+    self.$   = $('#final_answer');
+    self.isDisabled = false;
+
+    self.$.click(function(e){
+      e.preventDefault();
+      if(self.isDisabled) { return; }
+
+      var myAnswer = $("input[name=my_answer]:checked").index("input[name=my_answer]");
+      self.disable();
+      socket.emit("provideAnswer", { myAnswer: myAnswer }, function(isCorrect){
+        if(isCorrect){
+          methods.showMessage({ type: "correct", msg: "Yeah!" });
+        } else {
+          methods.showMessage({ type: "wrong", msg: "Wrong!" });
+        }
+      });
+    });
+
+    self.disable = function() {
+      self.isDisabled = true;
+      self.$.addClass('disabled')
+            .removeClass('enabled');
+    };
+
+    self.enable = function() {
+      self.isDisabled = false;
+      self.$.removeClass('disabled')
+            .addClass('enabled');
+    };
+  };
+
+  $('.switch').click(function() {
+    $('.switch').removeClass('active');
+    $(this).toggleClass('active');
+  });
+
   $("#presenterNext").click(function(e){
     e.preventDefault();
     socket.emit("nextQuestion");
@@ -114,6 +152,7 @@ $(function(){
     resp.question.code = methods.prettyPrintCode(resp.question.code);
     var markup = templates.questionTemplate(resp.question);
     qEl.html(markup);
+    finalAnswer.enable();
   });
 
   socket.on('quizComplete', function(resp) {
@@ -123,18 +162,6 @@ $(function(){
   $("#name_button").click(function(e){
     var myName = $("#name").val();
     socket.emit("setName", { name: myName });
-  });
-
-  $("#final_answer").live("click", function(e){
-    var myAnswer = $("input[name=my_answer]:checked").index("input[name=my_answer]");
-    $(this).remove();
-    socket.emit("provideAnswer", { myAnswer: myAnswer }, function(isCorrect){
-      if(isCorrect){
-        methods.showMessage({ type: "correct", msg: "Yeah!" });
-      } else {
-        methods.showMessage({ type: "wrong", msg: "Wrong!" });
-      }
-    });
   });
 
   $("#name").keydown(function(e){
