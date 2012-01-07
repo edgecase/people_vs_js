@@ -50,6 +50,11 @@ $(function(){
     answerStatsEl.html(answerStatsTemplate({answerPercentages: answerPercentages}));
   }
 
+  $('#name').focus();
+
+  $('#textarea_container textarea').focus(function() { $('#textarea_container').addClass('focus'); });
+  $('#textarea_container textarea').blur(function() { $('#textarea_container').removeClass('focus'); });
+
   var finalAnswerButton = new ECButton('#final_answer', function() {
     var self = this;
     self.disable();
@@ -70,7 +75,16 @@ $(function(){
     });
   });
 
-  selectNameButton = new ECButton('#name_button', function() {
+  var progressBar = new ECProgressBar('#question_progress');
+  progressBar.update('20/40', '50%');
+
+  var tabBar = new ECTabBar({
+    buttons  : '#header_right .switch',
+    sections : '#right_panel .section',
+    init     : function() { this.$buttons.first().click(); }
+  });
+
+  var selectNameButton = new ECButton('#name_button', function() {
     var self = this;
     if(self.$.hasClass('student')) { self.disable(); }
 
@@ -84,20 +98,6 @@ $(function(){
       if($(this).val() == '') { self.disable(); }
       else { self.enable(); }
     });
-  });
-
-  $('#name').focus();
-
-  var progressBar = new ECProgressBar('#question_progress');
-  progressBar.update('20/40', '50%');
-
-  $('.switch').click(function() {
-    var targetID = '#' + $(this).attr('id').replace('_button','');
-    $('.switch').removeClass('active');
-    $(this).toggleClass('active');
-
-    $('#right_panel .section:not(' + targetID + ')').fadeOut(150)
-    $(targetID).fadeIn(150);
   });
 
   $("#presenterNext").click(function(e){

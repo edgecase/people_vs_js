@@ -13,14 +13,14 @@ body {
   bottom: 0;
   left: 0; }
 
-input[type=text], textarea {
+input[type=text] {
   border: 1px solid #ccc;
   outline: none;
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); }
 
-input[type=text]:focus, textarea:focus {
+input[type=text]:focus {
   outline: none;
   border-color: #3e9ac4;
   -moz-box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8);
@@ -332,7 +332,7 @@ input[type=text]:focus, textarea:focus {
 
 #welcome #name {
   width: 240px;
-  padding: 12px 0 0 10px;
+  padding: 8px 0 8px 10px;
   font-size: 14px;
   border: 1px solid #ccc;
   outline: none;
@@ -470,13 +470,34 @@ input[type=text]:focus, textarea:focus {
   border-bottom: 1px solid #ccc;
   background: #eee; }
 
-#scratch_enter textarea {
+#textarea_container {
   position: absolute;
   top: 10px;
   right: 10px;
-  bottom: 10px;
   left: 10px;
-  padding: 5px; }
+  bottom: 10px;
+  padding: 5px;
+  background: #fff;
+  border: 1px solid #ccc;
+  outline: none;
+  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); }
+
+#textarea_container.focus {
+  outline: none;
+  border-color: #3e9ac4;
+  -moz-box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8);
+  -webkit-box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8);
+  box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8); }
+
+#scratch_enter textarea {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: none;
+  resize: none;
+  outline: none; }
 
 #scratch_results {
   overflow: auto;

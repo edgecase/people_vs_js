@@ -29,3 +29,22 @@ window.ECProgressBar = function(selector, init) {
 
   if(init) { init.apply(self, Array.prototype.slice.call(arguments, 1)); }
 };
+
+window.ECTabBar = function(data) {
+  var self = this;
+  self.$buttons  = $(data.buttons);
+  self.$sections = $(data.sections);
+
+  self.$buttons.on('click', function(e) {
+    e.preventDefault();
+    var targetID = $(this).attr('data-target');
+
+    self.$buttons.removeClass('active');
+    $(this).toggleClass('active');
+
+    self.$sections.not(targetID).fadeOut(150);
+    $(targetID).fadeIn(150);
+  });
+
+  if(data.init) { data.init.apply(self, Array.prototype.slice.call(arguments, 1)); }
+};
