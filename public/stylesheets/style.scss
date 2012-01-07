@@ -16,6 +16,28 @@ input[type=text] { @include standard_field_bedazzle(); }
 input[type=text]:focus { @include standard_field_focus(); }
 
 
+/* Flash Messages
+-------------------------------------------- */
+
+.msg {
+  padding   : 4px 0 4px 0;
+  color     : #333;
+  font-size : 14px;
+}
+
+.msg.error {
+  padding-left : 30px;
+  color        : #d00;
+  background   : url(/images/attention_error.png) no-repeat 0 50%;
+}
+
+.msg.success {
+  color        : #539000;
+  padding-left : 30px;
+  background   : url(/images/attention_success.png) no-repeat 0 50%;
+}
+
+
 /* Participants
 -------------------------------------------- */
 

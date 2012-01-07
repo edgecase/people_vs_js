@@ -27,6 +27,23 @@ input[type=text]:focus {
   -webkit-box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8);
   box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8); }
 
+/* Flash Messages
+-------------------------------------------- */
+.msg {
+  padding: 4px 0 4px 0;
+  color: #333;
+  font-size: 14px; }
+
+.msg.error {
+  padding-left: 30px;
+  color: #d00;
+  background: url(/images/attention_error.png) no-repeat 0 50%; }
+
+.msg.success {
+  color: #539000;
+  padding-left: 30px;
+  background: url(/images/attention_success.png) no-repeat 0 50%; }
+
 /* Participants
 -------------------------------------------- */
 .participants {
