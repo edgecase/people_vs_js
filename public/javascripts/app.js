@@ -89,8 +89,12 @@ $(function(){
   $('#name').focus();
 
   $('.switch').click(function() {
+    var targetID = '#' + $(this).attr('id').replace('_button','');
     $('.switch').removeClass('active');
     $(this).toggleClass('active');
+
+    $('#right_panel .section:not(' + targetID + ')').fadeOut(150)
+    $(targetID).fadeIn(150);
   });
 
   $("#presenterNext").click(function(e){
@@ -149,7 +153,7 @@ $(function(){
 
   socket.on("scratchUpdate", function(text){
     var payload = methods.prettyPrintCode(text);
-    $("div.scratch").html(payload);
+    $("#scratch_results").html(payload);
   });
 
   socket.on('presentQuestion', function (resp) {

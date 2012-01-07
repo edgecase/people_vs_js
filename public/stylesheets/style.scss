@@ -128,19 +128,19 @@ input[type=text]:focus, textarea:focus {
   background : url(/images/toggle_buttons.png) no-repeat;
 }
 
-#answers_section_button {
+#answer_pad_button {
   background-position: -1px 2px;
   margin-left : -52px;
 }
 
-#answers_section_button.active { background-position: -50px 2px; }
+#answer_pad_button.active { background-position: -50px 2px; }
 
-#scratch_section_button {
+#scratch_pad_button {
   margin-left : 3px;
   background-position: -99px 2px;
 }
 
-#scratch_section_button.active { background-position: -148px 2px; }
+#scratch_pad_button.active { background-position: -148px 2px; }
 
 
 /* Panels
@@ -155,7 +155,7 @@ input[type=text]:focus, textarea:focus {
   z-index  : 0;
 }
 
-#panel_container .panel {
+.panel {
   overflow     : auto;
   position     : absolute;
   top          : 0;
@@ -173,6 +173,7 @@ input[type=text]:focus, textarea:focus {
 
 #right_panel {
   right      : 0;
+  bottom     : 0;
   left       : 50%;
   background : #f8f8f8;
 }
@@ -185,7 +186,7 @@ input[type=text]:focus, textarea:focus {
   position    : absolute;
   right       : 0;
   bottom      : 0;
-  left        : 50%;
+  left        : 0;
   height      : 38px;
   line-height : 38px;
   text-align  : center;
@@ -227,7 +228,7 @@ input[type=text]:focus, textarea:focus {
   position      : absolute;
   right         : 0;
   bottom        : 38px;
-  left          : 50%;
+  left          : 0;
   height        : 49px;
   border-top    : 1px solid #c3c3c3;
   border-bottom : 1px solid #c3c3c3;
@@ -334,4 +335,70 @@ input[type=text]:focus, textarea:focus {
   line-height : 90px;
   text-align  : center;
   background  : url(/images/dancing.gif) no-repeat 50% 50%;
+}
+
+
+
+/* Answer Pad
+-------------------------------------------- */
+
+#answer_pad {
+  overflow : auto;
+  position : absolute;
+  top      : 0;
+  right    : 0;
+  bottom   : 0;
+  left     : 0;
+}
+
+#answer_pad .questionContainer {
+  overflow : auto;
+  position : absolute;
+  top      : 0;
+  right    : 0;
+  bottom   : 90px;
+  left     : 0;
+}
+
+
+
+/* Scratch Pad
+-------------------------------------------- */
+
+#scratch_pad {
+  display  : none;
+  overflow : auto;
+  position : absolute;
+  top      : 0;
+  right    : 0;
+  bottom   : 0;
+  left     : 0;
+}
+
+#scratch_enter {
+  position      : absolute;
+  top           : 0;
+  right         : 0;
+  left          : 0;
+  height        : 150px;
+  border-bottom : 1px solid #ccc;
+  background    : #eee;
+}
+
+#scratch_enter textarea {
+  position : absolute;
+  top      : 15px;
+  right    : 15px;
+  bottom   : 15px;
+  left     : 15px;
+  padding  : 5px;
+}
+
+#scratch_results {
+  overflow : auto;
+  position : absolute;
+  top      : 151px;
+  right    : 10px;
+  bottom   : 0;
+  left     : 10px;
 }

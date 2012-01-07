@@ -4,8 +4,8 @@
       #progress
         span 20/40
   #header_right
-    #answers_section_button.switch.active
-    #scratch_section_button.switch
+    #answer_pad_button.switch.active
+    #scratch_pad_button.switch
 
 
 ul.participants
@@ -26,20 +26,24 @@ ul.participants
         input(type="button", id="name_button", class="student", value="Select Name")
 
   #right_panel.panel
-    ul.incomingAnswers
-    ul.answerStats
+    #answer_pad.section
+      ul.incomingAnswers
+      ul.answerStats
 
-    #scratch_pad
-      textarea.scratch
-      .scratch
+      #final_answer_container
+        a#final_answer.enabled(href="#") Submit My Final Answer
 
-  #final_answer_container
-    a#final_answer.enabled(href="#") Submit My Final Answer
+      #credits
+        a(href="http://twitter.com/pragma_tech", target="_blank")@pragma_tech
+        a(href="http://twitter.com/rubybuddha",  target="_blank")@rubybuddha
+        a(href="http://twitter.com/edgecase",    target="_blank")@edgecase
 
-  #credits
-    a(href="http://twitter.com/pragma_tech", target="_blank")@pragma_tech
-    a(href="http://twitter.com/rubybuddha",  target="_blank")@rubybuddha
-    a(href="http://twitter.com/edgecase",    target="_blank")@edgecase
+    #scratch_pad.section
+      #scratch_enter
+        textarea.scratch
+      #scratch_results
+        .scratch
+
 
 input(type="hidden", id="currentQuestion", value="0")
 
