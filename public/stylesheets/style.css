@@ -40,7 +40,11 @@ input[type=text]:focus, textarea:focus {
   padding-top: 1px;
   background: #e3e8ec;
   cursor: default;
-@incorrect user_select(none); }
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
 
 .participants li {
   height: 30px;
@@ -88,7 +92,12 @@ input[type=text]:focus, textarea:focus {
   z-index: 1;
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
 
 #header_left {
   position: absolute;
@@ -98,7 +107,7 @@ input[type=text]:focus, textarea:focus {
   left: 0;
   background: url(/images/Q.png) no-repeat 12px 50%; }
 
-#progress_container {
+.progress_bar {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -118,9 +127,9 @@ input[type=text]:focus, textarea:focus {
   -o-user-select: none;
   user-select: none; }
 
-#progress {
+.progress_bar .bar {
   height: 18px;
-  width: 50%;
+  width: 0;
   color: #fff;
   font-size: 12px;
   font-weight: bold;
@@ -133,8 +142,8 @@ input[type=text]:focus, textarea:focus {
   border-radius: 10px;
   -webkit-background-clip: padding-box; }
 
-#progress span {
-  padding-right: 4px; }
+.progress_bar .bar span {
+  padding-right: 8px; }
 
 #header_right {
   position: absolute;
@@ -244,8 +253,8 @@ input[type=text]:focus, textarea:focus {
   background: url(/images/final_answer_container_background.png); }
 
 #final_answer {
-  display: inline-block;
-  margin-top: 7px;
+  display: block;
+  margin: 7px 30px 0 30px;
   border: 1px solid #bebebe;
   padding: 8px 30px;
   color: #333;
@@ -305,7 +314,7 @@ input[type=text]:focus, textarea:focus {
   bottom: 0;
   left: 0;
   padding-top: 90px;
-  color: #bbb;
+  color: #888;
   text-align: center; }
 
 #welcome h1 {
@@ -463,10 +472,10 @@ input[type=text]:focus, textarea:focus {
 
 #scratch_enter textarea {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  bottom: 15px;
-  left: 15px;
+  top: 10px;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
   padding: 5px; }
 
 #scratch_results {
@@ -475,4 +484,5 @@ input[type=text]:focus, textarea:focus {
   top: 151px;
   right: 10px;
   bottom: 0;
-  left: 10px; }
+  left: 10px;
+  padding-top: 10px; }

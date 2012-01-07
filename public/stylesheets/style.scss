@@ -35,7 +35,7 @@ input[type=text]:focus, textarea:focus {
   padding-top  : 1px;
   background   : #e3e8ec;
   cursor       : default;
-  @incorrect user_select(none);
+  @include user_select(none);
 }
 
 .participants li {
@@ -72,6 +72,7 @@ input[type=text]:focus, textarea:focus {
   background    : url(/images/header_background.png);
   z-index       : 1;
   @include box_shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+  @include user_select(none);
 }
 
 #header_left {
@@ -83,7 +84,7 @@ input[type=text]:focus, textarea:focus {
   background : url(/images/Q.png) no-repeat 12px 50%;
 }
 
-#progress_container {
+.progress_bar {
   position   : absolute;
   top        : 10px;
   right      : 10px;
@@ -96,9 +97,9 @@ input[type=text]:focus, textarea:focus {
   @include user_select(none);
 }
 
-#progress {
+.progress_bar .bar {
   height      : 18px;
-  width       : 50%;
+  width       : 0;
   color       : #fff;
   font-size   : 12px;
   font-weight : bold;
@@ -108,7 +109,7 @@ input[type=text]:focus, textarea:focus {
   @include border_radius(10px);
 }
 
-#progress span { padding-right: 4px; }
+.progress_bar .bar span { padding-right: 8px; }
 
 #header_right {
   position : absolute;
@@ -237,8 +238,8 @@ input[type=text]:focus, textarea:focus {
 }
 
 #final_answer {
-  display         : inline-block;
-  margin-top      : 7px;
+  display : block;
+  margin  : 7px 30px 0 30px;
   @include standard_button_bedazzle();
 }
 
@@ -263,7 +264,7 @@ input[type=text]:focus, textarea:focus {
   bottom      : 0;
   left        : 0;
   padding-top : 90px;
-  color       : #bbb;
+  color       : #888;
   text-align  : center;
 }
 
@@ -387,18 +388,19 @@ input[type=text]:focus, textarea:focus {
 
 #scratch_enter textarea {
   position : absolute;
-  top      : 15px;
-  right    : 15px;
-  bottom   : 15px;
-  left     : 15px;
+  top      : 10px;
+  right    : 10px;
+  bottom   : 10px;
+  left     : 10px;
   padding  : 5px;
 }
 
 #scratch_results {
-  overflow : auto;
-  position : absolute;
-  top      : 151px;
-  right    : 10px;
-  bottom   : 0;
-  left     : 10px;
+  overflow    : auto;
+  position    : absolute;
+  top         : 151px;
+  right       : 10px;
+  bottom      : 0;
+  left        : 10px;
+  padding-top : 10px;
 }

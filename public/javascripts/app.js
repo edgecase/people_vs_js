@@ -88,6 +88,9 @@ $(function(){
 
   $('#name').focus();
 
+  var progressBar = new ECProgressBar('#question_progress');
+  progressBar.update('20/40', '50%');
+
   $('.switch').click(function() {
     var targetID = '#' + $(this).attr('id').replace('_button','');
     $('.switch').removeClass('active');
