@@ -1,0 +1,23 @@
+**question
+Both calls to add produce the same value, what is it?
+**question
+
+**code
+function add(addend){
+  return this + addend;
+}
+
+add.call(1, 2);
+add.apply(1, [2]);
+**code
+
+**possible_answers
+3
+undefined
+'[object DOMWindow]2'
+ReferenceError
+**possible_answers
+
+**correct_index
+0
+**correct_index

@@ -1,0 +1,24 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+function Circle(radius){
+  this.radius = radius;
+}
+Circle.prototype.radius = null;
+
+var c1 = new circle(5);
+var c2 = new circle(10);
+
+c1.radius === c2.radius;
+**code
+
+**possible_answers
+true
+false
+**possible_answers
+
+**correct_index
+1
+**correct_index

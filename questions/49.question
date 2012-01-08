@@ -1,0 +1,28 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+function timeoutLoop() {
+  for(var it = 0; it < 2; it++)
+  {
+    setTimeout(function(cur) {
+      return function() {
+        console.log(cur);
+      }
+    }(it), 1);
+  }
+}
+timeoutLoop();
+**code
+
+**possible_answers
+0, 1
+1, 2
+2, 2
+2, 3
+**possible_answers
+
+**correct_index
+0
+**correct_index

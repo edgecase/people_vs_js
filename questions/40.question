@@ -1,0 +1,23 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+function Circle(radius){
+  this.radius = radius;
+}
+
+var smallCircle = circle(5);
+console.log(radius);
+**code
+
+**possible_answers
+5
+undefined
+null
+ReferenceError
+**possible_answers
+
+**correct_index
+0
+**correct_index

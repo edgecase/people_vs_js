@@ -1,0 +1,27 @@
+**question
+Which of the two functions are exposed as members of the namespace?
+**question
+
+**code
+ar namespace = (function(){
+  function privateFunc() {};
+
+  //  ...
+
+  return {
+    publicFunc: function(){ return privateFunc(); }
+  };
+})();
+
+**code
+
+**possible_answers
+publicFunc
+privateFunc
+publicFunc, privateFunc
+neither
+**possible_answers
+
+**correct_index
+0
+**correct_index

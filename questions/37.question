@@ -1,0 +1,21 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+var o = {};
+var f = function(){};
+o.value = 5;
+f.value = 5;
+
+o.value === f.value;
+**code
+
+**possible_answers
+true
+false
+**possible_answers
+
+**correct_index
+0
+**correct_index

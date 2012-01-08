@@ -1,0 +1,30 @@
+**question
+What gets logged to the console for the second call to calculate?
+**question
+
+**code
+function calculate(input){
+  if (calculate.cache[input]){
+    console.log('from cache');
+    return calculate.cache[input];
+  }
+
+  console.log('not cached');
+  return calculate.cache[input] = Math.pow(input, 3);
+}
+calculate.cache = {};
+
+calculate(5);
+calculate(5);
+**code
+
+**possible_answers
+'not cached'
+'from cache'
+undefined
+null
+**possible_answers
+
+**correct_index
+1
+**correct_index

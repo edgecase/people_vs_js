@@ -1,0 +1,30 @@
+**question
+What is the result of the following code?
+**question
+
+**code
+function Rectangle(width, height){
+  var width = width;
+  var height = height;
+
+  this.area = function(){
+    return width * height;
+  }
+}
+
+var r1 = new Rectangle(5, 10);
+
+r1.width;
+r1.area();
+**code
+
+**possible_answers
+null, 50
+ReferenceError, 50
+undefined, 50
+undefined, ReferenceError
+**possible_answers
+
+**correct_index
+2
+**correct_index
