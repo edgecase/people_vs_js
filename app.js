@@ -27,19 +27,17 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
-  app.use(express.errorHandler()); 
+  app.use(express.errorHandler());
 });
 
 app.get('/', routes.introduction);
 app.get('/presenter',
         express.basicAuth("presenter", "esacegde"),
         routes.presenter);
-app.get('/question/:id', routes.askTheQuestion);
-app.post('/question/:id', routes.answerTheQuestion);
 
 var questionLoader = new ql.QuestionLoader();
 var questions = [];

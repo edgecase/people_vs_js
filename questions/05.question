@@ -3,7 +3,7 @@ What is the result of the following expression?
 **question
 
 **code
-0.1 + 0.2 === 0.3;
+0.1 + 0.2 === '0.3';
 **code
 
 **possible_answers
