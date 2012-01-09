@@ -1,0 +1,37 @@
+**question
+Prototypes and "this". In the sample below, what object will represent the keyword "this" in the 
+function call "whoAmI" on the instance variable "leon"?
+**question
+
+**code
+// The "new" operator
+// What is "this"?
+function Person(name){
+  this.name = name;
+}
+
+Person.prototype.whoAmI = function(){
+  // show curried "this" binding
+  console.log(this.whatTimeIsIt());
+  return this.name;
+}
+
+Person.prototype.whatTimeIsIt = function(){
+  return new Date();
+}
+
+// but who calls the fun?
+var leon = new Person("Leon");
+leon.whoAmI();
+**code
+
+**possibleAnswers
+global object
+Person prototype
+leon instance variable
+window object
+**possibleAnswers
+
+**correctIndex
+2
+**correctIndex

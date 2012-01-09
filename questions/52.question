@@ -1,0 +1,18 @@
+**question
+Which of the following is the following syntax choices is the same as the following line of JavaScript:
+**question
+
+**code
+function foo(){};
+**code
+
+**possibleAnswers
+var foo = function foo(){};
+foo = function foo(){};
+var foo = function (){};
+window.foo = function(){};
+**possibleAnswers
+
+**correctIndex
+0
+**correctIndex
