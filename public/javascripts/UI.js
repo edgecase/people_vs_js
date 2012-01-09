@@ -23,7 +23,7 @@ window.ECProgressBar = function(selector, init) {
   self.$     = $(selector);
 
   self.update = function(text, percent) {
-    self.$.find('.bar span').text(text);
+    self.$.find('.text').text(text);
     self.$.find('.bar').animate({ width: percent }, 400);
   };
 

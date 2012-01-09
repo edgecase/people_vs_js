@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'InconsolataMedium';
+  src: url("/fonts/Inconsolata-webfont.eot");
+  src: url("/fonts/Inconsolata-webfont.eot?#iefix") format("embedded-opentype"), url("/fonts/Inconsolata-webfont.woff") format("woff"), url("/fonts/Inconsolata-webfont.ttf") format("truetype"), url("/fonts/Inconsolata-webfont.svg#InconsolataMedium") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
 * {
   margin: 0;
   padding: 0; }
@@ -147,11 +154,6 @@ input[type=text]:focus {
 .progress_bar .bar {
   height: 18px;
   width: 0;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 18px;
-  text-align: right;
   background: #adadad;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -159,8 +161,18 @@ input[type=text]:focus {
   border-radius: 10px;
   -webkit-background-clip: padding-box; }
 
-.progress_bar .bar span {
-  padding-right: 8px; }
+.progress_bar .text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 22px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75); }
 
 #header_right {
   position: absolute;
@@ -524,3 +536,12 @@ input[type=text]:focus {
   bottom: 0;
   left: 10px;
   padding-top: 10px; }
+
+.questionContainer p {
+  font-size: 14px;
+  margin-bottom: 1em; }
+
+.linenums li {
+  color: #777;
+  font-family: 'InconsolataMedium', 'courier new', courier, monospace;
+  margin-left: 1.5em; }
