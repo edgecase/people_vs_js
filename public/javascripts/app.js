@@ -46,7 +46,7 @@ $(function(){
 
   var renderAnswerStats = function(){
     for(var i=0; i<answerPercentages.length; i++ ){
-      $(".percentOfThisAnswer:eq("+i+")").text( answerPercentages[i].toString() + " %");
+      $(".percentOfThisAnswer:eq("+i+")").text( answerPercentages[i] + " %");
     }
   }
 
@@ -102,7 +102,7 @@ $(function(){
     self.$.on('click', function(e){
       e.preventDefault();
       if(self.isDisabled) { return; }
-      socket.emit("setName", { name: $("#name").val() });
+      socket.emit("setName", { name: $("#name").val().replace(/\</gi, "&lt;").replace(/\>/gi, "&gt;") });
     });
 
     $('#name').on('keyup', function(e) {
@@ -201,7 +201,10 @@ $(function(){
       }
     },
     removeParticipant: function(name){
-      if( name in participantsList ) $(".participants").remove( participantsList[name].domEl );
+      if( name in participantsList ){
+        participantsList[name].domEl.remove();
+        delete participantsList[name];
+      }
     },
     showMessage: function(data){
       msgEl.
@@ -213,12 +216,19 @@ $(function(){
         fadeOut(1000);
     },
     prettyPrintCode: function(code){
-      code = code.
+      if(code && code.length > 0){
+        code = code.
               replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;").
+              replace(/\</g, "&lt;").
+              replace(/\>/g, "&gt;").
               replace(/ /g, "&nbsp;").
               replace(/\n/g, "<br/>");
 
-      return prettyPrintOne(code, "js", true);
+        return prettyPrintOne(code, "js", true);
+      } else {
+        return "";
+      }
+      
     }
   };
 

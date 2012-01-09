@@ -171,7 +171,10 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on("disconnect", function(){
-    socket.broadcast.emit("otherQuit", {name: socket.store.data.name});
+    var name = socket.store.data.name;
+    socket.set("name", undefined, function(){
+      socket.broadcast.emit("otherQuit", {"name": name});
+    });
   });
 });
 
