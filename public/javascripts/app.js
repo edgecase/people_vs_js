@@ -112,11 +112,8 @@ $(function(){
 
   $("#presenterResetQuiz").click(function(e){
     e.preventDefault();
-    if(confirm('Are you sure you want to reset?')){
-      $("#currentQuestion").val(0);
-      readyToParticipate = true;
-      socket.emit("resetQuiz");
-    }
+    readyToParticipate = true;
+    socket.emit("resetQuiz");
   });
 
   socket.on("welcome", function(data){
