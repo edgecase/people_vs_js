@@ -76,12 +76,13 @@ $(function(){
 
       var myAnswer = $("input[name=my_answer]:checked").index("input[name=my_answer]");
       self.disable();
-      socket.emit("provideAnswer", { myAnswer: myAnswer }, function(isCorrect){
+      socket.emit("provideAnswer", { myAnswer: myAnswer }, function(isCorrect, correctIndex){
         if(isCorrect){
           methods.showMessage({ type: "success", msg: "Correct!" });
         } else {
           methods.showMessage({ type: "error", msg: "Incorrect." });
         }
+        $("li.possibleAnswer:eq("+correctIndex+")").addClass("success");
       });
     });
   });

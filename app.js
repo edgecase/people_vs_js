@@ -134,7 +134,7 @@ io.sockets.on('connection', function (socket) {
     var isCorrect = q.correctIndex == data.myAnswer;
 
     userAnsweredAtIndex(data.myAnswer);
-    isCorrectCallback( isCorrect );
+    isCorrectCallback( isCorrect, q.correctIndex );
     socket.get("name", function(err, name){
       io.sockets.emit("remoteAnswer", {
         user: name,

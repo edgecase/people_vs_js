@@ -399,6 +399,7 @@ input[type=text]:focus { @include standard_field_focus(); }
 }
 
 .possibleAnswer.active { background: #eee; }
+.possibleAnswer.success { background: #8CDD81; }
 
 .percentOfThisAnswer {
   position    : absolute;
