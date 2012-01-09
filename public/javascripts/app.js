@@ -62,9 +62,9 @@ $(function(){
       self.disable();
       socket.emit("provideAnswer", { myAnswer: myAnswer }, function(isCorrect){
         if(isCorrect){
-          methods.showMessage({ type: "correct", msg: "Yeah!" });
+          methods.showMessage({ type: "success", msg: "Correct!" });
         } else {
-          methods.showMessage({ type: "wrong", msg: "Wrong!" });
+          methods.showMessage({ type: "error", msg: "Incorrect." });
         }
       });
     });
