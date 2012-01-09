@@ -163,6 +163,13 @@ input[type=text]:focus { @include standard_field_focus(); }
 
 #answer_pad_button.active { background-position: -50px 2px; }
 
+#discussion_pad_button {
+  margin-left : 3px;
+  background-position: -99px 2px;
+}
+
+#discussion_pad_button.active { background-position: -148px 2px; }
+
 /* Panels
 -------------------------------------------- */
 
@@ -485,11 +492,12 @@ input[type=text]:focus { @include standard_field_focus(); }
   width: 100%;
 
   .user {
-    width: 105px;
-    padding-right: 10px;
-    background-color: lightgray;
-    text-align: right;
-    vertical-align: top;
+    width            : 105px;
+    padding-right    : 10px;
+    background-color : #eee;
+    text-align       : right;
+    vertical-align   : top;
   }
+  
+  .linenums { margin-left: 1.6em; }
 }
-

@@ -215,6 +215,13 @@ input[type=text]:focus {
 #answer_pad_button.active {
   background-position: -50px 2px; }
 
+#discussion_pad_button {
+  margin-left: 3px;
+  background-position: -99px 2px; }
+
+#discussion_pad_button.active {
+  background-position: -148px 2px; }
+
 /* Panels
 -------------------------------------------- */
 #panel_container {
@@ -590,6 +597,8 @@ input[type=text]:focus {
   #discussion_items .user {
     width: 105px;
     padding-right: 10px;
-    background-color: lightgray;
+    background-color: #eee;
     text-align: right;
     vertical-align: top; }
+  #discussion_items .linenums {
+    margin-left: 1.6em; }
