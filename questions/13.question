@@ -7,14 +7,14 @@ NaN = 'NaN';
 typeof NaN;
 **code
 
-**possible_answers
+**possibleAnswers
 error
 NaN
 'number'
 'string'
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 3
-**correct_index
+**correctIndex
 

@@ -11,11 +11,11 @@ f.value = 5;
 o.value === f.value;
 **code
 
-**possible_answers
+**possibleAnswers
 true
 false
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 0
-**correct_index
+**correctIndex

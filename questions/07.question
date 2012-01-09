@@ -6,14 +6,14 @@ What is the result of the following expression?
 parseInt("08");
 **code
 
-**possible_answers
+**possibleAnswers
 0
 8
 error
 NaN
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 0
-**correct_index
+**correctIndex
 

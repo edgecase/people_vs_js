@@ -18,13 +18,13 @@ calculate(5);
 calculate(5);
 **code
 
-**possible_answers
+**possibleAnswers
 'not cached'
 'from cache'
 undefined
 null
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 1
-**correct_index
+**correctIndex

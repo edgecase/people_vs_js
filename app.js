@@ -44,7 +44,11 @@ var questions = [];
 questionLoader.loadAll(function(question){ questions.push(question); });
 
 var getQuestion = function(questionNumber){
-  return questions[questionNumber - 1];
+  var question = questions[questionNumber];
+  question.answerPercentages = calculateAnswerPercentages();
+  question.number = questionNumber;
+  question.questionsCount = questions.length;
+  return questions[questionNumber];
 };
 
 var currentQuestion = 0;
@@ -56,10 +60,10 @@ function resetQuiz(){
 }
 
 function resetCurrentAnswers(){
-  if(currentQuestion > 0){
+  if(currentQuestion >= 0 && currentQuestion < questions.length){
     var q = getQuestion(currentQuestion);
     currentAnswers = [];
-    for(var i=0;i<q.possible_answers.length;i++){
+    for(var i=0;i<q.possibleAnswers.length;i++){
       currentAnswers.push(0);
     }
   } else {
@@ -99,17 +103,27 @@ io.sockets.on('connection', function (socket) {
     io.sockets.emit("presentQuestion", { question: questionToPresent });
   });
 
-  socket.on("moveTo", function(data){
+  socket.on("nextQuestion", function() {
     resetCurrentAnswers();
 
-    if (data.questionNumber > questions.length){
+    if (currentQuestion + 1 == questions.length){
       io.sockets.emit("quizComplete");
     }
-    else if (data.questionNumber < 1) {
+    else {
+      currentQuestion++;
+      var questionToPresent = getQuestion(currentQuestion);
+      io.sockets.emit("presentQuestion", { question: questionToPresent });
+    }
+  });
+
+  socket.on("prevQuestion", function() {
+    resetCurrentAnswers();
+
+    if (currentQuestion - 1 < 0) {
       return;
     }
     else {
-      currentQuestion = data.questionNumber;
+      currentQuestion--;
       var questionToPresent = getQuestion(currentQuestion);
       io.sockets.emit("presentQuestion", { question: questionToPresent });
     }
@@ -117,7 +131,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on("provideAnswer", function(data, isCorrectCallback){
     var q = getQuestion(currentQuestion);
-    var isCorrect = q.correct_index == data.myAnswer;
+    var isCorrect = q.correctIndex == data.myAnswer;
 
     userAnsweredAtIndex(data.myAnswer);
     isCorrectCallback( isCorrect );

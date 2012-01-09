@@ -8,14 +8,14 @@ numbers[5] = 4;
 numbers.length;
 **code
 
-**possible_answers
+**possibleAnswers
 error
 1
 5
 6
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 3
-**correct_index
+**correctIndex
 

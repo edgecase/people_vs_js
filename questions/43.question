@@ -11,13 +11,13 @@ var c1 = Circle(3);
 console.log(window.radius);
 **code
 
-**possible_answers
+**possibleAnswers
 3
 undefined
 '[object Object]'
 ReferenceError
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 0
-**correct_index
+**correctIndex

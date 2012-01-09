@@ -16,13 +16,13 @@ power = 3
 square(5);
 **code
 
-**possible_answers
+**possibleAnswers
 25
 125
 ReferenceError
 TypeError
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 1
-**correct_index
+**correctIndex

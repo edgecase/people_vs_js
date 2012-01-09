@@ -15,13 +15,13 @@ ar namespace = (function(){
 
 **code
 
-**possible_answers
+**possibleAnswers
 publicFunc
 privateFunc
 publicFunc, privateFunc
 neither
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 0
-**correct_index
+**correctIndex

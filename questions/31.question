@@ -7,13 +7,13 @@ foo();
 function foo() {return 1;};
 **code
 
-**possible_answers
+**possibleAnswers
 undefined
 1
 ReferenceError
 TypeError
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 1
-**correct_index
+**correctIndex

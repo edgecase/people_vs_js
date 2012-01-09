@@ -13,13 +13,13 @@ doStuff();
 doStuff();
 **code
 
-**possible_answers
+**possibleAnswers
 undefined
 more stuff
 ReferenceError
 infinite loop
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 1
-**correct_index
+**correctIndex

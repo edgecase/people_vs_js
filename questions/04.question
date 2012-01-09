@@ -6,12 +6,12 @@ What is the result of the following expression?
 0.1 + 0.2 === 0.3;
 **code
 
-**possible_answers
+**possibleAnswers
 true
 false
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 1
-**correct_index
+**correctIndex
 

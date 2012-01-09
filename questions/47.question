@@ -18,13 +18,13 @@ r1.width;
 r1.area();
 **code
 
-**possible_answers
+**possibleAnswers
 null, 50
 ReferenceError, 50
 undefined, 50
 undefined, ReferenceError
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 2
-**correct_index
+**correctIndex

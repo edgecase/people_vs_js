@@ -11,13 +11,13 @@ var smallCircle = circle(5);
 console.log(radius);
 **code
 
-**possible_answers
+**possibleAnswers
 5
 undefined
 null
 ReferenceError
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 0
-**correct_index
+**correctIndex

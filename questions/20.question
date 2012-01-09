@@ -12,14 +12,14 @@ square(5);
 console.log(y);
 **code
 
-**possible_answers
+**possibleAnswers
 ReferenceError
 undefined
 null
 25
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 3
-**correct_index
+**correctIndex
 

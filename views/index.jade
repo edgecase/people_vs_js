@@ -1,21 +1,37 @@
-h1 Welcome and Begin!
-.msg
+!= partial('header')
+
 ul.participants
-ul.incomingAnswers
-ul.answerStats
-textarea.scratch
-.scratch
 
-.questionContainer
-  label Select a nickname for your team!
-    br
-    input(name="name", id="name")
-  input(type="button", id="name_button", value="Select Name")
+#panel_container
+  #left_panel.panel
+    .msg
+    .questionContainer
+      #welcome
+        h1 Welcome and Begin!
+        label Select a name for your team
+          br
+          br
+          input(name="name", id="name")
+        br
+        input(type="button", id="name_button", class="student", value="Select Name")
 
+  #right_panel.panel
+    #answer_pad.section
+      ul.possibleAnswers
+      ul.answerStats
 
-input(type="hidden", id="currentQuestion", value="0")
+      #final_answer_container
+        a#final_answer.enabled(href="#") Submit My Final Answer
 
-style
-  .good{ background: green; }
-  .bad{ background: red; }
+      #credits
+        a(href="http://twitter.com/pragma_tech", target="_blank")@pragma_tech
+        a(href="http://twitter.com/rubybuddha",  target="_blank")@rubybuddha
+        a(href="http://twitter.com/edgecase",    target="_blank")@edgecase
+
+    #scratch_pad.section
+      #scratch_enter
+        #textarea_container
+          textarea.scratch
+      #scratch_results
+        .scratch
 

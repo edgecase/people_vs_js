@@ -10,13 +10,13 @@ function add(addend){
 add(2);
 **code
 
-**possible_answers
+**possibleAnswers
 2
 undefined
 '[object DOMWindow]2'
 ReferenceError
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 2
-**correct_index
+**correctIndex
