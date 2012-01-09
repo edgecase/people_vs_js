@@ -1,8 +1,6 @@
 != partial('header')
 
 ul.participants
-  li.correct SquirrelFishen
-  li.incorrect V6s
 
 #panel_container
   #left_panel.panel
@@ -19,7 +17,7 @@ ul.participants
 
   #right_panel.panel
     #answer_pad.section
-      ul.incomingAnswers
+      ul.possibleAnswers
       ul.answerStats
 
       #final_answer_container
@@ -36,8 +34,4 @@ ul.participants
           textarea.scratch
       #scratch_results
         .scratch
-
-style
-  .good{ background: green; }
-  .bad{ background: red; }
 

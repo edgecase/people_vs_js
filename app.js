@@ -46,6 +46,8 @@ questionLoader.loadAll(function(question){ questions.push(question); });
 var getQuestion = function(questionNumber){
   var question = questions[questionNumber];
   question.answerPercentages = calculateAnswerPercentages();
+  question.number = questionNumber;
+  question.questionsCount = questions.length;
   return questions[questionNumber];
 };
 

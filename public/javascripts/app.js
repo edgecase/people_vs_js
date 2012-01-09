@@ -5,49 +5,44 @@ $(function(){
         <%= question %> \
         <br/> \
         <%= code %> \
-      </p> \
-      <% _.each(possibleAnswers, function(answer){ %> \
-        <label> \
-          <input type='radio' name='my_answer' value='<%= answer %>'> \
-          <%= answer %> \
-        </label> \
-        <br> \
-      <% }); %> \
-      <button id='final_answer'>This is my final answer!</button>"),
+      </p>"
+    ),
 
     answerTemplate: _.template(" \
       <ul> \
-        <% _.each(answers, function(answer, index) {%> \
-          <li> \
+        <% _.each(possibleAnswers, function(answer, index) {%> \
+          <li class='possibleAnswer'> \
             <label> \
               <input type='radio' name='my_answer' value='<%= answer %>'> \
               <%= answer %> \
+              <div class='percentOfThisAnswer'>0%</div>\
             </label> \
-            <span> \
-              <%= stat %>% answered option <%= index %> \
-            </span> \
           </li> \
         <% }) %> \
       </ul>")
   };
 
   var answerPercentages = [0,0,0,0];
-  var participantsList = [];
+  var participantsList = {};
   var readyToParticipate = false;
   var scratchPresenter = true;
   var socket = io.connect(window.location.hostname);
   var msgEl = $(".msg");
   var incomingAnswersEl = $(".incomingAnswers");
-  var answerStatsEl = $(".answerStats");
+  var possibleAnswersEl = $("ul.possibleAnswers");
   var qEl = $(".questionContainer");
-  var answerStatsTemplate = _.template("<% _.each(answerPercentages, function(stat, index) {%> <li> <%= stat %>% answered option <%= index %> </li> <% }) %>");
   var resetAnswerStats = function(possibleAnswers){
     answerPercentages = [];
     for(var i=0;i<possibleAnswers.length;i++) answerPercentages.push(0);
-    renderAnswerStats();
+    for( var user in participantsList ){
+      participantsList[user].domEl.removeClass("incorrect").removeClass("correct");
+    }
   }
+
   var renderAnswerStats = function(){
-    answerStatsEl.html(answerStatsTemplate({answerPercentages: answerPercentages}));
+    for(var i=0; i<answerPercentages.length; i++ ){
+      $(".percentOfThisAnswer:eq("+i+")").text( answerPercentages[i].toString() + " %");
+    }
   }
 
   $('#name').focus();
@@ -76,7 +71,7 @@ $(function(){
   });
 
   var progressBar = new ECProgressBar('#question_progress');
-  progressBar.update('20/40', '50%');
+  progressBar.update('0/0', '0%');
 
   var tabBar = new ECTabBar({
     buttons  : '#header_right .switch',
@@ -123,13 +118,13 @@ $(function(){
   });
 
   socket.on('otherJoined', function (data) {
-    msgEl.text( data.name + " has joined the quiz!" );
+    methods.showMessage( { "msg": data.name + " has joined the quiz!", "type": "success" } );
     methods.addParticipant(data.name);
   });
 
   socket.on('selfJoined', function (data) {
     readyToParticipate = true;
-    methods.addParticipant(data.name + " <span>(you!)</span> ", true);
+    methods.addParticipant(data.name, true);
     qEl.html('<div id="please_wait">Please wait for the quiz to begin</div>');
   });
 
@@ -142,7 +137,7 @@ $(function(){
   });
 
   socket.on('remoteAnswer', function (data) {
-    incomingAnswersEl.append( $("<li>"+ data.user +"</li>").addClass( ((data.isCorrect) ? "good" : "bad") ) );
+    participantsList[data.user].domEl.addClass( (data.isCorrect) ? "correct" : 'incorrect' );
     answerPercentages = data.answerPercentages;
     renderAnswerStats();
   });
@@ -159,12 +154,16 @@ $(function(){
   socket.on('presentQuestion', function (resp) {
     if(!readyToParticipate) return;
     resetAnswerStats(resp.question.possibleAnswers);
-    incomingAnswersEl.html("");
+    possibleAnswersEl.html(templates.answerTemplate(resp.question));
 
     resp.question.code = methods.prettyPrintCode(resp.question.code);
     var markup = templates.questionTemplate(resp.question);
     qEl.html(markup);
     finalAnswerButton.enable();
+    console.log(  resp.question.number.toString()+ "/" + resp.question.questionsCount.toString() );
+    console.log( Math.ceil(((resp.question.number/resp.question.questionsCount) * 100)) );
+    progressBar.update(resp.question.number.toString()+ "/" + resp.question.questionsCount.toString(), 
+      Math.ceil(((resp.question.number/resp.question.questionsCount) * 100)) + "%");
   });
 
   socket.on('quizComplete', function(resp) {
@@ -172,24 +171,24 @@ $(function(){
   });
 
   $("#name").keydown(function(e){
-    if (e.which === 13)
-      $("#name_button").click();
+    if (e.which === 13) $("#name_button").click();
   });
 
   var methods = {
     addParticipant: function(name, you){
-      participantsList.push(name);
-      participantsList.sort();
-      $(".participants").append("<li class='" + (you ? 'you' : '') + "' name='" + name + "'>" + name + "</li>");
+      if(! (name in participantsList) ){
+        participantsList[name] = { domEl: $("<li name='" + name + "'>" + name + "</li>") };
+        if(you) participantsList[name].domEl.addClass("you").text(name+" (You)");
+        $(".participants").append( participantsList[name].domEl );
+      }
     },
     removeParticipant: function(name){
-      participantsList = _.without(participantsList, name);
-      $(".participants").find("[name=" + name + "]").remove();
+      if( name in participantsList ) $(".participants").remove( participantsList[name].domEl );
     },
     showMessage: function(data){
       msgEl.
+        removeClass().addClass("msg").
         text(data.msg).
-        removeClass().
         addClass(data.type).
         show().
         delay(3000).

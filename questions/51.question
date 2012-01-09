@@ -1,0 +1,25 @@
+**question
+Typed Object initializers will make your life a living hell. 
+Consider the following sample, 
+given the assumptions of the first 2 expressions: 
+What is the value of evaluating the final expression?
+**question
+
+**code
+var xTrue = true;
+var yTrue = new Boolean(true);
+
+// causes type confusion for no value;
+xTrue == yTrue; // true
+xTrue.valueOf() === yTrue.valueOf() // true
+xTrue === yTrue; // What is this?
+**code
+
+**possibleAnswers
+true
+false
+**possibleAnswers
+
+**correctIndex
+1
+**correctIndex
