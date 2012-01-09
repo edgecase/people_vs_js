@@ -10,7 +10,7 @@ function square(x){
   return y;
 }
 
-square(5)
+square(5);
 **code
 
 **possible_answers

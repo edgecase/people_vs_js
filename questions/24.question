@@ -8,7 +8,7 @@ x = function(y) {
   console.log(y);
 }
 
-x(3)
+x(3);
 **code
 
 **possible_answers

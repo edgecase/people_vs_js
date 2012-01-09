@@ -6,7 +6,6 @@ What is the result of the following code?
 function Circle(radius){
   this.radius = radius;
 }
-Circle.prototype.radius = null;
 
 var c1 = new circle(5);
 var c2 = new circle(10);

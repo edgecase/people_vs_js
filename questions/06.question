@@ -3,7 +3,7 @@ What is the result of the following expression?
 **question
 
 **code
-parseInt('16') == parseInt('16 tons');
+parseInt('16') === parseInt('16 tons');
 **code
 
 **possible_answers

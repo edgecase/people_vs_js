@@ -9,7 +9,6 @@ function Circle(radius){
 
   this.radius = radius;
 }
-Circle.prototype.radius = null;
 
 var c1 = Circle(3);
 c1.radius

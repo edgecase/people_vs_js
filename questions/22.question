@@ -8,7 +8,7 @@ function square(x){
   var y = x * x;
 }
 
-square(5)
+square(5);
 **code
 
 **possible_answers

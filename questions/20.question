@@ -8,8 +8,8 @@ function square(x){
   return y;
 }
 
-square(5)
-console.log(y)
+square(5);
+console.log(y);
 **code
 
 **possible_answers
