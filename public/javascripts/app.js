@@ -17,13 +17,20 @@ $(function(){
             <div class='percentOfThisAnswer'>0%</div>\
           </label> \
         </li> \
-      <% }) %>")
+      <% }) %>"
+    ),
+
+    discussionItemTemplate: _.template(" \
+      <tr> \
+        <td class='user'><%= user %></td> \
+        <td class='message'><%= message %></td> \
+      </tr>"
+    )
   };
 
   var answerPercentages = [0,0,0,0];
   var participantsList = {};
   var readyToParticipate = false;
-  var scratchPresenter = true;
   var socket = io.connect(window.location.hostname);
   var msgEl = $(".msg");
   var incomingAnswersEl = $(".incomingAnswers");
@@ -151,13 +158,17 @@ $(function(){
     renderAnswerStats();
   });
 
-  $("textarea.scratch").tabby().keydown(function(e){
-    if(scratchPresenter) socket.emit("scratchStream", $(this).val());
+  $("textarea.discussion").tabby();
+  $("#submit_discussion").click(function(e){
+    var message = $("textarea.discussion").val();
+    socket.emit("newDiscussionItem", message);
+    $("textarea.discussion").val("");
   });
 
-  socket.on("scratchUpdate", function(text){
-    var payload = methods.prettyPrintCode(text);
-    $("#scratch_results").html(payload);
+  socket.on("discussionUpdate", function(discussionItem){
+    discussionItem.message = methods.prettyPrintCode(discussionItem.message);
+    $("#discussion_items")
+      .prepend(templates.discussionItemTemplate(discussionItem));
   });
 
   socket.on('presentQuestion', function (resp) {

@@ -215,13 +215,6 @@ input[type=text]:focus {
 #answer_pad_button.active {
   background-position: -50px 2px; }
 
-#scratch_pad_button {
-  margin-left: 3px;
-  background-position: -99px 2px; }
-
-#scratch_pad_button.active {
-  background-position: -148px 2px; }
-
 /* Panels
 -------------------------------------------- */
 #panel_container {
@@ -522,9 +515,9 @@ input[type=text]:focus {
   text-align: right;
   background: #fcfcfc; }
 
-/* Scratch Pad
+/* Discussion Pad
 -------------------------------------------- */
-#scratch_pad {
+#discussion_pad {
   display: none;
   overflow: auto;
   position: absolute;
@@ -533,7 +526,7 @@ input[type=text]:focus {
   bottom: 0;
   left: 0; }
 
-#scratch_enter {
+#discussion_enter {
   position: absolute;
   top: 0;
   right: 0;
@@ -563,22 +556,13 @@ input[type=text]:focus {
   -webkit-box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8);
   box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8); }
 
-#scratch_enter textarea {
+#discussion_enter textarea {
   width: 100%;
   height: 100%;
   border: 0;
   background: none;
   resize: none;
   outline: none; }
-
-#scratch_results {
-  overflow: auto;
-  position: absolute;
-  top: 151px;
-  right: 10px;
-  bottom: 0;
-  left: 10px;
-  padding: 10px 0 0 5px; }
 
 /* Questions
 -------------------------------------------- */
@@ -591,3 +575,21 @@ input[type=text]:focus {
   color: #777;
   font-family: 'InconsolataMedium', 'courier new', courier, monospace;
   margin-left: 1.5em; }
+
+#discussion_area {
+  overflow: auto;
+  position: absolute;
+  top: 151px;
+  right: 10px;
+  bottom: 0;
+  left: 10px;
+  padding-top: 10px; }
+
+#discussion_items {
+  width: 100%; }
+  #discussion_items .user {
+    width: 105px;
+    padding-right: 10px;
+    background-color: lightgray;
+    text-align: right;
+    vertical-align: top; }

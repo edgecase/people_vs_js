@@ -27,8 +27,10 @@ ul.participants
         &nbsp;
         a(href="#", id="presenterResetQuiz") reset
 
-    #scratch_pad.section
-      #scratch_enter
+    #discussion_pad.section
+      #discussion_enter
         #textarea_container
-          textarea.scratch
-      #scratch_results
+          textarea.discussion
+          input(type="button", id="submit_discussion", value="Send", class="enabled")
+      #discussion_area
+        table#discussion_items

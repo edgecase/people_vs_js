@@ -145,8 +145,8 @@ io.sockets.on('connection', function (socket) {
     });
   });
 
-  socket.on("scratchStream", function(text){
-    io.sockets.emit("scratchUpdate", text);
+  socket.on("newDiscussionItem", function(text){
+    io.sockets.emit("discussionUpdate", {user: socket.store.data.name, message: text});
   });
 
   socket.on("setName", function(data, callback){
