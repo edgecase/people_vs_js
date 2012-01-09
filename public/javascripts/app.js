@@ -169,8 +169,6 @@ $(function(){
     var markup = templates.questionTemplate(resp.question);
     qEl.html(markup);
     finalAnswerButton.enable();
-    console.log(  resp.question.number.toString()+ "/" + resp.question.questionsCount.toString() );
-    console.log( Math.ceil(((resp.question.number/resp.question.questionsCount) * 100)) );
     progressBar.update(resp.question.number.toString()+ "/" + resp.question.questionsCount.toString(), 
       Math.ceil(((resp.question.number/resp.question.questionsCount) * 100)) + "%");
   });
