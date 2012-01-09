@@ -37,6 +37,7 @@ input[type=text]:focus {
 /* Flash Messages
 -------------------------------------------- */
 .msg {
+  margin: 0 0 10px 0;
   padding: 4px 0 4px 0;
   color: #333;
   font-size: 14px; }
@@ -164,14 +165,14 @@ input[type=text]:focus {
 .progress_bar .bar {
   height: 20px;
   width: 0;
-  background: #aaaaaa;
-  background: -moz-linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cccccc), color-stop(100%, #aaaaaa));
-  background: -webkit-linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
-  background: -o-linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
-  background: -ms-linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#aaaaaa',GradientType=0 );
-  background: linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
+  background: #bbbbbb;
+  background: -moz-linear-gradient(top, #dddddd 0%, #bbbbbb 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dddddd), color-stop(100%, #bbbbbb));
+  background: -webkit-linear-gradient(top, #dddddd 0%, #bbbbbb 100%);
+  background: -o-linear-gradient(top, #dddddd 0%, #bbbbbb 100%);
+  background: -ms-linear-gradient(top, #dddddd 0%, #bbbbbb 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#bbbbbb',GradientType=0 );
+  background: linear-gradient(top, #dddddd 0%, #bbbbbb 100%);
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -o-border-radius: 10px;
@@ -496,6 +497,31 @@ input[type=text]:focus {
   bottom: 90px;
   left: 0; }
 
+.possibleAnswers {
+  list-style: none; }
+
+.possibleAnswer {
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #ddd;
+  padding: 12px; }
+
+.possibleAnswer.active {
+  background: #eee; }
+
+.percentOfThisAnswer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50px;
+  padding: 12px 12px 0 0;
+  color: #7a7a7a;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: right;
+  background: #fcfcfc; }
+
 /* Scratch Pad
 -------------------------------------------- */
 #scratch_pad {
@@ -554,11 +580,14 @@ input[type=text]:focus {
   left: 10px;
   padding-top: 10px; }
 
+/* Questions
+-------------------------------------------- */
 .questionContainer p {
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 1em; }
 
 .linenums li {
+  padding: 3px 0 3px 2px;
   color: #777;
   font-family: 'InconsolataMedium', 'courier new', courier, monospace;
   margin-left: 1.5em; }

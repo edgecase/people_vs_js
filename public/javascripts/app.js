@@ -9,17 +9,15 @@ $(function(){
     ),
 
     answerTemplate: _.template(" \
-      <ul> \
-        <% _.each(possibleAnswers, function(answer, index) {%> \
-          <li class='possibleAnswer'> \
-            <label> \
-              <input type='radio' name='my_answer' value='<%= answer %>'> \
-              <%= answer %> \
-              <div class='percentOfThisAnswer'>0%</div>\
-            </label> \
-          </li> \
-        <% }) %> \
-      </ul>")
+      <% _.each(possibleAnswers, function(answer, index) {%> \
+        <li class='possibleAnswer'> \
+          <label> \
+            <input type='radio' name='my_answer' value='<%= answer %>'> \
+            <%= answer %> \
+            <div class='percentOfThisAnswer'>0%</div>\
+          </label> \
+        </li> \
+      <% }) %>")
   };
 
   var answerPercentages = [0,0,0,0];
@@ -49,6 +47,17 @@ $(function(){
 
   $('#textarea_container textarea').focus(function() { $('#textarea_container').addClass('focus'); });
   $('#textarea_container textarea').blur(function() { $('#textarea_container').removeClass('focus'); });
+  
+  $('.possibleAnswers').on('click', '.possibleAnswer', function(e) {
+    if($(e.target).hasClass('possibleAnswer')) {
+      $(this).find('input').click();
+    }
+  });
+  
+  $('.possibleAnswers').on('click', ':radio', function(e) {
+    $('.possibleAnswer').removeClass('active');
+    $(this).closest('.possibleAnswer').addClass('active');
+  });
 
   var finalAnswerButton = new ECButton('#final_answer', function() {
     var self = this;

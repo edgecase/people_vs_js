@@ -21,6 +21,7 @@ input[type=text]:focus { @include standard_field_focus(); }
 -------------------------------------------- */
 
 .msg {
+  margin    : 0 0 10px 0;
   padding   : 4px 0 4px 0;
   color     : #333;
   font-size : 14px;
@@ -119,7 +120,7 @@ input[type=text]:focus { @include standard_field_focus(); }
 .progress_bar .bar {
   height      : 20px;
   width       : 0;
-  @include linear_gradient(#ccc, #aaa);
+  @include linear_gradient(#dddddd, #bbbbbb);
   @include border_radius(10px);
 }
 
@@ -387,6 +388,33 @@ input[type=text]:focus { @include standard_field_focus(); }
   left     : 0;
 }
 
+.possibleAnswers {
+  list-style : none;
+}
+
+.possibleAnswer {
+  overflow      : hidden;
+  position      : relative;
+  border-bottom : 1px solid #ddd;
+  padding       : 12px;
+}
+
+.possibleAnswer.active { background: #eee; }
+
+.percentOfThisAnswer {
+  position    : absolute;
+  top         : 0;
+  right       : 0;
+  bottom      : 0;
+  width       : 50px;
+  padding     : 12px 12px 0 0;
+  color       : #7a7a7a;
+  font-size   : 16px;
+  font-weight : bold;
+  text-align  : right;
+  background  : #fcfcfc;
+}
+
 
 
 /* Scratch Pad
@@ -447,11 +475,16 @@ input[type=text]:focus { @include standard_field_focus(); }
 }
 
 
+/* Questions
+-------------------------------------------- */
+
 .questionContainer p {
-  font-size     : 14px;
+  font-size     : 16px;
   margin-bottom : 1em;
 }
+
 .linenums li {
+  padding     : 3px 0 3px 2px;
   color       : #777;
   font-family : 'InconsolataMedium', 'courier new', courier, monospace;
   margin-left : 1.5em;
