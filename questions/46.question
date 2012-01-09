@@ -13,11 +13,11 @@ var c2 = new circle(10);
 c1.radius === c2.radius;
 **code
 
-**possible_answers
+**possibleAnswers
 true
 false
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 1
-**correct_index
+**correctIndex

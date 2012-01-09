@@ -6,14 +6,14 @@ What is the result of the following expression?
 typeof NaN;
 **code
 
-**possible_answers
+**possibleAnswers
 undefined
 NaN
 null
 'number'
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 3
-**correct_index
+**correctIndex
 

@@ -6,13 +6,13 @@ What is the result of the following expression?
 typeof 98.6;
 **code
 
-**possible_answers
+**possibleAnswers
 number
 object
 undefined
 integer
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 0
-**correct_index
+**correctIndex

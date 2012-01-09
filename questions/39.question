@@ -14,13 +14,13 @@ var rectangle = {
 rectangle.area();
 **code
 
-**possible_answers
+**possibleAnswers
 25
 undefined
 null
 ReferenceError
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 3
-**correct_index
+**correctIndex

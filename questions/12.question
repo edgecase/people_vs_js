@@ -7,14 +7,14 @@ undefined = 5;
 typeof undefined;
 **code
 
-**possible_answers
+**possibleAnswers
 error
 undefined
 'number'
 'string'
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 2
-**correct_index
+**correctIndex
 

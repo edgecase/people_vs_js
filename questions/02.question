@@ -6,14 +6,14 @@ What is the result of the following expression?
 typeof null;
 **code
 
-**possible_answers
+**possibleAnswers
 null
 undefined
 false
 object
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 3
-**correct_index
+**correctIndex
 

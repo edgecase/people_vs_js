@@ -1,4 +1,36 @@
 $(function(){
+  var templates = {
+    questionTemplate: _.template(" \
+      <p> \
+        <%= question %> \
+        <br/> \
+        <%= code %> \
+      </p> \
+      <% _.each(possibleAnswers, function(answer){ %> \
+        <label> \
+          <input type='radio' name='my_answer' value='<%= answer %>'> \
+          <%= answer %> \
+        </label> \
+        <br> \
+      <% }); %> \
+      <button id='final_answer'>This is my final answer!</button>"),
+
+    answerTemplate: _.template(" \
+      <ul> \
+        <% _.each(answers, function(answer, index) {%> \
+          <li> \
+            <label> \
+              <input type='radio' name='my_answer' value='<%= answer %>'> \
+              <%= answer %> \
+            </label> \
+            <span> \
+              <%= stat %>% answered option <%= index %> \
+            </span> \
+          </li> \
+        <% }) %> \
+      </ul>")
+  };
+
   var answerPercentages = [0,0,0,0];
   var participantsList = [];
   var readyToParticipate = false;
@@ -8,12 +40,10 @@ $(function(){
   var incomingAnswersEl = $(".incomingAnswers");
   var answerStatsEl = $(".answerStats");
   var qEl = $(".questionContainer");
-  var getCurrentQuestion = function(){ return parseInt($("#currentQuestion").val(), 10); };
-  var questionTemplate = _.template("<p><%= question %><br/><%= code %></p><% _.each(possible_answers, function(answer){ %> <input type='radio' name='my_answer' value='<%= answer %>'> <%= answer %> <br> <% }); %> <button id='final_answer'>This is my final answer!</button>");
   var answerStatsTemplate = _.template("<% _.each(answerPercentages, function(stat, index) {%> <li> <%= stat %>% answered option <%= index %> </li> <% }) %>");
-  var resetAnswerStats = function(possible_answers){
+  var resetAnswerStats = function(possibleAnswers){
     answerPercentages = [];
-    for(var i=0;i<possible_answers.length;i++) answerPercentages.push(0);
+    for(var i=0;i<possibleAnswers.length;i++) answerPercentages.push(0);
     renderAnswerStats();
   }
   var renderAnswerStats = function(){
@@ -22,17 +52,16 @@ $(function(){
 
   $("#presenterNext").click(function(e){
     e.preventDefault();
-    socket.emit("moveTo", { questionNumber: getCurrentQuestion()+1 });
+    socket.emit("nextQuestion");
   });
 
   $("#presenterBack").click(function(e){
     e.preventDefault();
-    socket.emit("moveTo", { questionNumber: getCurrentQuestion()-1 });
+    socket.emit("prevQuestion");
   });
 
   $("#presenterResetQuiz").click(function(e){
     e.preventDefault();
-    $("#currentQuestion").val(0);
     readyToParticipate = true;
     socket.emit("resetQuiz");
   });
@@ -79,12 +108,11 @@ $(function(){
 
   socket.on('presentQuestion', function (resp) {
     if(!readyToParticipate) return;
-    resetAnswerStats(resp.question.possible_answers);
+    resetAnswerStats(resp.question.possibleAnswers);
     incomingAnswersEl.html("");
-    $("#currentQuestion").val(resp.question.number);
 
     resp.question.code = methods.prettyPrintCode(resp.question.code);
-    var markup = questionTemplate(resp.question);
+    var markup = templates.questionTemplate(resp.question);
     qEl.html(markup);
   });
 

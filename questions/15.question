@@ -6,11 +6,11 @@ What is the result of the following expression?
 0 == '';
 **code
 
-**possible_answers
+**possibleAnswers
 true
 false
-**possible_answers
+**possibleAnswers
 
-**correct_index
+**correctIndex
 0
-**correct_index
+**correctIndex
