@@ -136,8 +136,7 @@ input[type=text]:focus {
   top: 10px;
   right: 10px;
   left: 50px;
-  height: 18px;
-  border: 2px solid #adadad;
+  height: 20px;
   padding: 2px;
   background: #fff;
   -webkit-border-radius: 14px;
@@ -149,12 +148,30 @@ input[type=text]:focus {
   -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
-  user-select: none; }
+  user-select: none;
+  background: white;
+  background: -moz-linear-gradient(top, #e9e9e9 0%, white 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e9e9e9), color-stop(100%, white));
+  background: -webkit-linear-gradient(top, #e9e9e9 0%, white 100%);
+  background: -o-linear-gradient(top, #e9e9e9 0%, white 100%);
+  background: -ms-linear-gradient(top, #e9e9e9 0%, white 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='white',GradientType=0 );
+  background: linear-gradient(top, #e9e9e9 0%, white 100%);
+  -moz-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1); }
 
 .progress_bar .bar {
-  height: 18px;
+  height: 20px;
   width: 0;
-  background: #adadad;
+  background: #aaaaaa;
+  background: -moz-linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cccccc), color-stop(100%, #aaaaaa));
+  background: -webkit-linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
+  background: -o-linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
+  background: -ms-linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#aaaaaa',GradientType=0 );
+  background: linear-gradient(top, #cccccc 0%, #aaaaaa 100%);
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -o-border-radius: 10px;
@@ -167,10 +184,10 @@ input[type=text]:focus {
   right: 0;
   bottom: 0;
   left: 0;
-  color: #000;
-  font-size: 14px;
+  color: #333;
+  font-size: 15px;
   font-weight: bold;
-  line-height: 22px;
+  line-height: 24px;
   text-align: center;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75); }
 
