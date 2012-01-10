@@ -6,7 +6,8 @@
 var express = require('express')
   , routes = require('./routes')
   , _ = require('underscore')
-  , ql = require('./lib/question_loader');
+  , ql = require('./lib/question_loader')
+  , md = require('github-flavored-markdown');
 
 var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app);
@@ -145,6 +146,7 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on("newDiscussionItem", function(text){
+    text = md.parse(text);
     io.sockets.emit("discussionUpdate", {user: socket.store.data.name, message: text});
   });
 

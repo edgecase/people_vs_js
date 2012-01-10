@@ -217,27 +217,18 @@ $(function(){
         fadeOut(1000);
     },
     formatDiscussionItem: function(message) {
-      var pattern = /````~(.*?)~````/gi;
-      var results, codeBlocks = [];
-      message = message.replace(/\n/g, '~');
-
-      while(results = pattern.exec(message)){
+      var self = this;
+      var codeBlocks = [];
+      $(message).find("code").each(function(idx, elem){
         var codeItem = {
-          original: results[1],
-          pretty: methods.prettyPrintCode(results[1].replace(/~/g, '\n'))
+          original:  $(elem).text(),
+          pretty: self.prettyPrintCode($(elem).text())
         };
         codeBlocks.push(codeItem);
-      }
+      });
 
       for(var i=0; i<codeBlocks.length; i++){
-        message = message.replace(codeBlocks[i].original, '{' + i + '}');
-      }
-
-      message = message.replace(/~/g, '\n').replace(/````/g, '\n');
-      message = methods.prettyPrint(message);
-
-      for(var i=0; i<codeBlocks.length; i++){
-        message = message.replace('{' + i + '}', codeBlocks[i].pretty);
+        message = message.replace(codeBlocks[i].original, codeBlocks[i].pretty);
       }
 
       return message;
