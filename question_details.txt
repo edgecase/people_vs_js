@@ -1,0 +1,118 @@
+1) Javascript only has a few types:
+    boolean
+    number
+    string
+    object
+
+2) Strange languague quirk, better null test is
+    val === null
+
+3) Implementations disagree on this one, some say 'object', others 'function'
+
+4) Javascript only has IEEE Binary Floating-Point numbers which are not capable
+   of adequately representing fractional numbers. You can work around by scaling
+   your numbers when doing math.
+
+5) parseInt stops when it sees a non-digit
+
+6) parseInt takes a second param for the radix, if none is specified, and the 
+   first character is a 0, the number is interpreted in octal. 
+
+7) NaN is an IEEE value to represent 'not a number'. However Javascript reports it
+   as a number.
+
+8) For some strange reason NaN is also not equal to itself, you can test for NaN
+   with the isNaN function.
+
+9) There is no built-in primitive type for array. You can test for 'arrayness' by
+   checking the constructor (unless it was created in a separate window or frame).
+
+10) You can add elements to an array at any position without error. The length
+    of an array is always 1 > than the last index value.
+
+11) undefined is a variable not a constant and can therefore be redefined at any
+    point in time.
+
+12) see #11
+
+13) There are two sets of equality operators. For the bad kind, they do 
+    type coercion on the values if they are not of the same type. The rules
+    for this are complicated and unmemorable. Particularly bad is that they
+    break transitivity. Always use === and !==
+
+14 - 19) See #13
+
+20) In javascript there is always a global object that things get loaded into.
+    In the browser that is the [window] object. If you use a variable without
+    declaring it with `var` it becomes an implied global variable. This was intended
+    as a convenience for new programmers, but is an easy mistake to make with potentially
+    far-reaching negative impacts. Hard to find bugs!
+
+21) Javascript has block syntax, but not block scope. A variable declared anywhere
+    in a block is visible to the function containing the block. Recommendation is
+    to declare all variables at the top of the function.
+
+22) Javascript has something called hoisting whereby any declarations of a variable are
+    implicitly considered to be done at the top of their enclosing scope, while initializations
+    remain where they are. From a language standpoint it is equivalent to:
+      function square(x){
+        var y;
+        return y;
+        y = x * x;
+      }
+
+23) Hoisting works on functions statements too. 
+      function foo( ) {};
+        is roughly equivalent to
+      var foo = function () {};
+
+    Because of this, function statements are hoisted just like variables.
+
+24) Functions are first class and can be assigned to variables and passed around.
+    They can therefore override previous values of a variable.
+
+25) This goes back to what we learned in #22 and #23 about hoisting. An
+    additional rule to the hoisting process is that function statements come
+    before variable declarations. Therefore this code is equivalent to:
+
+    var x = function(y){
+      console.log(y);
+    }
+    var x;
+    x = 5;
+    x(3);
+
+    The full hoisting rules are:
+
+      Language-defined: All scopes are, by default, given the names this and arguments.
+      Formal parameters: Functions can have named formal parameters, which are scoped to the body of that function.
+      Function declarations: These are of the form function foo() {}.
+      Variable declarations: These take the form var foo;.
+
+
+26) This again has to do with the hoisting rules of function statements.
+    Therefore this code can be interpreted as:
+
+    var doStuff = function() {
+      doStuff = function() { return 1; }
+      doStuff = function() { return 2; }
+      return doStuff();
+    }
+    doStuff();
+
+27) In this case the function statement is hoisted. However, the function
+    expression consisting of var doStuff = function() { return 2; } is treated
+    in the same way as a variable declaration in that only the declaration
+    is hoised, not the intialization. This code can be interpreted as:
+
+    var doStuff = function() {
+      doStuff = function { return 1; }
+      return doStuff();
+      doStuff = function() { return 2; }
+    }
+
+28) As we have previously seen, because functions are basically treated as just
+    variable assignments we can overwrite them from within the function itself. 
+    The first time doStuff is called, it redefines the function to print "more stuff".
+
+29) This one is confusing me...
