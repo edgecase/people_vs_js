@@ -186,7 +186,7 @@ $(function(){
   });
 
   socket.on('quizComplete', function(resp) {
-    $("body").html("<h1> Deliberation Over! </h1><h2>Guilty or Not Guilty - You Decide...</h2>");
+    $(".questionContainer").html("<h1> Deliberation Over! </h1><h2>Guilty or Not Guilty - You Decide...</h2>");
   });
 
   $("#name").keydown(function(e){

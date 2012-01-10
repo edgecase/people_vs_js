@@ -45,13 +45,11 @@ questionLoader.loadAll(function(question){ questions.push(question); });
 
 var getQuestion = function(questionNumber){
   var question = questions[questionNumber];
-  question.answerPercentages = calculateAnswerPercentages();
-  question.number = questionNumber;
   question.questionsCount = questions.length;
   return questions[questionNumber];
 };
 
-var currentQuestion = 0;
+var currentQuestion = -1;
 var currentAnswers = null;
 
 function resetQuiz(){
@@ -99,7 +97,8 @@ io.sockets.on('connection', function (socket) {
   socket.emit('welcome', { users: namedClients });
 
   socket.on("resetQuiz", function(){
-    var questionToPresent = getQuestion(1);
+    resetQuiz();
+    var questionToPresent = getQuestion(0);
     io.sockets.emit("presentQuestion", { question: questionToPresent });
   });
 
