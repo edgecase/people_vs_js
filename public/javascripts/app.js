@@ -54,16 +54,17 @@ $(function(){
 
   $('#textarea_container textarea').focus(function() { $('#textarea_container').addClass('focus'); });
   $('#textarea_container textarea').blur(function() { $('#textarea_container').removeClass('focus'); });
-  
+
   $('.possibleAnswers').on('click', '.possibleAnswer', function(e) {
     if($(e.target).hasClass('possibleAnswer')) {
       $(this).find('input').click();
     }
   });
-  
+
   $('.possibleAnswers').on('click', ':radio', function(e) {
     $('.possibleAnswer').removeClass('active');
     $(this).closest('.possibleAnswer').addClass('active');
+    finalAnswerButton.enable();
   });
 
   var finalAnswerButton = new ECButton('#final_answer', function() {
@@ -180,8 +181,7 @@ $(function(){
     resp.question.code = methods.prettyPrintCode(resp.question.code);
     var markup = templates.questionTemplate(resp.question);
     qEl.html(markup);
-    finalAnswerButton.enable();
-    progressBar.update(resp.question.number.toString()+ "/" + resp.question.questionsCount.toString(), 
+    progressBar.update(resp.question.number.toString()+ "/" + resp.question.questionsCount.toString(),
       Math.ceil(((resp.question.number/resp.question.questionsCount) * 100)) + "%");
   });
 
@@ -196,7 +196,7 @@ $(function(){
   var methods = {
     addParticipant: function(name, you){
       if(! (name in participantsList) ){
-        participantsList[name] = { domEl: $("<li name='" + name + "'>" + name + "</li>") };
+        participantsList[name] = { domEl: $("<li name='" + name + "' title='" + name + "'>" + name + "</li>") };
         if(you) participantsList[name].domEl.addClass("you").text(name+" (You)");
         $(".participants").append( participantsList[name].domEl );
       }
@@ -229,7 +229,7 @@ $(function(){
       } else {
         return "";
       }
-      
+
     }
   };
 
