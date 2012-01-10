@@ -103,13 +103,12 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on("nextQuestion", function() {
-    resetCurrentAnswers();
-
     if (currentQuestion + 1 == questions.length){
       io.sockets.emit("quizComplete");
     }
     else {
       currentQuestion++;
+      resetCurrentAnswers();
       var questionToPresent = getQuestion(currentQuestion);
       io.sockets.emit("presentQuestion", { question: questionToPresent });
     }
@@ -123,6 +122,7 @@ io.sockets.on('connection', function (socket) {
     }
     else {
       currentQuestion--;
+      resetCurrentAnswers();
       var questionToPresent = getQuestion(currentQuestion);
       io.sockets.emit("presentQuestion", { question: questionToPresent });
     }

@@ -219,7 +219,7 @@ $(function(){
     prettyPrintCode: function(code){
       if(code && code.length > 0){
         code = code.
-              replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;").
+              replace(/\t/g, "&nbsp;&nbsp;").
               replace(/\</g, "&lt;").
               replace(/\>/g, "&gt;").
               replace(/ /g, "&nbsp;").
