@@ -2,7 +2,7 @@
 @import '_fonts';
 
 * { margin: 0; padding: 0; }
-body { font: 14px Helvetica, Arial, sans-serif; }
+body { font: 16px Helvetica, Arial, sans-serif; }
 
 #container {
   overflow : hidden;
@@ -499,6 +499,6 @@ input[type=text]:focus { @include standard_field_focus(); }
     text-align       : right;
     vertical-align   : top;
   }
-  
+
   .linenums { margin-left: 1.6em; }
 }
