@@ -28,6 +28,7 @@ $(function(){
     )
   };
 
+  var questionAnswered = false;
   var myUserName = null;
   var answerPercentages = [0,0,0,0];
   var participantsList = {};
@@ -63,6 +64,11 @@ $(function(){
   });
 
   $('.possibleAnswers').on('click', ':radio', function(e) {
+    if (questionAnswered) {
+      e.preventDefault();
+      return;
+    }
+
     $('.possibleAnswer').removeClass('active');
     $(this).closest('.possibleAnswer').addClass('active');
     finalAnswerButton.enable();
@@ -78,6 +84,7 @@ $(function(){
 
       var myAnswer = $("input[name=my_answer]:checked").index("input[name=my_answer]");
       self.disable();
+      questionAnswered = true;
       socket.emit("provideAnswer", { myAnswer: myAnswer }, function(isCorrect, correctIndex){
         if(isCorrect){
           methods.showMessage({ type: "success", msg: "Correct!" });
@@ -185,6 +192,7 @@ $(function(){
     resetAnswerStats(resp.question.possibleAnswers);
     possibleAnswersEl.html(templates.answerTemplate(resp.question));
 
+    questionAnswered = false;
     resp.question.code = methods.prettyPrintCode(resp.question.code);
     var markup = templates.questionTemplate(resp.question);
     qEl.html(markup);
