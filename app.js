@@ -147,7 +147,8 @@ io.sockets.on('connection', function (socket) {
 
   socket.on("newDiscussionItem", function(text){
     text = md.parse(text);
-    io.sockets.emit("discussionUpdate", {user: socket.store.data.name || 'Anonymous',
+
+    io.sockets.emit("discussionUpdate", { user: socket.store.data.name || 'Anonymous',
                                           message: text});
   });
 

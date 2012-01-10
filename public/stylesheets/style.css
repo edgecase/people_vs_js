@@ -605,3 +605,5 @@ input[type=text]:focus {
     vertical-align: top; }
   #discussion_items .linenums {
     margin-left: 1.6em; }
+  #discussion_items .forMe {
+    background-color: #F5E5B0; }

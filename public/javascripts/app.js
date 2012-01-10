@@ -22,12 +22,13 @@ $(function(){
 
     discussionItemTemplate: _.template(" \
       <tr> \
-        <td class='user'><%= user %></td> \
-        <td class='message'><%= message %></td> \
+        <td class='user'><a class='reply' href='#' title='Reply to <%= user %>'><%= user %></a></td> \
+        <td class='message <%= isForMe ? 'forMe' : '' %>'><%= message %></td> \
       </tr>"
     )
   };
 
+  var myUserName = null;
   var answerPercentages = [0,0,0,0];
   var participantsList = {};
   var readyToParticipate = false;
@@ -104,7 +105,13 @@ $(function(){
     self.$.on('click', function(e){
       e.preventDefault();
       if(self.isDisabled) { return; }
-      socket.emit("setName", { name: $("#name").val().replace(/\</gi, "&lt;").replace(/\>/gi, "&gt;") });
+
+      var name = $("#name").val();
+      if(/[^\w]/.test(name)){
+        methods.showMessage( { type: "error", msg: "Names can only contain alphanumerics and underscores!" } );
+        return;
+      }
+      socket.emit("setName", { name: name });
     });
 
     $('#name').on('keyup', function(e) {
@@ -168,7 +175,7 @@ $(function(){
   });
 
   socket.on("discussionUpdate", function(discussionItem){
-    discussionItem.message = methods.formatDiscussionItem(discussionItem.message);
+    discussionItem = methods.formatDiscussionItem(discussionItem);
     $("#discussion_items")
       .prepend(templates.discussionItemTemplate(discussionItem));
   });
@@ -193,11 +200,21 @@ $(function(){
     if (e.which === 13) $("#name_button").click();
   });
 
+  $("#discussion_items").on("click", "a.reply", function(e){
+    e.preventDefault();
+    var textArea = $("textarea.discussion");
+    textArea.val(textArea.val() + "@" + $(this).text() + " ");
+    textArea.setCursorPosition(textArea.val().length, true);
+  });
+
   var methods = {
     addParticipant: function(name, you){
       if(! (name in participantsList) ){
         participantsList[name] = { domEl: $("<li name='" + name + "' title='" + name + "'>" + name + "</li>") };
-        if(you) participantsList[name].domEl.addClass("you").text(name+" (You)");
+        if(you) {
+          participantsList[name].domEl.addClass("you").text(name+" (You)")
+          myUserName = name;
+        };
         $(".participants").append( participantsList[name].domEl );
       }
     },
@@ -216,9 +233,18 @@ $(function(){
         delay(3000).
         fadeOut(1000);
     },
-    formatDiscussionItem: function(message) {
-      var self = this;
-      var codeBlocks = [];
+    formatDiscussionItem: function(discussionItem) {
+      discussionItem.message = this.formatDiscussionMessage(discussionItem.message);
+      discussionItem.isForMe = this.isDiscussionItemForMe(discussionItem.message);
+      return discussionItem;
+    },
+    isDiscussionItemForMe: function(message){
+      var userRegex = new RegExp("(?:^|\\s|\\W)(@" + myUserName + ")(?:$|\\s|\\W)", "gi");
+      return userRegex.test(message);
+    },
+    formatDiscussionMessage: function(message) {
+      var self = this,
+          codeBlocks = [];
       $(message).find("code").each(function(idx, elem){
         var codeItem = {
           original:  $(elem).text(),
@@ -253,5 +279,20 @@ $(function(){
       return prettyPrintOne(code, "js", true);
     }
   };
+
+
+  $.fn.setCursorPosition = function(pos, focus) {
+    if ($(this).get(0).setSelectionRange) {
+      $(this).get(0).setSelectionRange(pos, pos);
+    } else if ($(this).get(0).createTextRange) {
+      var range = $(this).get(0).createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', pos);
+      range.moveStart('character', pos);
+      range.select();
+    }
+
+    if (focus) $(this).focus();
+  }
 
 });

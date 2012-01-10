@@ -501,4 +501,8 @@ input[type=text]:focus { @include standard_field_focus(); }
   }
 
   .linenums { margin-left: 1.6em; }
+
+  .forMe {
+    background-color  : #F5E5B0;
+  }
 }
