@@ -168,7 +168,7 @@ $(function(){
   });
 
   socket.on("discussionUpdate", function(discussionItem){
-    discussionItem.message = methods.prettyPrintCode(discussionItem.message);
+    discussionItem.message = methods.formatDiscussionItem(discussionItem.message);
     $("#discussion_items")
       .prepend(templates.discussionItemTemplate(discussionItem));
   });
@@ -216,20 +216,50 @@ $(function(){
         delay(3000).
         fadeOut(1000);
     },
-    prettyPrintCode: function(code){
-      if(code && code.length > 0){
-        code = code.
+    formatDiscussionItem: function(message) {
+      var pattern = /````~(.*?)~````/gi;
+      var results, codeBlocks = [];
+      message = message.replace(/\n/g, '~');
+
+      while(results = pattern.exec(message)){
+        var codeItem = {
+          original: results[1],
+          pretty: methods.prettyPrintCode(results[1].replace(/~/g, '\n'))
+        };
+        codeBlocks.push(codeItem);
+      }
+
+      for(var i=0; i<codeBlocks.length; i++){
+        message = message.replace(codeBlocks[i].original, '{' + i + '}');
+      }
+
+      message = message.replace(/~/g, '\n').replace(/````/g, '\n');
+      message = methods.prettyPrint(message);
+
+      for(var i=0; i<codeBlocks.length; i++){
+        message = message.replace('{' + i + '}', codeBlocks[i].pretty);
+      }
+
+      return message;
+    },
+    prettyPrint: function(text){
+      if(text && text.length > 0){
+        text = text.
               replace(/\t/g, "&nbsp;&nbsp;").
               replace(/\</g, "&lt;").
               replace(/\>/g, "&gt;").
               replace(/ /g, "&nbsp;").
               replace(/\n/g, "<br/>");
 
-        return prettyPrintOne(code, "js", true);
+        return text;
+
       } else {
         return "";
       }
-
+    },
+    prettyPrintCode: function(code){
+      code = this.prettyPrint(code);
+      return prettyPrintOne(code, "js", true);
     }
   };
 
