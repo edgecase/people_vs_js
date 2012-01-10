@@ -9,7 +9,7 @@ typeof 98.6;
 **possibleAnswers
 number
 object
-undefined
+float
 integer
 **possibleAnswers
 
