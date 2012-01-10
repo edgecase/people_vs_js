@@ -3,7 +3,7 @@ Which of the two functions are exposed as members of the namespace?
 **question
 
 **code
-ar namespace = (function(){
+var namespace = (function(){
   function privateFunc() {};
 
   //  ...
