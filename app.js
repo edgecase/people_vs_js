@@ -41,8 +41,7 @@ app.get('/presenter',
         routes.presenter);
 
 var questionLoader = new ql.QuestionLoader();
-var questions = [];
-questionLoader.loadAll(function(question){ questions.push(question); });
+var questions = questionLoader.loadAll();
 
 var getQuestion = function(questionNumber){
   var question = questions[questionNumber];
@@ -147,7 +146,8 @@ io.sockets.on('connection', function (socket) {
 
   socket.on("newDiscussionItem", function(text){
     text = md.parse(text);
-    io.sockets.emit("discussionUpdate", {user: socket.store.data.name, message: text});
+    io.sockets.emit("discussionUpdate", {user: socket.store.data.name || 'Anonymous',
+                                          message: text});
   });
 
   socket.on("setName", function(data, callback){
