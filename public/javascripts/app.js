@@ -201,7 +201,7 @@ $(function(){
   });
 
   socket.on('quizComplete', function(resp) {
-    $(".questionContainer").html("<h1> Deliberation Over! </h1><h2>Guilty or Not Guilty - You Decide...</h2>");
+    $(".questionContainer").html("<div id='finished'><h1>Guilty!</h1><h2>of being awesome in the first degree</h2></div>");
   });
 
   $("#name").keydown(function(e){
