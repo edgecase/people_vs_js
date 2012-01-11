@@ -445,7 +445,7 @@ input[type=text]:focus { @include standard_field_focus(); }
   top           : 10px;
   right         : 10px;
   left          : 10px;
-  bottom        : 10px;
+  bottom        : 34px;
   padding       : 5px;
   background    : #fff;
   @include standard_field_bedazzle();
@@ -462,6 +462,18 @@ input[type=text]:focus { @include standard_field_focus(); }
   background : none;
   resize     : none;
   outline    : none;
+}
+
+#submit_discussion {
+  position : absolute;
+  bottom   : 7px;
+  left     : 12px;
+  @include standard_button_bedazzle();
+  padding  : 3px 20px;
+}
+
+#submit_discussion:active {
+  @include standard_button_bedazzle_active();
 }
 
 /* Questions
