@@ -169,6 +169,7 @@ $(function(){
   });
 
   socket.on('remoteAnswer', function (data) {
+    if(!data.user) return;
     participantsList[data.user].domEl.addClass( (data.isCorrect) ? "correct" : 'incorrect' );
     answerPercentages = data.answerPercentages;
     renderAnswerStats();
