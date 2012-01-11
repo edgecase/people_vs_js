@@ -7,7 +7,7 @@ function Circle(radius){
   this.radius = radius;
 }
 
-var smallCircle = circle(5);
+var smallCircle = Circle(5);
 console.log(radius);
 **code
 
