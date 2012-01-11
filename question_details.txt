@@ -15,8 +15,8 @@
 
 5) parseInt stops when it sees a non-digit
 
-6) parseInt takes a second param for the radix, if none is specified, and the 
-   first character is a 0, the number is interpreted in octal. 
+6) parseInt takes a second param for the radix, if none is specified, and the
+   first character is a 0, the number is interpreted in octal.
 
 7) NaN is an IEEE value to represent 'not a number'. However Javascript reports it
    as a number.
@@ -35,7 +35,7 @@
 
 12) see #11
 
-13) There are two sets of equality operators. For the bad kind, they do 
+13) There are two sets of equality operators. For the bad kind, they do
     type coercion on the values if they are not of the same type. The rules
     for this are complicated and unmemorable. Particularly bad is that they
     break transitivity. Always use === and !==
@@ -61,7 +61,7 @@
         y = x * x;
       }
 
-23) Hoisting works on functions statements too. 
+23) Hoisting works on functions statements too.
       function foo( ) {};
         is roughly equivalent to
       var foo = function () {};
@@ -94,7 +94,7 @@
     Therefore this code can be interpreted as:
 
     var doStuff = function() {
-      doStuff = function() { return 1; }
+      var doStuff = function() { return 1; }
       doStuff = function() { return 2; }
       return doStuff();
     }
@@ -106,13 +106,90 @@
     is hoised, not the intialization. This code can be interpreted as:
 
     var doStuff = function() {
-      doStuff = function { return 1; }
+      var doStuff = function { return 1; }
       return doStuff();
       doStuff = function() { return 2; }
     }
 
 28) As we have previously seen, because functions are basically treated as just
-    variable assignments we can overwrite them from within the function itself. 
+    variable assignments we can overwrite them from within the function itself.
     The first time doStuff is called, it redefines the function to print "more stuff".
 
-29) This one is confusing me...
+29) The inner function statement is creatin a local function with the same name as the
+    outer doStuff function, not overwriting the outer.
+
+    var doStuff;
+    doStuff = function(){
+      var doStuff = function() {
+        console.log('more stuff');
+      }
+    }
+
+30) Hoisting only works on function bodies with function statements. In this case,
+    only the variable declaration is hoisted, not the initialization including the
+    function body.
+
+31) In this case because `foo` is declared as a function statement the declaration
+    and initialization to the body are both hoisted and so calling `foo` succeeds.
+
+32) In this case `foo` is a function expression and so only the declaration is hoisted.
+    The `bar` name has no real consequence except to provide a name to the function in
+    a call stack.
+
+33) Although you can assign a name to a function in a function expression, you can not invoke
+    it by that name.
+
+34) Although you can assign a name to a function in a function expression, you can not invoke
+    it by that name.
+
+35) Calling toPower returns an anonymous function that forms a closure over the value of `pow`.
+    This captures the value at a point in time so that later when the returned anonymous
+    function is invoked it uses the value passed to `toPower`.
+
+36) Similar to the last example except that the power value is coming from a global variable
+    and the value changes after the definition of the closure.
+
+37) Functions are just objects like any other that can have attributes.
+
+38) Using what we learned in the last example, we can assign attributes onto a function
+    object to act as cache or other purposes.
+
+39) Methods can be attached to objects and when they are invoked they need to have the context
+    specified when accessing attribtues. In this case we are missing a `this` on the `width` and `height`.
+
+40) If we have a function and we call it without a context it assumes that the
+    global object is the context. In this case the `this.radius` assigns the passed
+    radius to the window object.
+
+41) Similar to the previous example, the this pointer refers to the global `window` object.
+
+42) In this case we are using the `call` and `apply` methods to specify the context on
+    which the `add` function is being called. We are passing 1 as the context and 2 as the parameter.
+
+43) **** Same as 40 *** consider removing
+
+44) In this case we are using the `new` operator to invoke the Circle function as a constructor.
+    This effectively is creating a new object and invoking the Circle function with that object
+    as the context before returning it.
+
+45) This is a pattern to prevent the problem we saw in #40/#43. If we forget the new operator
+    the function invokes itself with the new operator.
+
+46) Objects created with the `new` operator are separate instances and can have separate state.
+
+47) We are combining our knowledge of closure with a constructor function to create a Rectangle
+    object that has private state and public methods. The `width` and `height` variables are available
+    to the area function via closure, but are not exposed on the created Rectangle instance.
+
+48) Because of the lack of block scope, `it` is scoped to the timeoutLoop function.
+    The anonymous function passed to setTimeout forms a closure over this variable, but by the time the
+    function is invoked the value of `it` has changed due to the loop iteration.
+
+49) Here we are creating an inline self-executing function and passing the `it` variable into it.
+    This introduces a new scope which creates a copy of the `it` variable at the time the
+    anonymous function is created.
+
+50) This is an example of using inline self-executing functions for another common pattern. We
+    can use them as a way to create namespaces and only expose things that we want to be public.
+    This pattern can be extended to support cross file modules.
+
