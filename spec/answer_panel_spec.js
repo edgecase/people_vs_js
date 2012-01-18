@@ -4,7 +4,6 @@ describe("AnswerPanel", function(){
     var $containerEl = $("<div></div>");
     var answerPanel = new views.AnswerPanel($containerEl);
     answerPanel.render({possibleAnswers:["undefined", "null"]});
-    debugger
     expect(answerPanel.$el.children().length).toBe(2);
   });
 });
