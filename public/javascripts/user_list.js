@@ -1,9 +1,9 @@
-var views = (function(ns){
+var Views = (function(ns){
 
   var userListTemplate = _.template(" \
     <ul id='user_list'>\
       <% _.each(users, function(user) { %>\
-        <li><%= user.name %></li>\
+        <li title='<%= user.name %>' class='<%= user.answerStatus %>'><%= user.name %></li>\
       <% }); %>\
     </ul>");
 
@@ -21,7 +21,7 @@ var views = (function(ns){
   ns.UserList = UserList;
   return ns;
 
-})(views || {});
+})(Views || {});
 
 
 
