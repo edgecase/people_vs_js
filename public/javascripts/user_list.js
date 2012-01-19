@@ -1,12 +1,5 @@
 var Views = (function(ns){
 
-  var userListTemplate = _.template(" \
-    <ul id='user_list'>\
-      <% _.each(users, function(user) { %>\
-        <li title='<%= user.name %>' class='<%= user.answerStatus %>'><%= user.name %></li>\
-      <% }); %>\
-    </ul>");
-
   var UserList = function(containerEl, eventSource){
     this.$container = containerEl;
     this.eventSource = eventSource;
@@ -22,7 +15,7 @@ var Views = (function(ns){
 
     },
     render: function(data){
-      this.$el = $(userListTemplate(data));
+      this.$el = $(Handlebars.templates['user_list.hbs'](data));
       this.$container.empty().append(this.$el);
     }
   }

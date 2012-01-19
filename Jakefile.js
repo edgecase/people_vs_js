@@ -17,7 +17,7 @@ task('compile', [], function(params) {
   glob("./views/client/**/*.hbs", {}, function(error, files){
     if(error) throw error;
 
-    var compile = spawn("handlebars", ["-m", "-f", "./public/javascripts/templates.js"].concat(files));
+    var compile = spawn("handlebars", ["-f", "./public/javascripts/templates.js"].concat(files));
 
     compile.stdout.on('data', function (data) {
       console.log('stdout: ' + data);

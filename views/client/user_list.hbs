@@ -1,3 +1,6 @@
-#foo
-  %ul#bar
-  foo
+<ul id='user_list'>
+  {{#each users}}
+    <li title='{{this.name}}' class='{{this.answerStatus}}'>{{this.name}}</li>
+  {{/each}}
+</ul>
+
