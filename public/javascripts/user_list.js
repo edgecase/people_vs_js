@@ -7,13 +7,23 @@ var Views = (function(ns){
       <% }); %>\
     </ul>");
 
-  var UserList = function(containerEl){
+  var UserList = function(containerEl, eventSource){
     this.$container = containerEl;
+    this.eventSource = eventSource;
+
+    this.bindEvents();
   }
   UserList.prototype = {
+    bindEvents: function() {
+      if (!this.eventSource) return;
+
+      this.eventSource.on("user-new", _.bind(this.render, this));
+      this.eventSource.on("user-disconnected", _.bind(this.render, this));
+
+    },
     render: function(data){
-      var html = userListTemplate(data);
-      this.$el = this.$container.empty().append(html).children().eq(0);
+      this.$el = $(userListTemplate(data));
+      this.$container.empty().append(this.$el);
     }
   }
 
