@@ -15,7 +15,7 @@ var Views = (function(ns){
 
     },
     render: function(data){
-      this.$el = $(Handlebars.templates['user_list.hbs'](data));
+      this.$el = $(Templates.render('user_list', data));
       this.$container.empty().append(this.$el);
     }
   }
