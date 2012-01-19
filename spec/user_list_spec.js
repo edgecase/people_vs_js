@@ -3,13 +3,14 @@ describe("UserList", function(){
       userList,
       eventSource;
 
-  beforeEach(function(){
-    $containerEl = $("<div></div>");
-    eventSource = new FakeEventSource();
-    userList = new Views.UserList($containerEl, eventSource);
-  });
 
   describe("#render", function() {
+    beforeEach(function(){
+      $containerEl = $("<div></div>");
+      eventSource = new FakeEventSource();
+      userList = new Views.UserList($containerEl, eventSource);
+    });
+
     it("is empty with 0 users", function(){
       userList.render({users:[]});
       expect(userList.$el.children().length).toBe(0);
@@ -40,22 +41,33 @@ describe("UserList", function(){
   });
 
   describe("events received", function() {
-    it("renders when receiving the user-new message", function() {
-      userList.render({users:[{name:'bob'}]});
-      expect(userList.$el).toContainText("bob");
+    beforeEach(function(){
+      $containerEl = $("<div></div>");
+      spyOn(Views.UserList.prototype, 'render');
+      eventSource = new FakeEventSource();
+      userList = new Views.UserList($containerEl, eventSource);
+    });
 
-      eventSource.emit('user-new', {users: [{name: 'alex',  answerStatus: 'unanswered'}]});
-      expect(userList.$el).toContainText("alex");
+    it("renders when receiving the user-new message", function() {
+      eventSource.emit('user-new', {});
+      expect(userList.render).toHaveBeenCalled();
     });
 
     it("renders when receiving the user-disconnected message", function() {
-      userList.render({users:[{name:'bob'}]});
-      expect(userList.$el).toContainText("bob");
-
       eventSource.emit('user-disconnected', {users: []});
-      expect(userList.$el).not.toContainText("bob");
+      expect(userList.render).toHaveBeenCalled();
     });
 
-  });
+    it("renders when receiving the user-answered message", function() {
+      eventSource.emit('user-answered', {users: []});
+      expect(userList.render).toHaveBeenCalled();
+    });
+
+    it("renders when receiving the question-changed message", function() {
+      eventSource.emit('question-changed', {users: []});
+      expect(userList.render).toHaveBeenCalled();
+    });
+
+   });
 
 });

@@ -12,7 +12,8 @@ var Views = (function(ns){
 
       this.eventSource.on("user-new", _.bind(this.render, this));
       this.eventSource.on("user-disconnected", _.bind(this.render, this));
-
+      this.eventSource.on("user-answered", _.bind(this.render, this));
+      this.eventSource.on("question-changed", _.bind(this.render, this));
     },
     render: function(data){
       this.$el = $(Templates.render('user_list', data));
