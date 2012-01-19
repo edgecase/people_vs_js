@@ -9,5 +9,6 @@
     , "socket.io": ">= 0.8.7"
     , "underscore": ">= 1.2.4"
     , "github-flavored-markdown": ">= 1.0.0"
+    , "glob": ">=3.0.1"
   }
 }
