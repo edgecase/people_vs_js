@@ -1,14 +1,11 @@
 describe("DiscussionPanel", function(){
-  // write spec for discussion item order
   var $containerEl, discussionPanel, eventSource;
 
   describe("#renderMessages", function(){
-
     beforeEach(function () {
       $containerEl = $("<div id='discussion_pad'></div>");
       eventSource = new FakeEventSource();
       discussionPanel = new Views.DiscussionPanel($containerEl, eventSource);
-      discussionPanel.render();
     });
 
     it("is empty with 0 messages", function(){
@@ -45,14 +42,12 @@ describe("DiscussionPanel", function(){
     });
   });
 
-  describe("message received events", function(){
-
+  describe("events received", function(){
     beforeEach(function () {
       $containerEl = $("<div id='discussion_pad'></div>");
       eventSource = new FakeEventSource();
       spyOn(Views.DiscussionPanel.prototype, 'renderMessages');
       discussionPanel = new Views.DiscussionPanel($containerEl, eventSource);
-      discussionPanel.render();
     });
 
     it("renders when receiving the message-new event", function(){
@@ -62,8 +57,26 @@ describe("DiscussionPanel", function(){
       expect(discussionPanel.renderMessages).toHaveBeenCalled();
     });
 
+  });
+
+  describe("sending messages", function(){
+    beforeEach(function () {
+      $containerEl = $("<div id='discussion_pad'></div>");
+      eventSource = new FakeEventSource();
+      spyOn(eventSource, 'emit');
+      discussionPanel = new Views.DiscussionPanel($containerEl, eventSource);
+    });
+
+    it("emits the message-send event", function(){
+      var someText = "some test text";
+      discussionPanel.$discussion_box.val(someText);
+      discussionPanel.$discussion_submit_button.click();
+
+      expect(eventSource.emit).toHaveBeenCalledWith('message-send', {message: someText});
+    });
 
   });
 
 
 });
+

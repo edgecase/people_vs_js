@@ -4,26 +4,33 @@ var Views = (function(ns){
     this.$container = containerEl;
     this.eventSource = eventSource;
 
-    this.bindEvents();
+    this.renderInit();
   };
 
   DiscussionPanel.prototype = {
     bindEvents: function(){
       this.eventSource.on("message-new", _.bind(this.renderMessages, this));
+      this.$discussion_submit_button.on("click", _.bind(this.sendMessage, this));
     },
 
-    render: function(){
+    renderInit: function(){
       this.$container.empty();
       var $pad_contents =  $(Templates.render('discussion_area')).appendTo(this.$container);
 
-      this.$discussion_area  = $pad_contents.find('.discussion_area');
-      this.$discussion_enter = $pad_contents.find('.discussion_enter');
+      this.$discussion_box  = $pad_contents.find('textarea.discussion');
+      this.$discussion_submit_button  = $pad_contents.find('input#submit_discussion');
       this.$discussion_items = $pad_contents.find('table#discussion_items');
+
+      this.bindEvents();
     },
 
     renderMessages: function(messages) {
       var html = $(Templates.render('discussion_list_items', messages));
       this.$discussion_items.prepend(html);
+    },
+
+    sendMessage: function(){
+      this.eventSource.emit("message-send", {message: this.$discussion_box.val()});
     }
   };
 
