@@ -1,45 +1,29 @@
-var views = (function(ns){
+var Views = (function(ns){
 
-  var discussionItemTemplate = _.template(" \
-      <% _.each(messages, function(message) { %> \
-      <tr> \
-        <td class='user'> \
-          <a class='reply' href='#' title='Reply to <%= message.user %>'><%= message.user %></a> \
-        </td> \
-        <td class='message <%= message.isForMe ? 'forMe' : '' %>'><%= message.text %></td> \
-      </tr> \
-      <% }); %>");
-
-  var discussionEnterTemplate = _.template("\
-    <div id='discussion_enter'> \
-      <div id='textarea_container'> \
-        <textarea class='discussion'/> \
-      </div>\
-      <input type='button' id='submit_discussion' value='Send' class='enabled'/> \
-    </div>");
-
-  var discussionAreaTemplate = _.template("\
-    <div id='discussion_area'> \
-      <table id='discussion_items'> \
-      </table> \
-    </div>");
-
-  var DiscussionPanel = function(containerEl){
+  var DiscussionPanel = function(containerEl, eventSource){
     this.$container = containerEl;
+    this.eventSource = eventSource;
+
+    this.bindEvents();
   };
 
   DiscussionPanel.prototype = {
-    render: function(data){
+    bindEvents: function(){
+      this.eventSource.on("message-new", _.bind(this.renderMessages, this));
+    },
+
+    render: function(){
       this.$container.empty();
-      this.$discussion_enter = $(discussionEnterTemplate()).appendTo(this.$container);
-      this.$discussion_area = $(discussionAreaTemplate()).appendTo(this.$container);
-      this.$discussion_items = this.$container.find('table#discussion_items');
-      this.renderMessages(data);
+      var $pad_contents =  $(Templates.render('discussion_area')).appendTo(this.$container);
+
+      this.$discussion_area  = $pad_contents.find('.discussion_area');
+      this.$discussion_enter = $pad_contents.find('.discussion_enter');
+      this.$discussion_items = $pad_contents.find('table#discussion_items');
     },
 
     renderMessages: function(messages) {
-      var html = discussionItemTemplate(messages);
-      this.$discussion_items.empty().append(html);
+      var html = $(Templates.render('discussion_list_items', messages));
+      this.$discussion_items.prepend(html);
     }
   };
 
@@ -47,4 +31,4 @@ var views = (function(ns){
   ns.DiscussionPanel = DiscussionPanel;
   return ns;
 
-})(views || {});
+})(Views || {});
