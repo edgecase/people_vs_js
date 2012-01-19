@@ -1,0 +1,1 @@
+(function(){var a=Handlebars.template,b=Handlebars.templates=Handlebars.templates||{};b["user_list.hbs"]=a(function(a,b,c,d,e){c=c||a.helpers;var f=this;return"#foo\n  %ul#bar\n"})})()
