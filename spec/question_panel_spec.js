@@ -15,7 +15,7 @@ describe("QuestionPanel", function(){
     it("displays the question", function(){
       questionPanel.render(example);
 
-      expect(questionPanel.$el).toContainText(example.question);
+      expect(questionPanel.$questionPanel).toContainText(example.question);
     });
 
     it("displays the prettified code", function() {
@@ -24,7 +24,13 @@ describe("QuestionPanel", function(){
 
       questionPanel.render(example);
 
-      expect(questionPanel.$el).toContainText(prettyCode);
+      expect(questionPanel.$questionPanel).toContainText(prettyCode);
+    });
+
+    it("renders the answer panel", function() {
+      questionPanel.render(example);
+
+      expect(questionPanel.$answerPanelContainer.children().length).toBeGreaterThan(0);
     });
 
   });
