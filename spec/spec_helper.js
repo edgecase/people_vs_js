@@ -16,19 +16,40 @@ beforeEach(function(){
   this.addMatchers(customMatchers);
 });
 
-function FakeMessageBus(){ }
+function FakeMessageBus(){
+
+  var response;
+
+}
 FakeMessageBus.prototype = {
-  emit: function(messageName, data){
+  emit: function(messageName, data, callback){
     if(this.handlers && this.handlers[messageName]){
       var handlers = this.handlers[messageName];
       for(var i=0; i<handlers.length; i++) {
         handlers[i](data);
       }
     }
+
+    if(callback) {
+      callback(this.response());
+    }
   },
+
+  fakeResponse: function(fn) {
+    this.response = fn;
+    return this;
+  }),
+
   on: function(messageName, callback){
     this.handlers = this.handlers || {};
     this.handlers[messageName] = this.handlers[messageName] || [];
     this.handlers[messageName].push(callback);
   }
 }
+
+
+messageBus.fakeResponse( function() {
+  return {correctIndex:1};
+}.emit('message-type', data, function(correctIndex){
+  return correctIndex;
+});
