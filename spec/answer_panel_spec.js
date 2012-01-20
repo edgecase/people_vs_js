@@ -37,8 +37,14 @@ describe("AnswerPanel", function(){
     });
 
     it("renders answers on question-changed", function(){
-      fakeMessageBus.emit('question-changed', {users: []});
+      fakeMessageBus.emit('question-changed', {});
       expect(answerPanel.renderAnswers).toHaveBeenCalled();
+    });
+
+    it("disables the answer submission button on question-changed", function(){
+      answerPanel.$submitAnswerButton.removeClass('disabled');
+      fakeMessageBus.emit('question-changed', {});
+      expect(answerPanel.$submitAnswerButton).toHaveClass('disabled');
     });
 
     it("updates percentages on user-answered", function(){
@@ -66,8 +72,16 @@ describe("AnswerPanel", function(){
       answerPanel.renderAnswers({possibleAnswers: ['undefined', 'null']});
     });
 
+    it("submits the selected answer", function() {
+      spyOn(fakeMessageBus, 'emit');
+      answerPanel.$answerContainer.find('.possibleAnswer input:first').prop('checked', true);
+
+      answerPanel.$submitAnswerButton.click();
+
+      expect(fakeMessageBus.emit).toHaveBeenCalledWith('answer-submitted', {answerIndex: 0}, jasmine.any(Function));
+    });
+
     it("indicates which is the correct answer", function() {
-      /* answerPanel.$answerContainer.find('.possibleAnswer input:first').prop('checked', true); */
       answerPanel.$submitAnswerButton.click();
 
       expect(answerPanel.$answerContainer.find('.possibleAnswer:eq('+ responseData.correctIndex + ')')).toHaveClass('correct');
@@ -79,6 +93,28 @@ describe("AnswerPanel", function(){
       expect(answerPanel.$answerContainer.find('.possibleAnswer:eq(0)')).toHaveClass('incorrect');
     });
 
+    it("disables the answer submission button", function() {
+      answerPanel.$submitAnswerButton.click();
+
+      expect(answerPanel.$submitAnswerButton).toHaveClass('disabled');
+    });
   });
+
+  describe("selecting an answer", function() {
+    beforeEach(function(){
+      $containerEl = $("<div></div>");
+      fakeMessageBus = new FakeMessageBus();
+      answerPanel = new Views.AnswerPanel($containerEl, fakeMessageBus);
+      answerPanel.renderAnswers({possibleAnswers: ['undefined', 'null']});
+    });
+
+    it("enables the answer submission button", function() {
+      answerPanel.$answerContainer.find('.possibleAnswer:first').click();
+
+      expect(answerPanel.$submitAnswerButton).not.toHaveClass('disabled');
+    });
+
+  });
+
 
 });
