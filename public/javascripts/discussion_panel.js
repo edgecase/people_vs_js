@@ -1,7 +1,7 @@
 var Views = (function(ns){
 
-  var DiscussionPanel = function(containerEl, messageBus){
-    this.$container = containerEl;
+  var DiscussionPanel = function(container, messageBus){
+    this.$container = container;
     this.messageBus = messageBus;
 
     this.renderInit();

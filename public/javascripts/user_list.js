@@ -1,7 +1,7 @@
 var Views = (function(ns){
 
-  var UserList = function(containerEl, messageBus){
-    this.$container = containerEl;
+  var UserList = function(container, messageBus){
+    this.$container = container;
     this.messageBus = messageBus;
 
     this.bindEvents();

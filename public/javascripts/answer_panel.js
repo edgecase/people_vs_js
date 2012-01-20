@@ -1,12 +1,13 @@
 var Views = (function(ns){
 
-  var AnswerPanel = function(containerEl, messageBus){
-    this.$container = containerEl;
+  var AnswerPanel = function(container, messageBus){
+    this.$container = container;
     this.messageBus = messageBus;
     this.hasSubmitted = false;
 
     this.renderInit();
-  }
+  };
+
   AnswerPanel.prototype = {
     bindEvents: function(){
       this.messageBus.on("question-changed", _.bind(this.renderAnswers, this));
@@ -18,7 +19,7 @@ var Views = (function(ns){
     renderInit: function(data){
       this.$container.empty();
       var $panel_content =  $(Templates.render('answer_panel')).appendTo(this.$container);
-      this.$answerContainer = $panel_content.find("#answer_container");
+      this.$answerContainer = $panel_content.find("#possible_answers_container");
       this.$submitAnswerButton = $panel_content.find("#final_answer");
 
       this.bindEvents();

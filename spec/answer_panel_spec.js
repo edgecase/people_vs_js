@@ -1,14 +1,14 @@
 describe("AnswerPanel", function(){
-    var $containerEl,
+    var $container,
         answerPanel,
         fakeMessageBus,
         answerData;
 
   describe("#renderAnswers", function(){
     beforeEach(function(){
-      $containerEl = $("<div></div>");
+      $container = $("<div></div>");
       fakeMessageBus = new FakeMessageBus();
-      answerPanel = new Views.AnswerPanel($containerEl, fakeMessageBus);
+      answerPanel = new Views.AnswerPanel($container, fakeMessageBus);
       answerData = {possibleAnswers:[{value: "undefined", percentageChosen: 35}, {value: "null", percentageChosen: 10}]};
     });
 
@@ -30,10 +30,10 @@ describe("AnswerPanel", function(){
 
   describe("messages received", function() {
     beforeEach(function(){
-      $containerEl = $("<div></div>");
+      $container = $("<div></div>");
       fakeMessageBus = new FakeMessageBus();
       spyOn(Views.AnswerPanel.prototype, 'renderAnswers').andCallThrough();
-      answerPanel = new Views.AnswerPanel($containerEl, fakeMessageBus);
+      answerPanel = new Views.AnswerPanel($container, fakeMessageBus);
     });
 
     it("renders answers on question-changed", function(){
@@ -64,11 +64,11 @@ describe("AnswerPanel", function(){
     var responseData;
 
     beforeEach(function(){
-      $containerEl = $("<div></div>");
+      $container = $("<div></div>");
       responseData = { correctIndex:1 };
       fakeMessageBus = new FakeMessageBus();
       fakeMessageBus.fakeResponse(function() { return responseData; });
-      answerPanel = new Views.AnswerPanel($containerEl, fakeMessageBus);
+      answerPanel = new Views.AnswerPanel($container, fakeMessageBus);
       answerPanel.renderAnswers({possibleAnswers: ['undefined', 'null']});
     });
 
@@ -102,9 +102,9 @@ describe("AnswerPanel", function(){
 
   describe("selecting an answer", function() {
     beforeEach(function(){
-      $containerEl = $("<div></div>");
+      $container = $("<div></div>");
       fakeMessageBus = new FakeMessageBus();
-      answerPanel = new Views.AnswerPanel($containerEl, fakeMessageBus);
+      answerPanel = new Views.AnswerPanel($container, fakeMessageBus);
       answerPanel.renderAnswers({possibleAnswers: ['undefined', 'null']});
     });
 

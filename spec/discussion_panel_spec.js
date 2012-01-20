@@ -1,11 +1,11 @@
 describe("DiscussionPanel", function(){
-  var $containerEl, discussionPanel, messageBus;
+  var $container, discussionPanel, messageBus;
 
   describe("#renderMessages", function(){
     beforeEach(function () {
-      $containerEl = $("<div id='discussion_pad'></div>");
+      $container = $("<div id='discussion_pad'></div>");
       messageBus = new FakeMessageBus();
-      discussionPanel = new Views.DiscussionPanel($containerEl, messageBus);
+      discussionPanel = new Views.DiscussionPanel($container, messageBus);
     });
 
     it("is empty with 0 messages", function(){
@@ -44,13 +44,13 @@ describe("DiscussionPanel", function(){
 
   describe("messages received", function(){
     beforeEach(function () {
-      $containerEl = $("<div id='discussion_pad'></div>");
+      $container = $("<div id='discussion_pad'></div>");
       messageBus = new FakeMessageBus();
       spyOn(Views.DiscussionPanel.prototype, 'renderMessages');
-      discussionPanel = new Views.DiscussionPanel($containerEl, messageBus);
+      discussionPanel = new Views.DiscussionPanel($container, messageBus);
     });
 
-    it("renders when receiving the message-new event", function(){
+    it("renders on message-new event", function(){
       messageBus.emit('message-new', {messages:[{user:'alex', text:'this is for alex'},
                                                  {user:'alex', text:'not for alex'}]});
 
@@ -61,10 +61,10 @@ describe("DiscussionPanel", function(){
 
   describe("sending messages", function(){
     beforeEach(function () {
-      $containerEl = $("<div id='discussion_pad'></div>");
+      $container = $("<div id='discussion_pad'></div>");
       messageBus = new FakeMessageBus();
       spyOn(messageBus, 'emit');
-      discussionPanel = new Views.DiscussionPanel($containerEl, messageBus);
+      discussionPanel = new Views.DiscussionPanel($container, messageBus);
     });
 
     it("emits the message-send event", function(){

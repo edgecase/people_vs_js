@@ -22,7 +22,7 @@ function program1(depth0,data) {
   buffer += escapeExpression(stack1) + "%</div>\n    </label>\n  </li>\n  ";
   return buffer;}
 
-  buffer += "<ul id='answerList'>\n  ";
+  buffer += "<ul id='possible_answer_list'>\n  ";
   stack1 = helpers.possibleAnswers || depth0.possibleAnswers;
   stack2 = helpers.each;
   tmp1 = self.program(1, program1, data);
@@ -38,7 +38,7 @@ templates['answer_panel.hbs'] = template(function (Handlebars,depth0,helpers,par
   var self=this;
 
 
-  return "<div id='answer_panel' class='.section'>\n  <div id='answer_container'>\n  </div>\n  <div id='final_answer_container'>\n    <a id='final_answer' class='disabled' href='#'>Submit My Final Answer</a>\n  </div>\n</div>\n";});
+  return "<div id='answer_panel' class='.section'>\n  <div id='possible_answers_container'>\n  </div>\n  <div id='final_answer_container'>\n    <a id='final_answer' class='disabled' href='#'>Submit My Final Answer</a>\n  </div>\n</div>\n";});
 templates['discussion_area.hbs'] = template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;
   var self=this;
@@ -89,6 +89,21 @@ function program2(depth0,data) {
   stack1 = stack2.call(depth0, stack1, tmp1);
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n";
+  return buffer;});
+templates['question_panel.hbs'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var buffer = "", stack1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div id=\"question_panel\">\n  <p>\n    ";
+  stack1 = helpers.question || depth0.question;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "question", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\n  <br/>\n    ";
+  stack1 = helpers.code || depth0.code;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "code", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\n  </p>\n</div>\n<div id=\"answer_panel_container\"></div>\n";
   return buffer;});
 templates['user_list.hbs'] = template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;

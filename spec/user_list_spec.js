@@ -1,14 +1,14 @@
 describe("UserList", function(){
-  var $containerEl,
+  var $container,
       userList,
       messageBus;
 
 
   describe("#render", function() {
     beforeEach(function(){
-      $containerEl = $("<div></div>");
+      $container = $("<div></div>");
       messageBus = new FakeMessageBus();
-      userList = new Views.UserList($containerEl, messageBus);
+      userList = new Views.UserList($container, messageBus);
     });
 
     it("is empty with 0 users", function(){
@@ -42,32 +42,32 @@ describe("UserList", function(){
 
   describe("messages received", function() {
     beforeEach(function(){
-      $containerEl = $("<div></div>");
+      $container = $("<div></div>");
       spyOn(Views.UserList.prototype, 'render');
       messageBus = new FakeMessageBus();
-      userList = new Views.UserList($containerEl, messageBus);
+      userList = new Views.UserList($container, messageBus);
     });
 
-    it("renders when receiving the user-new message", function() {
+    it("renders on user-new message", function() {
       messageBus.emit('user-new', {});
       expect(userList.render).toHaveBeenCalled();
     });
 
-    it("renders when receiving the user-disconnected message", function() {
+    it("renders on user-disconnected message", function() {
       messageBus.emit('user-disconnected', {users: []});
       expect(userList.render).toHaveBeenCalled();
     });
 
-    it("renders when receiving the user-answered message", function() {
+    it("renders on user-answered message", function() {
       messageBus.emit('user-answered', {users: []});
       expect(userList.render).toHaveBeenCalled();
     });
 
-    it("renders when receiving the question-changed message", function() {
+    it("renders on question-changed message", function() {
       messageBus.emit('question-changed', {users: []});
       expect(userList.render).toHaveBeenCalled();
     });
 
-   });
+  });
 
 });
