@@ -1,9 +1,69 @@
 describe("AnswerPanel", function(){
+    var $containerEl,
+        answerPanel,
+        fakeMessageBus;
 
-  it("should have more than 1 answer", function(){
-    var $containerEl = $("<div></div>");
-    var answerPanel = new views.AnswerPanel($containerEl);
-    answerPanel.render({possibleAnswers:["undefined", "null"]});
-    expect(answerPanel.$el.children().length).toBe(2);
+  describe("#renderAnswers", function(){
+    beforeEach(function(){
+      $containerEl = $("<div></div>");
+      fakeMessageBus = new FakeMessageBus();
+      answerPanel = new Views.AnswerPanel($containerEl, fakeMessageBus);
+    });
+
+    it("displays the possible answers", function(){
+      answerPanel.renderAnswers({possibleAnswers:["undefined", "null"]});
+
+      expect(answerPanel.$answerContainer.find('.possibleAnswer').length).toBe(2);
+      expect(answerPanel.$answerContainer).toContainText('undefined');
+      expect(answerPanel.$answerContainer).toContainText('null');
+    });
+
+    // indicates which is the wrong answer if you were wrong
+    // updates percentages.
+
   });
+
+  describe("messages received", function() {
+    beforeEach(function(){
+      $containerEl = $("<div></div>");
+      fakeMessageBus = new FakeMessageBus();
+      spyOn(Views.AnswerPanel.prototype, 'renderAnswers');
+      answerPanel = new Views.AnswerPanel($containerEl, fakeMessageBus);
+    });
+
+    it("renders answers on question-changed", function(){
+      fakeMessageBus.emit('question-changed', {users: []});
+      expect(answerPanel.renderAnswers).toHaveBeenCalled();
+    });
+
+
+  });
+
+  describe("submitting an answer", function() {
+    var responseData;
+
+    beforeEach(function(){
+      $containerEl = $("<div></div>");
+      responseData = { correctIndex:1 };
+      fakeMessageBus = new FakeMessageBus();
+      fakeMessageBus.fakeResponse(function() { return responseData; });
+      answerPanel = new Views.AnswerPanel($containerEl, fakeMessageBus);
+      answerPanel.renderAnswers({possibleAnswers: ['undefined', 'null']});
+    });
+
+    it("indicates which is the correct answer", function() {
+      /* answerPanel.$answerContainer.find('.possibleAnswer input:first').prop('checked', true); */
+      answerPanel.$submitAnswerButton.click();
+
+      expect(answerPanel.$answerContainer.find('.possibleAnswer:eq('+ responseData.correctIndex + ')')).toHaveClass('correct');
+    });
+
+    it("indicates if the submitted answer is incorrect", function() {
+      answerPanel.$answerContainer.find('.possibleAnswer input:first').prop('checked', true);
+      answerPanel.$submitAnswerButton.click();
+      expect(answerPanel.$answerContainer.find('.possibleAnswer:eq(0)')).toHaveClass('incorrect');
+    });
+
+  });
+
 });

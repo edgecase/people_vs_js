@@ -31,14 +31,17 @@ FakeMessageBus.prototype = {
     }
 
     if(callback) {
-      callback(this.response());
+      callback.apply(this, this.response());
     }
   },
 
   fakeResponse: function(fn) {
-    this.response = fn;
+    this.response = function() {
+      var r = fn();
+      return $.isArray(r) ? r : [r];
+    }
     return this;
-  }),
+  },
 
   on: function(messageName, callback){
     this.handlers = this.handlers || {};
@@ -46,10 +49,3 @@ FakeMessageBus.prototype = {
     this.handlers[messageName].push(callback);
   }
 }
-
-
-messageBus.fakeResponse( function() {
-  return {correctIndex:1};
-}.emit('message-type', data, function(correctIndex){
-  return correctIndex;
-});

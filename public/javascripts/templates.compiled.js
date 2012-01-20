@@ -1,5 +1,40 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['answer_list_items.hbs'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var buffer = "", stack1, stack2, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n    <li class='possibleAnswer'>\n    <label>\n      <input type='radio' name='my_answer' value='";
+  stack1 = depth0;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "'/>\n      ";
+  stack1 = depth0;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\n      <div class='percentOfThisAnswer'>??%</div>\n    </label>\n  </li>\n  ";
+  return buffer;}
+
+  buffer += "<ul id='answerList'>\n  ";
+  stack1 = helpers.possibleAnswers || depth0.possibleAnswers;
+  stack2 = helpers.each;
+  tmp1 = self.program(1, program1, data);
+  tmp1.hash = {};
+  tmp1.fn = tmp1;
+  tmp1.inverse = self.noop;
+  stack1 = stack2.call(depth0, stack1, tmp1);
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</ul>\n\n";
+  return buffer;});
+templates['answer_panel.hbs'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var self=this;
+
+
+  return "<div id='answer_panel' class='.section'>\n  <div id='answer_container'>\n  </div>\n  <div id='final_answer_container'>\n    <a id='final_answer' class='disabled' href='#'>Submit My Final Answer</a>\n  </div>\n</div>\n";});
 templates['discussion_area.hbs'] = template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;
   var self=this;
