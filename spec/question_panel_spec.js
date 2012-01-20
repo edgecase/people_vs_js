@@ -1,27 +1,30 @@
 describe("QuestionPanel", function(){
     var $container,
         questionPanel,
-        fakeMessageBus;
+        fakeMessageBus,
+        example;
 
   describe("#render", function(){
     beforeEach(function(){
       $container = $("<div></div>");
       fakeMessageBus = new FakeMessageBus();
       questionPanel = new Views.QuestionPanel($container, fakeMessageBus);
+      example = {question:"Does this work?", code:"var example = {};"};
     });
 
     it("displays the question", function(){
-      var example = {question:"Does this work?", code:"var example = {};"};
       questionPanel.render(example);
 
       expect(questionPanel.$el).toContainText(example.question);
     });
 
-    it("displays the code", function() {
-      var example = {question:"Does this work?", code:"var example = {};"};
+    it("displays the prettified code", function() {
+      var prettyCode = 'this is some damn fine code';
+      Templates.helpers.prettyPrintCode = function(){ return prettyCode; };
+
       questionPanel.render(example);
 
-      expect(questionPanel.$el).toContainText(example.code);
+      expect(questionPanel.$el).toContainText(prettyCode);
     });
 
   });
@@ -41,6 +44,4 @@ describe("QuestionPanel", function(){
 
    });
 
-  // TODO: test for syntax highlighting
-  // TODO: test for new question events
 });
