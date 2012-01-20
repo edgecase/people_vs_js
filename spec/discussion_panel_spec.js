@@ -1,11 +1,11 @@
 describe("DiscussionPanel", function(){
-  var $containerEl, discussionPanel, eventSource;
+  var $containerEl, discussionPanel, messageBus;
 
   describe("#renderMessages", function(){
     beforeEach(function () {
       $containerEl = $("<div id='discussion_pad'></div>");
-      eventSource = new FakeEventSource();
-      discussionPanel = new Views.DiscussionPanel($containerEl, eventSource);
+      messageBus = new FakeMessageBus();
+      discussionPanel = new Views.DiscussionPanel($containerEl, messageBus);
     });
 
     it("is empty with 0 messages", function(){
@@ -42,16 +42,16 @@ describe("DiscussionPanel", function(){
     });
   });
 
-  describe("events received", function(){
+  describe("messages received", function(){
     beforeEach(function () {
       $containerEl = $("<div id='discussion_pad'></div>");
-      eventSource = new FakeEventSource();
+      messageBus = new FakeMessageBus();
       spyOn(Views.DiscussionPanel.prototype, 'renderMessages');
-      discussionPanel = new Views.DiscussionPanel($containerEl, eventSource);
+      discussionPanel = new Views.DiscussionPanel($containerEl, messageBus);
     });
 
     it("renders when receiving the message-new event", function(){
-      eventSource.emit('message-new', {messages:[{user:'alex', text:'this is for alex'},
+      messageBus.emit('message-new', {messages:[{user:'alex', text:'this is for alex'},
                                                  {user:'alex', text:'not for alex'}]});
 
       expect(discussionPanel.renderMessages).toHaveBeenCalled();
@@ -62,9 +62,9 @@ describe("DiscussionPanel", function(){
   describe("sending messages", function(){
     beforeEach(function () {
       $containerEl = $("<div id='discussion_pad'></div>");
-      eventSource = new FakeEventSource();
-      spyOn(eventSource, 'emit');
-      discussionPanel = new Views.DiscussionPanel($containerEl, eventSource);
+      messageBus = new FakeMessageBus();
+      spyOn(messageBus, 'emit');
+      discussionPanel = new Views.DiscussionPanel($containerEl, messageBus);
     });
 
     it("emits the message-send event", function(){
@@ -72,7 +72,7 @@ describe("DiscussionPanel", function(){
       discussionPanel.$discussion_box.val(someText);
       discussionPanel.$discussion_submit_button.click();
 
-      expect(eventSource.emit).toHaveBeenCalledWith('message-send', {message: someText});
+      expect(messageBus.emit).toHaveBeenCalledWith('message-send', {message: someText});
     });
 
   });

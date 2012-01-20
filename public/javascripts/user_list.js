@@ -1,19 +1,19 @@
 var Views = (function(ns){
 
-  var UserList = function(containerEl, eventSource){
+  var UserList = function(containerEl, messageBus){
     this.$container = containerEl;
-    this.eventSource = eventSource;
+    this.messageBus = messageBus;
 
     this.bindEvents();
   }
   UserList.prototype = {
     bindEvents: function() {
-      if (!this.eventSource) return;
+      if (!this.messageBus) return;
 
-      this.eventSource.on("user-new", _.bind(this.render, this));
-      this.eventSource.on("user-disconnected", _.bind(this.render, this));
-      this.eventSource.on("user-answered", _.bind(this.render, this));
-      this.eventSource.on("question-changed", _.bind(this.render, this));
+      this.messageBus.on("user-new", _.bind(this.render, this));
+      this.messageBus.on("user-disconnected", _.bind(this.render, this));
+      this.messageBus.on("user-answered", _.bind(this.render, this));
+      this.messageBus.on("question-changed", _.bind(this.render, this));
     },
     render: function(data){
       this.$el = $(Templates.render('user_list', data));

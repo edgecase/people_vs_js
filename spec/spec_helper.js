@@ -16,8 +16,8 @@ beforeEach(function(){
   this.addMatchers(customMatchers);
 });
 
-function FakeEventSource(){ }
-FakeEventSource.prototype = {
+function FakeMessageBus(){ }
+FakeMessageBus.prototype = {
   emit: function(messageName, data){
     if(this.handlers && this.handlers[messageName]){
       var handlers = this.handlers[messageName];

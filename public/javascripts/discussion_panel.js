@@ -1,15 +1,15 @@
 var Views = (function(ns){
 
-  var DiscussionPanel = function(containerEl, eventSource){
+  var DiscussionPanel = function(containerEl, messageBus){
     this.$container = containerEl;
-    this.eventSource = eventSource;
+    this.messageBus = messageBus;
 
     this.renderInit();
   };
 
   DiscussionPanel.prototype = {
     bindEvents: function(){
-      this.eventSource.on("message-new", _.bind(this.renderMessages, this));
+      this.messageBus.on("message-new", _.bind(this.renderMessages, this));
       this.$discussion_submit_button.on("click", _.bind(this.sendMessage, this));
     },
 
@@ -30,7 +30,7 @@ var Views = (function(ns){
     },
 
     sendMessage: function(){
-      this.eventSource.emit("message-send", {message: this.$discussion_box.val()});
+      this.messageBus.emit("message-send", {message: this.$discussion_box.val()});
     }
   };
 
