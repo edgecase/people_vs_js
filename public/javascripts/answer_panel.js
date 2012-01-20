@@ -9,7 +9,7 @@ var Views = (function(ns){
   AnswerPanel.prototype = {
     bindEvents: function(){
       this.messageBus.on("question-changed", _.bind(this.renderAnswers, this));
-      /* this.$answerContainer.on("", _.bind(this.sendMessage, this)); */
+      this.messageBus.on("user-answered", _.bind(this.updatePercentages, this));
       this.$submitAnswerButton.on("click", _.bind(this.submitAnswer, this));
     },
 
@@ -33,13 +33,24 @@ var Views = (function(ns){
     },
 
     answerSubmitted: function(data){
-      var answerIndex = this.$answerContainer.find("input[name=my_answer]").map(function(idx, elem) { if($(elem).is(":checked")) return idx; })[0];
+      var answerIndex = this.$answerContainer
+                            .find("input[name=my_answer]")
+                            .map(function(idx, elem) { if($(elem).is(":checked")) return idx; })[0];
+
       if (answerIndex != data.correctIndex){
         this.$answerContainer.find(".possibleAnswer:eq(" + answerIndex + ")").addClass('incorrect');
       }
 
       this.$answerContainer.find(".possibleAnswer:eq(" + data.correctIndex + ")").addClass('correct');
+    },
+
+    updatePercentages: function(data){
+      var self = this;
+      _.each(data.possibleAnswers, function(answer){
+        self.$answerContainer.find("input[value='" + answer.value + "'] + .percentOfThisAnswer").text(answer.percentageChosen + "%");
+      });
     }
+
   };
 
 

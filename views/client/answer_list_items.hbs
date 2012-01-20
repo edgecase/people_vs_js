@@ -2,9 +2,9 @@
   {{#each possibleAnswers }}
     <li class='possibleAnswer'>
     <label>
-      <input type='radio' name='my_answer' value='{{this}}'/>
-      {{this}}
-      <div class='percentOfThisAnswer'>??%</div>
+      <input type='radio' name='my_answer' value='{{this.value}}'/>
+      {{this.value}}
+      <div class='percentOfThisAnswer'>{{this.percentageChosen}}%</div>
     </label>
   </li>
   {{/each}}

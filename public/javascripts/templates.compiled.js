@@ -8,14 +8,18 @@ function program1(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n    <li class='possibleAnswer'>\n    <label>\n      <input type='radio' name='my_answer' value='";
-  stack1 = depth0;
+  stack1 = depth0.value;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this", { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this.value", { hash: {} }); }
   buffer += escapeExpression(stack1) + "'/>\n      ";
-  stack1 = depth0;
+  stack1 = depth0.value;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "\n      <div class='percentOfThisAnswer'>??%</div>\n    </label>\n  </li>\n  ";
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this.value", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "\n      <div class='percentOfThisAnswer'>";
+  stack1 = depth0.percentageChosen;
+  if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+  else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "this.percentageChosen", { hash: {} }); }
+  buffer += escapeExpression(stack1) + "%</div>\n    </label>\n  </li>\n  ";
   return buffer;}
 
   buffer += "<ul id='answerList'>\n  ";
