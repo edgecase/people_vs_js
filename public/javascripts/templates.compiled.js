@@ -90,6 +90,12 @@ function program2(depth0,data) {
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n\n";
   return buffer;});
+templates['progress_bar.hbs'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers;
+  var self=this;
+
+
+  return "<div id=\"question_progress\" class=\"progress_bar\">\n  <div class=\"bar\"></div>\n  <div class=\"text\"></div>\n</div>\n";});
 templates['question_panel.hbs'] = template(function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers;
   var buffer = "", stack1, stack2, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression;
