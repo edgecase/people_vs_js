@@ -92,7 +92,7 @@ var Views = (function(ns){
       _.each(messageBusEvents, this.delegateBusEvent, this);
     },
 
-    delegateViewEvent : function(key, methodName){
+    delegateViewEvent : function(methodName, key){
       var method = this[methodName];
       if (!method) throw new Error('Event "' + methodName + '" does not exist');
       var match = key.match(eventSplitter);
