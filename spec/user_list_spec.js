@@ -1,51 +1,48 @@
 describe("UserList", function(){
-  var $container,
-      userList,
-      messageBus;
-
+  var userList,
+      messageBus,
+      $el;
 
   describe("#render", function() {
     beforeEach(function(){
-      $container = $("<div></div>");
       messageBus = new FakeMessageBus();
-      userList = new Views.UserList($container, messageBus);
+      userList = new Views.UserList({messageBus: messageBus});
     });
 
     it("is empty with 0 users", function(){
-      userList.render({users:[]});
-      expect(userList.$el.children().length).toBe(0);
+      $el = userList.render({users:[]}).$el;
+      expect($el.children().length).toBe(0);
     });
 
     it("displays N users with N users", function(){
-      userList.render({users:[{name:'alex'}, {name:'kevin'}, {name:'scott'}]});
-      expect(userList.$el.children().length).toBe(3);
+      $el = userList.render({users:[{name:'alex'}, {name:'kevin'}, {name:'scott'}]}).$el;
+      expect($el.children().length).toBe(3);
     });
 
     it("displays the user's names", function(){
-      userList.render({users:[{name: 'bob'}, {name: 'felix'}]});
-      expect(userList.$el).toContainText("bob");
-      expect(userList.$el).toContainText("felix");
+      $el = userList.render({users:[{name: 'bob'}, {name: 'felix'}]}).$el;
+      expect($el).toContainText("bob");
+      expect($el).toContainText("felix");
     });
 
     it("displays the user's answer status", function() {
-      userList.render({users:[
+      $el = userList.render({users:[
                       {name: 'bob',   answerStatus: 'correct'},
                       {name: 'felix', answerStatus: 'incorrect'},
                       {name: 'alex',  answerStatus: 'unanswered'}
-      ]});
+      ]}).$el;
 
-      expect(userList.$el).toContain(".correct:contains('bob')");
-      expect(userList.$el).toContain(".incorrect:contains('felix')");
-      expect(userList.$el).toContain(".unanswered:contains('alex')");
+      expect($el).toContain(".correct:contains('bob')");
+      expect($el).toContain(".incorrect:contains('felix')");
+      expect($el).toContain(".unanswered:contains('alex')");
     });
   });
 
   describe("messages received", function() {
     beforeEach(function(){
-      $container = $("<div></div>");
       spyOn(Views.UserList.prototype, 'render');
       messageBus = new FakeMessageBus();
-      userList = new Views.UserList($container, messageBus);
+      userList = new Views.UserList({messageBus: messageBus});
     });
 
     it("renders on user-new message", function() {

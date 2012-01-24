@@ -31,7 +31,7 @@ var Templates = (function(ns){
       }
     }
 
-    return Handlebars.templates[templateName + '.hbs'](data, {helpers: mergedHelpers, templates: Handlebars.templates});
+    return Handlebars.templates[templateName + '.hbs'](data, {helpers: mergedHelpers, templates: Handlebars.templates}).trim();
   };
 
   ns.render = render;
