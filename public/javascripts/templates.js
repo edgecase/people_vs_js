@@ -24,6 +24,8 @@ var Templates = (function(ns){
   }
 
   function render(templateName, data){
+    // This block of merging local helpers with handlebars helpers is to work around
+    // this issue with handlebars: https://github.com/wycats/handlebars.js/issues/56
     var mergedHelpers = Handlebars.helpers;
     for(var helper in helpers){
       if(helpers.hasOwnProperty(helper)){
