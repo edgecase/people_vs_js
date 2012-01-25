@@ -1,27 +1,30 @@
 var Views = (function(ns){
 
-  var DiscussionPanel = function(container, messageBus){
-    this.$container = container;
-    this.messageBus = messageBus;
+  var DiscussionPanel = Views.ViewComponent.extend({
+    id: "discussion_panel",
 
-    this.renderInit();
-  };
-
-  DiscussionPanel.prototype = {
-    bindEvents: function(){
-      this.messageBus.on("message-new", _.bind(this.renderMessages, this));
-      this.$discussion_submit_button.on("click", _.bind(this.sendMessage, this));
+    events: {
+      view: {
+        "click input#submit_discussion" : "sendMessage"
+      },
+      messageBus: {
+        "message-new" : "renderMessages"
+      }
     },
 
-    renderInit: function(){
-      this.$container.empty();
-      var $pad_contents =  $(Templates.render('discussion_area')).appendTo(this.$container);
+    initialize: function(){
+      this.render();
+    },
 
-      this.$discussion_box  = $pad_contents.find('textarea.discussion');
-      this.$discussion_submit_button  = $pad_contents.find('input#submit_discussion');
-      this.$discussion_items = $pad_contents.find('table#discussion_items');
+    render: function(){
+      var $html = $(Templates.render('discussion_area'));
+      this.$el.empty().append($html);
 
-      this.bindEvents();
+      this.$discussion_box  = this.$('textarea.discussion');
+      this.$discussion_submit_button  = this.$('input#submit_discussion');
+      this.$discussion_items = this.$('table#discussion_items');
+
+      return this;
     },
 
     renderMessages: function(messages) {
@@ -32,7 +35,7 @@ var Views = (function(ns){
     sendMessage: function(){
       this.messageBus.emit("message-send", {message: this.$discussion_box.val()});
     }
-  };
+  });
 
 
   ns.DiscussionPanel = DiscussionPanel;

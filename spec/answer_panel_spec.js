@@ -1,14 +1,12 @@
 describe("AnswerPanel", function(){
-    var $container,
-        answerPanel,
-        fakeMessageBus,
+    var answerPanel,
+        messageBus,
         answerData;
 
   describe("#renderAnswers", function(){
     beforeEach(function(){
-      $container = $("<div></div>");
-      fakeMessageBus = new FakeMessageBus();
-      answerPanel = new Views.AnswerPanel($container, fakeMessageBus);
+      messageBus = new FakeMessageBus();
+      answerPanel = new Views.AnswerPanel({messageBus: messageBus}).render();
       answerData = {possibleAnswers:[{value: "undefined", percentageChosen: 35}, {value: "null", percentageChosen: 10}]};
     });
 
@@ -30,20 +28,19 @@ describe("AnswerPanel", function(){
 
   describe("messages received", function() {
     beforeEach(function(){
-      $container = $("<div></div>");
-      fakeMessageBus = new FakeMessageBus();
+      messageBus = new FakeMessageBus();
       spyOn(Views.AnswerPanel.prototype, 'renderAnswers').andCallThrough();
-      answerPanel = new Views.AnswerPanel($container, fakeMessageBus);
+      answerPanel = new Views.AnswerPanel({messageBus: messageBus}).render();
     });
 
     it("renders answers on question-changed", function(){
-      fakeMessageBus.emit('question-changed', {});
+      messageBus.emit('question-changed', {});
       expect(answerPanel.renderAnswers).toHaveBeenCalled();
     });
 
     it("disables the answer submission button on question-changed", function(){
       answerPanel.$submitAnswerButton.removeClass('disabled');
-      fakeMessageBus.emit('question-changed', {});
+      messageBus.emit('question-changed', {});
       expect(answerPanel.$submitAnswerButton).toHaveClass('disabled');
     });
 
@@ -52,7 +49,7 @@ describe("AnswerPanel", function(){
       answerPanel.renderAnswers(answerData);
       answerData.possibleAnswers[0].percentageChosen = 15;
       answerData.possibleAnswers[1].percentageChosen = 25;
-      fakeMessageBus.emit('user-answered', answerData);
+      messageBus.emit('user-answered', answerData);
 
       expect(answerPanel.$answerContainer).toContainText("15%");
       expect(answerPanel.$answerContainer).toContainText("25%");
@@ -64,21 +61,20 @@ describe("AnswerPanel", function(){
     var responseData;
 
     beforeEach(function(){
-      $container = $("<div></div>");
       responseData = { correctIndex:1 };
-      fakeMessageBus = new FakeMessageBus();
-      fakeMessageBus.fakeResponse(function() { return responseData; });
-      answerPanel = new Views.AnswerPanel($container, fakeMessageBus);
+      messageBus = new FakeMessageBus();
+      messageBus.fakeResponse(function() { return responseData; });
+      answerPanel = new Views.AnswerPanel({messageBus: messageBus}).render();
       answerPanel.renderAnswers({possibleAnswers: ['undefined', 'null']});
     });
 
     it("submits the selected answer", function() {
-      spyOn(fakeMessageBus, 'emit');
+      spyOn(messageBus, 'emit');
       answerPanel.$answerContainer.find('.possibleAnswer input:first').prop('checked', true);
 
       answerPanel.$submitAnswerButton.click();
 
-      expect(fakeMessageBus.emit).toHaveBeenCalledWith('answer-submitted', {answerIndex: 0}, jasmine.any(Function));
+      expect(messageBus.emit).toHaveBeenCalledWith('answer-submitted', {answerIndex: 0}, jasmine.any(Function));
     });
 
     it("indicates which is the correct answer", function() {
@@ -102,9 +98,8 @@ describe("AnswerPanel", function(){
 
   describe("selecting an answer", function() {
     beforeEach(function(){
-      $container = $("<div></div>");
-      fakeMessageBus = new FakeMessageBus();
-      answerPanel = new Views.AnswerPanel($container, fakeMessageBus);
+      messageBus = new FakeMessageBus();
+      answerPanel = new Views.AnswerPanel({messageBus: messageBus}).render();
       answerPanel.renderAnswers({possibleAnswers: ['undefined', 'null']});
     });
 

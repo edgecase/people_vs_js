@@ -1,51 +1,41 @@
 describe("QuestionPanel", function(){
-    var $container,
-        questionPanel,
-        fakeMessageBus,
-        example;
+    var questionPanel,
+        messageBus,
+        example = {question:"Does this work?", code:"var example = {};"};
 
-  describe("#render", function(){
+  describe("#renderQuestion", function(){
     beforeEach(function(){
-      $container = $("<div></div>");
-      fakeMessageBus = new FakeMessageBus();
-      questionPanel = new Views.QuestionPanel($container, fakeMessageBus);
-      example = {question:"Does this work?", code:"var example = {};"};
+      messageBus = new FakeMessageBus();
+      questionPanel = new Views.QuestionPanel({messageBus: messageBus});
     });
 
     it("displays the question", function(){
-      questionPanel.render(example);
+      questionPanel.renderQuestion(example);
 
-      expect(questionPanel.$questionPanel).toContainText(example.question);
+      expect(questionPanel.$el).toContainText(example.question);
     });
 
     it("displays the prettified code", function() {
       var prettyCode = 'this is some damn fine code';
       Templates.helpers.prettyPrintCode = function(){ return prettyCode; };
 
-      questionPanel.render(example);
+      questionPanel.renderQuestion(example);
 
-      expect(questionPanel.$questionPanel).toContainText(prettyCode);
-    });
-
-    it("renders the answer panel", function() {
-      questionPanel.render(example);
-
-      expect(questionPanel.$answerPanelContainer.children().length).toBeGreaterThan(0);
+      expect(questionPanel.$el).toContainText(prettyCode);
     });
 
   });
 
   describe("messages received", function() {
     beforeEach(function(){
-      $container = $("<div></div>");
-      spyOn(Views.QuestionPanel.prototype, 'render');
+      spyOn(Views.QuestionPanel.prototype, 'renderQuestion');
       messageBus = new FakeMessageBus();
-      questionPanel = new Views.QuestionPanel($container, messageBus);
+      questionPanel = new Views.QuestionPanel({messageBus: messageBus});
     });
 
-    it("renders on question-changed message", function() {
-      messageBus.emit('question-changed', {});
-      expect(questionPanel.render).toHaveBeenCalled();
+    it("renderQuestions on question-changed message", function() {
+      messageBus.emit('question-changed', example);
+      expect(questionPanel.renderQuestion).toHaveBeenCalled();
     });
 
    });

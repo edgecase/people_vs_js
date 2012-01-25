@@ -1,28 +1,29 @@
 var Views = (function(ns){
 
-  var AnswerPanel = function(container, messageBus){
-    this.$container = container;
-    this.messageBus = messageBus;
-    this.hasSubmitted = false;
+  var AnswerPanel = Views.ViewComponent.extend({
+    id: "answer_panel",
+    className: "section",
+    hasSubmitted: false,
 
-    this.renderInit();
-  };
-
-  AnswerPanel.prototype = {
-    bindEvents: function(){
-      this.messageBus.on("question-changed", _.bind(this.renderAnswers, this));
-      this.messageBus.on("user-answered", _.bind(this.updatePercentages, this));
-      this.$submitAnswerButton.on("click", _.bind(this.submitAnswer, this));
-      this.$answerContainer.on('click', '.possibleAnswer', _.bind(this.selectAnswer, this));
+    events: {
+      view: {
+        "click #final_answer" : "submitAnswer",
+        "click .possibleAnswer" : "selectAnswer"
+      },
+      messageBus: {
+        "question-changed" : "renderAnswers",
+        "user-answered" : "updatePercentages"
+      }
     },
 
-    renderInit: function(data){
-      this.$container.empty();
-      var $panel_content =  $(Templates.render('answer_panel')).appendTo(this.$container);
-      this.$answerContainer = $panel_content.find("#possible_answers_container");
-      this.$submitAnswerButton = $panel_content.find("#final_answer");
+    render: function(){
+      var $html = $(Templates.render('answer_panel'));
+      this.$el.empty().append($html);
 
-      this.bindEvents();
+      this.$answerContainer = this.$("#possible_answers_container");
+      this.$submitAnswerButton = this.$("#final_answer");
+
+      return this;
     },
 
     renderAnswers: function(answers){
@@ -67,7 +68,7 @@ var Views = (function(ns){
         this.$submitAnswerButton.toggleClass('disabled', false);
       }
     }
-  };
+  });
 
 
   ns.AnswerPanel = AnswerPanel;
