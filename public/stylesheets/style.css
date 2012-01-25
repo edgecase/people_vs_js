@@ -104,6 +104,30 @@ input[type=text]:focus {
 .participants .you span {
   font-weight: normal; }
 
+#mainPanelSwitch {
+  position: fixed;
+  height: 50px;
+  width: 220px;
+  bottom: 0px;
+  color: #444;
+  text-shadow: 0 1px 0 #fff; }
+  #mainPanelSwitch div {
+    float: left;
+    margin-right: 10px;
+    padding-top: 10px;
+    padding-left: 10px; }
+  #mainPanelSwitch div:hover {
+    color: #000;
+    text-shadow: 1px 1px 2px #444; }
+
+#slidesContainer {
+  display: none;
+  width: 100%;
+  height: 100%; }
+  #slidesContainer iframe {
+    width: 100%;
+    height: 90%; }
+
 /* Header
 -------------------------------------------- */
 #header {
@@ -236,16 +260,17 @@ input[type=text]:focus {
 
 #left_panel {
   left: 0;
-  right: 50%;
+  right: 30%;
   border-right: 1px solid #c3c3c3;
   padding: 20px 12px 0 12px;
   background: #fff;
-  z-index: 1; }
+  z-index: 1;
+  overflow: hidden; }
 
 #right_panel {
   right: 0;
   bottom: 0;
-  left: 50%;
+  left: 70%;
   background: #f8f8f8; }
 
 /* Credits

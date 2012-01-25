@@ -289,6 +289,14 @@ $(function(){
     }
   };
 
+  $('#questionsSwitch').on("click", function(e){
+    $('#slidesContainer').toggle(false);
+    $('.questionContainer').toggle(true);
+  });
+  $('#slidesSwitch').on("click", function(e){
+    $('.questionContainer').toggle(false);
+    $('#slidesContainer').toggle(true);
+  });
 
   $.fn.setCursorPosition = function(pos, focus) {
     if ($(this).get(0).setSelectionRange) {
