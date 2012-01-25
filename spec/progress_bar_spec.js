@@ -1,19 +1,17 @@
 describe("ProgressBar", function(){
-    var $container,
-        progressBar,
+    var progressBar,
         fakeMessageBus,
         example;
 
-  describe("#render", function(){
+  describe("#renderProgress", function(){
     beforeEach(function(){
-      $container = $("<div></div>");
       fakeMessageBus = new FakeMessageBus();
-      progressBar = new Views.ProgressBar($container, fakeMessageBus);
+      progressBar = new Views.ProgressBar({messageBus: fakeMessageBus}).render();
       example = {text:"3/10", percent:"30%"};
     });
 
     it("displays the current progress", function(){
-      progressBar.render(example);
+      progressBar.renderProgress(example);
 
       expect(progressBar.$el.find('.text')).toContainText(example.text);
 
@@ -25,15 +23,14 @@ describe("ProgressBar", function(){
 
   describe("messages received", function() {
     beforeEach(function(){
-      $container = $("<div></div>");
       fakeMessageBus = new FakeMessageBus();
-      spyOn(Views.ProgressBar.prototype, 'render').andCallThrough();
-      progressBar = new Views.ProgressBar($container, fakeMessageBus);
+      spyOn(Views.ProgressBar.prototype, 'renderProgress').andCallThrough();
+      progressBar = new Views.ProgressBar({messageBus: fakeMessageBus}).render();
     });
 
     it("updates progress", function(){
       fakeMessageBus.emit('question-changed', {});
-      expect(progressBar.render).toHaveBeenCalled();
+      expect(progressBar.renderProgress).toHaveBeenCalled();
     });
 
   });
