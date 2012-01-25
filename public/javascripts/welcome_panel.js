@@ -5,7 +5,8 @@ var Views = (function(ns){
 
     events: {
       view: {
-        "click #name_button": "setName"
+        "click #name_button": "setName",
+        "keypress input#name": "setNameOnEnter"
       }
     },
 
@@ -19,9 +20,14 @@ var Views = (function(ns){
       return this;
     },
 
+    setNameOnEnter: function(e) {
+      if(e.which === 13) { this.setName(); }
+    },
+
     setName: function() {
       this.name = this.$('#name').val();
       this.messageBus.emit("user-join", {name: this.name});
+      this.$el.hide();
     }
 
   });

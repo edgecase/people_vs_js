@@ -81,6 +81,22 @@ function calculateAnswerPercentages(){
   });
 }
 
+function namedClients(){
+  var namedClients = _.chain(io.sockets.sockets)
+                      .map(function(val, key){
+                          return {name: val.store.data.name, answerStatus: 'unanswered'};
+                      })
+                      .filter(function(user){
+                        return user.name;
+                      })
+                      .sortBy(function(user){
+                        return user.name;
+                      })
+                      .value();
+
+  return namedClients;
+}
+
 // use polling since heroku does not yet support websockets
 io.configure(function () {
   io.set("transports", ["xhr-polling"]);
@@ -88,14 +104,8 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
-  var namedClients = _.map(io.sockets.sockets, function(val, key){
-    return val.store.data.name;
-  });
 
-  namedClients = _.compact(namedClients).sort();
-  var payload = { users: namedClients };
-
-  socket.emit('user-welcome', { users: namedClients });
+  socket.emit('user-welcome', { users: namedClients() });
 
   socket.on("resetQuiz", function(){
     resetQuiz();
@@ -152,9 +162,9 @@ io.sockets.on('connection', function (socket) {
                                           message: text});
   });
 
-  socket.on("setName", function(data, callback){
-    var existingNamedSocket = _(io.sockets.sockets).find(function(item){
-      return item.store.data.name && item.store.data.name.toLowerCase() === data.name.toLowerCase();
+  socket.on("user-join", function(data, callback){
+    var existingNamedSocket = _(namedClients).any(function(name){
+      return name.toLowerCase() === data.name.toLowerCase();
     });
 
     if (existingNamedSocket){
@@ -163,12 +173,11 @@ io.sockets.on('connection', function (socket) {
     }
 
     socket.set("name", data.name, function(){
-      socket.broadcast.emit("otherJoined", data);
-      socket.emit("selfJoined", data);
+      socket.emit("user-new", {users: namedClients()} );
 
       if( currentQuestion > 0 ){
         var questionToPresent = getQuestion(currentQuestion);
-        socket.emit("presentQuestion", { question: questionToPresent });
+        socket.emit("question-changed", { question: questionToPresent });
       }
     });
   });
