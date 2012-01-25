@@ -155,18 +155,17 @@ io.sockets.on('connection', function (socket) {
     }
   });
 
-  socket.on("provideAnswer", function(data, isCorrectCallback){
+  socket.on("answer-submitted", function(data, isCorrectCallback){
     var q = getQuestion(currentQuestion);
-    var isCorrect = q.correctIndex == data.myAnswer;
+    var isCorrect = q.correctIndex == data.answerIndex;
 
-    userAnsweredAtIndex(data.myAnswer);
-    isCorrectCallback( isCorrect, q.correctIndex );
+    userAnsweredAtIndex(data.answerIndex);
+    isCorrectCallback( {correctIndex: q.correctIndex} );
+
     socket.get("name", function(err, name){
-      io.sockets.emit("remoteAnswer", {
-        user: name,
-        answerPercentages: calculateAnswerPercentages(),
-        answer: data.myAnswer,
-        isCorrect: isCorrect
+      io.sockets.emit("user-answered", {
+        possibleAnswers: q.possibleAnswers,
+        users: namedClients()
       });
     });
   });
