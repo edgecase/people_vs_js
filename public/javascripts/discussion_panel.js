@@ -8,12 +8,8 @@ var Views = (function(ns){
         "click input#submit_discussion" : "sendMessage"
       },
       messageBus: {
-        "message-new" : "renderMessages"
+        "message-new" : "renderMessage"
       }
-    },
-
-    initialize: function(){
-      this.render();
     },
 
     render: function(){
@@ -27,13 +23,13 @@ var Views = (function(ns){
       return this;
     },
 
-    renderMessages: function(messages) {
+    renderMessage: function(messages) {
       var html = $(Templates.render('discussion_list_items', messages));
       this.$discussion_items.prepend(html);
     },
 
     sendMessage: function(){
-      this.messageBus.emit("message-send", {message: this.$discussion_box.val()});
+      this.messageBus.emit("message-send", {text: this.$discussion_box.val()});
     }
   });
 

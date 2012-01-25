@@ -1,9 +1,8 @@
-{{#each messages }}
+{{#if user }}
   <tr>
     <td class='user'>
-      <a class='reply' href='#' title='Reply to {{ this.user }}'>{{ this.user }}</a>
+      <a class='reply' href='#' title='Reply to {{ user }}'>{{ user }}</a>
     </td>
-    <td class="message {{#if this.isForMe }} forMe {{/if }}">{{ this.text }}</td>
+    <td class="message {{#if isForMe }} forMe {{/if }}">{{{ text }}}</td>
   </tr>
-{{/each}}
-
+{{/if}}

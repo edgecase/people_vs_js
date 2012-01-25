@@ -47,7 +47,18 @@ console.log(questions);
 var getQuestion = function(questionNumber){
   var question = questions[questionNumber];
   question.questionsCount = questions.length;
-  return questions[questionNumber];
+  question = JSON.stringify(question);
+  question = JSON.parse(question);
+
+  question.possibleAnswers =  _(question.possibleAnswers).map(function(answer, idx){
+    if (currentAnswers){
+      return {value: answer, percentageChosen: currentAnswers[idx]};
+    }
+    else
+      return answer;
+  });
+
+  return question;
 };
 
 var currentQuestion = -1;
@@ -97,6 +108,11 @@ function namedClients(){
   return namedClients;
 }
 
+function isMessageForMe(userName, message){
+  var userRegex = new RegExp("(?:^|\\s|\\W)(@" + userName + ")(?:$|\\s|\\W)", "gi");
+  return userRegex.test(message);
+}
+
 // use polling since heroku does not yet support websockets
 io.configure(function () {
   io.set("transports", ["xhr-polling"]);
@@ -107,25 +123,25 @@ io.sockets.on('connection', function (socket) {
 
   socket.emit('user-welcome', { users: namedClients() });
 
-  socket.on("resetQuiz", function(){
+  socket.on("question-reset", function(){
     resetQuiz();
     var questionToPresent = getQuestion(0);
-    io.sockets.emit("presentQuestion", { question: questionToPresent });
+    io.sockets.emit("question-changed", questionToPresent );
   });
 
-  socket.on("nextQuestion", function() {
+  socket.on("question-next", function() {
     if (currentQuestion + 1 == questions.length){
-      io.sockets.emit("quizComplete");
+      io.sockets.emit("quiz-complete");
     }
     else {
       currentQuestion++;
       resetCurrentAnswers();
       var questionToPresent = getQuestion(currentQuestion);
-      io.sockets.emit("presentQuestion", { question: questionToPresent });
+      io.sockets.emit("question-changed", questionToPresent );
     }
   });
 
-  socket.on("prevQuestion", function() {
+  socket.on("question-prev", function() {
     resetCurrentAnswers();
 
     if (currentQuestion - 1 < 0) {
@@ -135,7 +151,7 @@ io.sockets.on('connection', function (socket) {
       currentQuestion--;
       resetCurrentAnswers();
       var questionToPresent = getQuestion(currentQuestion);
-      io.sockets.emit("presentQuestion", { question: questionToPresent });
+      io.sockets.emit("question-changed", questionToPresent );
     }
   });
 
@@ -155,11 +171,12 @@ io.sockets.on('connection', function (socket) {
     });
   });
 
-  socket.on("newDiscussionItem", function(text){
-    text = md.parse(text);
+  socket.on("message-send", function(message){
+    var markedup = md.parse(message.text);
 
-    io.sockets.emit("discussionUpdate", { user: socket.store.data.name || 'Anonymous',
-                                          message: text});
+    io.sockets.emit("message-new", { user: socket.store.data.name || 'Anonymous',
+                                     text: markedup,
+                                     isForMe: isMessageForMe(socket.store.data.name, message.text)});
   });
 
   socket.on("user-join", function(data, callback){

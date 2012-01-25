@@ -209,7 +209,7 @@ input[type=text]:focus { @include standard_field_focus(); }
 /* Credits
 -------------------------------------------- */
 
-#credits {
+#credits, #question_nav {
   position    : absolute;
   right       : 0;
   bottom      : 0;
@@ -227,21 +227,21 @@ input[type=text]:focus { @include standard_field_focus(); }
   }
 }
 
-#credits.presenter a {
+#question_nav a {
   color: #000;
 }
 
-#credits #presenterBack {
+#question_nav #presenterPrev {
   padding-left: 17px;
   background : url(/images/back.png) no-repeat 0 50%;
 }
 
-#credits #presenterNext {
+#question_nav #presenterNext {
   padding-right: 17px;
   background : url(/images/next.png) no-repeat 100% 50%;
 }
 
-#credits #presenterResetQuiz {
+#question_nav #presenterResetQuiz {
   margin-left : 20px;
   color       : #555;
   font-weight : normal;

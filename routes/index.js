@@ -4,7 +4,7 @@
 
 var routes = {
   introduction: function(req, res){
-    res.render('index', { question: undefined });
+    res.render('index');
   },
   presenter: function(req, res){
     res.render('presenter', { question: undefined });
