@@ -10,6 +10,7 @@ var Views = (function(ns){
       this.$("#participant_container").append(new Views.UserList({messageBus: this.messageBus}).render().el);
       this.$("#question_container").append(new Views.QuestionPanel({messageBus: this.messageBus}).render().el);
       this.$("#question_container").append(new Views.AnswerPanel({messageBus: this.messageBus}).render().el);
+      this.$("#question_container").append(new Views.WelcomePanel({messageBus: this.messageBus}).render().el);
       this.$("#discussion_container").append(new Views.DiscussionPanel({messageBus: this.messageBus}).render().el);
 
       return this;

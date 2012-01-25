@@ -347,7 +347,7 @@ input[type=text]:focus {
 
 /* Welcome
 -------------------------------------------- */
-#welcome {
+#welcome_panel {
   position: absolute;
   top: 0;
   right: 0;
@@ -358,18 +358,18 @@ input[type=text]:focus {
   text-align: center;
   z-index: 100;
   background-color: white; }
-  #welcome h1 {
+  #welcome_panel h1 {
     font-size: 21px;
     font-weight: normal; }
-  #welcome label {
+  #welcome_panel label {
     font-size: 27px;
     font-weight: bold; }
-  #welcome input {
+  #welcome_panel input {
     display: inline-block;
     margin-bottom: 10px;
     width: 250px; }
 
-#welcome #name {
+#welcome_panel #name {
   width: 240px;
   padding: 8px 0 8px 10px;
   font-size: 14px;
@@ -379,14 +379,14 @@ input[type=text]:focus {
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); }
 
-#welcome #name:focus {
+#welcome_panel #name:focus {
   outline: none;
   border-color: #3e9ac4;
   -moz-box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8);
   -webkit-box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8);
   box-shadow: 0 0 5px rgba(2, 164, 239, 0.8), inset 0 0 3px rgba(2, 164, 239, 0.8); }
 
-#welcome #name_button {
+#welcome_panel #name_button {
   font-size: 18px;
   border: 1px solid #bebebe;
   padding: 8px 30px;
@@ -430,7 +430,7 @@ input[type=text]:focus {
   color: #2b5980;
   border-color: #448ccd; }
 
-#welcome #name_button.enabled:active {
+#welcome_panel #name_button.enabled:active {
   background: #409fdb;
   /* Old browsers */
   background: -moz-linear-gradient(top, #409fdb 0%, #59b8f4 12%, #59b8f4 100%);
@@ -448,7 +448,7 @@ input[type=text]:focus {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#409fdb', endColorstr='#59b8f4',GradientType=0 );
   /* IE6-9 */ }
 
-#welcome #name_button.disabled {
+#welcome_panel #name_button.disabled {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5 * 100)";
   filter: alpha(opacity=50);
   -moz-opacity: 0.5;
