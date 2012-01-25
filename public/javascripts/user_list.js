@@ -6,14 +6,15 @@ var Views = (function(ns){
 
     events: {
       messageBus: {
-        "user-new"          : "render",
-        "user-disconnected" : "render",
-        "user-answered"     : "render",
-        "question-changed"  : "render"
+        "user-welcome"      : "renderUsers",
+        "user-new"          : "renderUsers",
+        "user-disconnected" : "renderUsers",
+        "user-answered"     : "renderUsers",
+        "question-changed"  : "renderUsers"
       }
     },
 
-    render: function(data){
+    renderUsers: function(data){
       var $html = $(Templates.render('user_list', data));
       this.$el.empty().append($html);
       return this;

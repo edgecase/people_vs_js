@@ -3,34 +3,35 @@ describe("UserList", function(){
       messageBus,
       $el;
 
-  describe("#render", function() {
+  describe("#renderUsers", function() {
     beforeEach(function(){
       messageBus = new FakeMessageBus();
       userList = new Views.UserList({messageBus: messageBus});
+      $el = userList.render().$el;
     });
 
     it("is empty with 0 users", function(){
-      $el = userList.render({users:[]}).$el;
+      userList.renderUsers({users:[]});
       expect($el.children().length).toBe(0);
     });
 
     it("displays N users with N users", function(){
-      $el = userList.render({users:[{name:'alex'}, {name:'kevin'}, {name:'scott'}]}).$el;
+      userList.renderUsers({users:[{name:'alex'}, {name:'kevin'}, {name:'scott'}]});
       expect($el.children().length).toBe(3);
     });
 
     it("displays the user's names", function(){
-      $el = userList.render({users:[{name: 'bob'}, {name: 'felix'}]}).$el;
+      userList.renderUsers({users:[{name: 'bob'}, {name: 'felix'}]});
       expect($el).toContainText("bob");
       expect($el).toContainText("felix");
     });
 
     it("displays the user's answer status", function() {
-      $el = userList.render({users:[
+      userList.renderUsers({users:[
                       {name: 'bob',   answerStatus: 'correct'},
                       {name: 'felix', answerStatus: 'incorrect'},
                       {name: 'alex',  answerStatus: 'unanswered'}
-      ]}).$el;
+      ]});
 
       expect($el).toContain(".correct:contains('bob')");
       expect($el).toContain(".incorrect:contains('felix')");
@@ -40,29 +41,34 @@ describe("UserList", function(){
 
   describe("messages received", function() {
     beforeEach(function(){
-      spyOn(Views.UserList.prototype, 'render');
+      spyOn(Views.UserList.prototype, 'renderUsers');
       messageBus = new FakeMessageBus();
       userList = new Views.UserList({messageBus: messageBus});
     });
 
-    it("renders on user-new message", function() {
+    it("renderUsers on user-new message", function() {
       messageBus.emit('user-new', {});
-      expect(userList.render).toHaveBeenCalled();
+      expect(userList.renderUsers).toHaveBeenCalled();
     });
 
-    it("renders on user-disconnected message", function() {
+    it("renderUsers on user-disconnected message", function() {
       messageBus.emit('user-disconnected', {users: []});
-      expect(userList.render).toHaveBeenCalled();
+      expect(userList.renderUsers).toHaveBeenCalled();
     });
 
-    it("renders on user-answered message", function() {
+    it("renderUsers on user-answered message", function() {
       messageBus.emit('user-answered', {users: []});
-      expect(userList.render).toHaveBeenCalled();
+      expect(userList.renderUsers).toHaveBeenCalled();
     });
 
-    it("renders on question-changed message", function() {
+    it("renderUsers on question-changed message", function() {
       messageBus.emit('question-changed', {users: []});
-      expect(userList.render).toHaveBeenCalled();
+      expect(userList.renderUsers).toHaveBeenCalled();
+    });
+
+    it("renderUsers on user-welcome message", function() {
+      messageBus.emit('user-welcome', {users: []});
+      expect(userList.renderUsers).toHaveBeenCalled();
     });
 
   });

@@ -95,7 +95,7 @@ io.sockets.on('connection', function (socket) {
   namedClients = _.compact(namedClients).sort();
   var payload = { users: namedClients };
 
-  socket.emit('welcome', { users: namedClients });
+  socket.emit('user-welcome', { users: namedClients });
 
   socket.on("resetQuiz", function(){
     resetQuiz();

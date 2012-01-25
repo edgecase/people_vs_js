@@ -54,7 +54,7 @@ input[type=text]:focus {
 
 /* Participants
 -------------------------------------------- */
-.participants {
+#user_list {
   overflow: auto;
   position: absolute;
   top: 0;
@@ -71,7 +71,7 @@ input[type=text]:focus {
   -o-user-select: none;
   user-select: none; }
 
-.participants li {
+#user_list li {
   height: 30px;
   border-top: 1px solid #f8f8f8;
   border-bottom: 1px solid #ccd0d4;
@@ -85,23 +85,23 @@ input[type=text]:focus {
   text-overflow: ellipsis;
   white-space: nowrap; }
 
-.participants :first-child {
+#user_list :first-child {
   border-top: 0; }
 
-.participants :last-child {
+#user_list :last-child {
   border-bottom: 0; }
 
-.participants .correct {
+#user_list .correct {
   background-image: url(/images/correct.png); }
 
-.participants .incorrect {
+#user_list .incorrect {
   background-image: url(/images/incorrect.png); }
 
-.participants .you {
+#user_list .you {
   color: #000;
   font-weight: bold; }
 
-.participants .you span {
+#user_list .you span {
   font-weight: normal; }
 
 /* Header
@@ -222,7 +222,7 @@ input[type=text]:focus {
 -------------------------------------------- */
 #panel_container {
   position: absolute;
-  top: 47px;
+  top: 0;
   right: 0;
   bottom: 0;
   left: 221px;
@@ -355,7 +355,9 @@ input[type=text]:focus {
   left: 0;
   padding-top: 90px;
   color: #888;
-  text-align: center; }
+  text-align: center;
+  z-index: 100;
+  background-color: white; }
   #welcome h1 {
     font-size: 21px;
     font-weight: normal; }
@@ -514,8 +516,7 @@ input[type=text]:focus {
 
 /* Discussion Pad
 -------------------------------------------- */
-#discussion_pad {
-  display: none;
+#discussion_container {
   overflow: auto;
   position: absolute;
   top: 0;
