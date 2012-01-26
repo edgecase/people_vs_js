@@ -9,8 +9,7 @@ var Views = (function(ns){
         "user-welcome"      : "renderUsers",
         "user-new"          : "renderUsers",
         "user-disconnected" : "renderUsers",
-        "user-answered"     : "renderUsers",
-        "question-changed"  : "resetAnswerStatus"
+        "user-answerstatus" : "renderUsers"
       }
     },
 
@@ -18,11 +17,8 @@ var Views = (function(ns){
       var $html = $(Templates.render('user_list', data));
       this.$el.empty().append($html);
       return this;
-    },
-
-    resetAnswerStatus: function() {
-      this.$el.find('li').removeClass().addClass('unanswered');
     }
+
   });
 
   ns.UserList = UserList;

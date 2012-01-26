@@ -12,12 +12,14 @@ describe("QuestionPanel", function(){
     it("displays the question", function(){
       questionPanel.renderQuestion(example);
 
-      expect(questionPanel.$el).toContainText(example.question);
+      expect(questionPanel.$el).toContainText("Does this work?");
     });
 
     it("displays the prettified code", function() {
       var prettyCode = 'this is some damn fine code';
-      Templates.helpers.prettyPrintCode = function(){ return prettyCode; };
+      spyOn(Templates.helpers, "prettyPrintCode").andCallFake(function(text){
+        return (text === example.code) ? prettyCode : '';
+      });
 
       questionPanel.renderQuestion(example);
 

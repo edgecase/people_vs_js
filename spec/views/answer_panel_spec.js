@@ -44,12 +44,12 @@ describe("AnswerPanel", function(){
       expect(answerPanel.$submitAnswerButton).toHaveClass('disabled');
     });
 
-    it("updates percentages on user-answered", function(){
+    it("updates percentages on answer-percentages", function(){
       answerData = {possibleAnswers:[{value: "undefined", percentageChosen: 35}, {value: "null", percentageChosen: 10}]}
       answerPanel.renderAnswers(answerData);
       answerData.possibleAnswers[0].percentageChosen = 15;
       answerData.possibleAnswers[1].percentageChosen = 25;
-      messageBus.emit('user-answered', answerData);
+      messageBus.emit('answer-percentages', answerData);
 
       expect(answerPanel.$answerContainer).toContainText("15%");
       expect(answerPanel.$answerContainer).toContainText("25%");

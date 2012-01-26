@@ -56,13 +56,8 @@ describe("UserList", function(){
       expect(userList.renderUsers).toHaveBeenCalled();
     });
 
-    it("renderUsers on user-answered message", function() {
-      messageBus.emit('user-answered', {users: []});
-      expect(userList.renderUsers).toHaveBeenCalled();
-    });
-
-    it("renderUsers on question-changed message", function() {
-      messageBus.emit('question-changed', {users: []});
+    it("renderUsers on user-answerstatus message", function() {
+      messageBus.emit('user-answerstatus', {users: []});
       expect(userList.renderUsers).toHaveBeenCalled();
     });
 

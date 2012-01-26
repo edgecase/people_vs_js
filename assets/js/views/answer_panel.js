@@ -12,7 +12,7 @@ var Views = (function(ns){
       },
       messageBus: {
         "question-changed" : "renderAnswers",
-        "user-answered" : "updatePercentages"
+        "answer-percentages" : "updatePercentages"
       }
     },
 

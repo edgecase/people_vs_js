@@ -121,6 +121,7 @@ io.sockets.on('connection', function (socket) {
   socket.on("question-reset", function(){
     resetQuiz();
     io.sockets.emit("question-changed", getQuestion(currentQuestion));
+    io.sockets.emit("user-answerstatus", { users: namedClients() });
   });
 
   socket.on("question-next", function() {
@@ -131,6 +132,7 @@ io.sockets.on('connection', function (socket) {
       currentQuestion++;
       resetCurrentAnswers();
       io.sockets.emit("question-changed", getQuestion(currentQuestion));
+      io.sockets.emit("user-answerstatus", { users: namedClients() });
     }
   });
 
@@ -138,12 +140,13 @@ io.sockets.on('connection', function (socket) {
     resetCurrentAnswers();
 
     if (currentQuestion - 1 < 0) {
-      return;
+      io.sockets.emit("user-answerstatus", { users: namedClients() });
     }
     else {
       currentQuestion--;
       resetCurrentAnswers();
       io.sockets.emit("question-changed", getQuestion(currentQuestion));
+      io.sockets.emit("user-answerstatus", { users: namedClients() });
     }
   });
 
@@ -156,12 +159,8 @@ io.sockets.on('connection', function (socket) {
     isCorrectCallback( {correctIndex: q.correctIndex} );
     _namedClients[socket.id].answerStatus = isCorrect ? "correct" : "incorrect";
 
-    socket.get("name", function(err, name){
-      io.sockets.emit("user-answered", {
-        possibleAnswers: q.possibleAnswers,
-        users: namedClients()
-      });
-    });
+    io.sockets.emit("answer-percentages", { possibleAnswers: q.possibleAnswers });
+    io.sockets.emit("user-answerstatus", { users: namedClients() });
   });
 
   socket.on("message-send", function(message){
@@ -186,7 +185,7 @@ io.sockets.on('connection', function (socket) {
     io.sockets.emit("user-new", {users: namedClients()} );
 
     if( currentQuestion >= 0 ){
-      socket.emit("question-changed", getQuestion(currentQuestion) );
+      socket.emit("question-changed", getQuestion(currentQuestion));
     };
 
   });
