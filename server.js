@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , _ = require('underscore')
   , ql = require('./lib/question_loader')
-  , md = require('github-flavored-markdown');
+  , md = require('github-flavored-markdown')
+  , assets = require('connect-assets');
 
 var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app);
@@ -24,6 +25,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
+  app.use(assets());
   app.use(express.static(__dirname + '/public'));
 });
 

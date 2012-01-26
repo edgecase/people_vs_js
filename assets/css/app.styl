@@ -1,5 +1,19 @@
 @import '_mixins';
-@import '_fonts';
+@import '_prettify';
+
+@css {
+  @font-face {
+      font-family: 'InconsolataMedium';
+      src: url('/fonts/Inconsolata-webfont.eot');
+      src: url('/fonts/Inconsolata-webfont.eot?#iefix') format('embedded-opentype'),
+           url('/fonts/Inconsolata-webfont.woff') format('woff'),
+           url('/fonts/Inconsolata-webfont.ttf') format('truetype'),
+           url('/fonts/Inconsolata-webfont.svg#InconsolataMedium') format('svg');
+      font-weight: normal;
+      font-style: normal;
+
+  }
+}
 
 * { margin: 0; padding: 0; }
 body { font: 16px Helvetica, Arial, sans-serif; }
@@ -13,8 +27,8 @@ body { font: 16px Helvetica, Arial, sans-serif; }
   left     : 0;
 }
 
-input[type=text] { @include standard_field_bedazzle(); }
-input[type=text]:focus { @include standard_field_focus(); }
+input[type=text] {  standard_field_bedazzle() }
+input[type=text]:focus {  standard_field_focus() }
 
 
 /* Flash Messages
@@ -54,7 +68,7 @@ input[type=text]:focus { @include standard_field_focus(); }
   padding-top  : 1px;
   background   : #e3e8ec;
   cursor       : default;
-  @include user_select(none);
+   user_select(none);
 }
 
 #user_list li {
@@ -67,7 +81,7 @@ input[type=text]:focus { @include standard_field_focus(); }
   line-height   : 30px;
   text-shadow   : 0 1px 0 #fff;
   background    : url(/images/waiting.png) no-repeat 12px 50%;
-  @include overflow_ellipsis();
+   overflow_ellipsis();
 }
 
 #user_list :first-child { border-top: 0; }
@@ -90,8 +104,8 @@ input[type=text]:focus { @include standard_field_focus(); }
   border-bottom : 1px solid #c3c3c3;
   background    : url(/images/header_background.png);
   z-index       : 1;
-  @include box_shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-  @include user_select(none);
+   box_shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+   user_select(none);
 }
 
 #header_left {
@@ -111,18 +125,18 @@ input[type=text]:focus { @include standard_field_focus(); }
   height     : 20px;
   padding    : 2px;
   background : #fff;
-  @include border_radius(14px);
-  @include user_select(none);
-  @include linear_gradient(#e9e9e9, #ffffff);
-  @include box_shadow(inset 0 1px 0 rgba(0,0,0, 0.1));
-  
+   border_radius(14px);
+   user_select(none);
+   linear_gradient(#e9e9e9, #ffffff);
+   box_shadow(inset 0 1px 0 rgba(0,0,0, 0.1));
+
   .bar {
     height : 20px;
     width  : 0;
-    @include linear_gradient(#dddddd, #bbbbbb);
-    @include border_radius(10px);
+     linear_gradient(#dddddd, #bbbbbb);
+     border_radius(10px);
   }
-  
+
   .text {
     position    : absolute;
     top         : 0;
@@ -136,38 +150,6 @@ input[type=text]:focus { @include standard_field_focus(); }
     text-align  : center;
     text-shadow : 0 1px 0 rgba(255,255,255, 0.75);
   }
-}
-
-#header_right {
-  position : absolute;
-  top      : 0;
-  right    : 0;
-  bottom   : 0;
-  left     : 50%;
-}
-
-.switch {
-  position   : absolute;
-  top        : 0;
-  bottom     : 0;
-  left       : 50%;
-  width      : 49px;
-  cursor     : pointer;
-  background : url(/images/toggle_buttons.png) no-repeat;
-}
-
-#answer_pad_button {
-  margin-left: -52px;
-  background-position: -1px 2px;
-  
-  &.active { background-position: -50px 2px; }
-}
-
-#discussion_pad_button {
-  margin-left: 3px;
-  background-position: -99px 2px;
-  
-  &.active { background-position: -148px 2px; }
 }
 
 /* Panels
@@ -217,7 +199,7 @@ input[type=text]:focus { @include standard_field_focus(); }
   height      : 38px;
   line-height : 38px;
   text-align  : center;
-  
+
   a {
     margin          : 0 6px;
     color           : #c3c3c3;
@@ -266,15 +248,15 @@ input[type=text]:focus { @include standard_field_focus(); }
 #final_answer {
   display : block;
   margin  : 7px 30px 0 30px;
-  @include standard_button_bedazzle();
-  
+   standard_button_bedazzle();
+
   &.disabled {
     cursor: default;
-    @include opacity(0.5);
+     opacity(0.5);
   }
-  
+
   &.enabled:active {
-    @include standard_button_bedazzle_active();
+     standard_button_bedazzle_active();
   }
 }
 
@@ -294,17 +276,17 @@ input[type=text]:focus { @include standard_field_focus(); }
   text-align  : center;
   z-index     : 100;
   background-color: white;
-  
+
   h1 {
     font-size   : 21px;
     font-weight : normal;
   }
-  
+
   label {
     font-size   : 27px;
     font-weight : bold;
   }
-  
+
   input {
     display       : inline-block;
     margin-bottom : 10px;
@@ -316,17 +298,17 @@ input[type=text]:focus { @include standard_field_focus(); }
   width     : 240px;
   padding   : 8px 0 8px 10px;
   font-size : 14px;
-  @include standard_field_bedazzle();
+   standard_field_bedazzle();
 }
 
 #welcome_panel #name:focus {
-  @include standard_field_focus();
+   standard_field_focus();
 }
 
 #welcome_panel #name_button {
   font-size: 18px;
-  @include standard_button_bedazzle();
-  @include linear_gradient(#8cd2f7, #59b8f4);
+   standard_button_bedazzle();
+   linear_gradient(#8cd2f7, #59b8f4);
   color: #2b5980;
   border-color: #448ccd;
 }
@@ -339,11 +321,11 @@ input[type=text]:focus { @include standard_field_focus(); }
   background: -o-linear-gradient(top, #409fdb 0%,#59b8f4 12%,#59b8f4 100%); /* Opera 11.10+ */
   background: -ms-linear-gradient(top, #409fdb 0%,#59b8f4 12%,#59b8f4 100%); /* IE10+ */
   background: linear-gradient(top, #409fdb 0%,#59b8f4 12%,#59b8f4 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#409fdb', endColorstr='#59b8f4',GradientType=0 ); /* IE6-9 */
+  //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#409fdb', endColorstr='#59b8f4',GradientType=0 ); /* IE6-9 */
 }
 
 #welcome_panel #name_button.disabled {
-  @include opacity(0.5);
+  opacity(0.5);
   cursor  : default;
 }
 
@@ -378,7 +360,7 @@ input[type=text]:focus { @include standard_field_focus(); }
   right    : 0;
   bottom   : 0;
   left     : 0;
-  
+
   .questionContainer {
     overflow : auto;
     position : absolute;
@@ -396,7 +378,7 @@ input[type=text]:focus { @include standard_field_focus(); }
   position      : relative;
   border-bottom : 1px solid #ddd;
   padding       : 12px;
-  
+
   &.active  { background: #eee; }
   &.success { background: #8CDD81; }
 }
@@ -447,11 +429,11 @@ input[type=text]:focus { @include standard_field_focus(); }
   bottom        : 34px;
   padding       : 5px;
   background    : #fff;
-  @include standard_field_bedazzle();
+   standard_field_bedazzle();
 }
 
 #textarea_container.focus {
-  @include standard_field_focus();
+   standard_field_focus();
 }
 
 #discussion_enter textarea {
@@ -467,12 +449,12 @@ input[type=text]:focus { @include standard_field_focus(); }
   position : absolute;
   bottom   : 7px;
   left     : 12px;
-  @include standard_button_bedazzle();
+   standard_button_bedazzle();
   padding  : 3px 20px;
 }
 
 #submit_discussion:active {
-  @include standard_button_bedazzle_active();
+   standard_button_bedazzle_active();
 }
 
 /* Questions
@@ -502,7 +484,7 @@ input[type=text]:focus { @include standard_field_focus(); }
 
 #discussion_items{
   width: 100%;
-  
+
   td {
     padding   : 2px 10px 2px 0;
     font-size : 12px;
@@ -534,14 +516,14 @@ input[type=text]:focus { @include standard_field_focus(); }
   padding    : 15px;
   text-align : center;
   background : url(/images/dancing.gif) no-repeat 50% 100%;
-  
+
   h1 {
     margin         : 15px 0 0.25em 0;
     color          : #d00;
     font-size      : 72px;
     letter-spacing : -0.025em;
   }
-  
+
   h2 {
     color       : #6b6b6b;
     font-size   : 24px;
