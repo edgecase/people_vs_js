@@ -57,23 +57,50 @@ describe("DiscussionPanel", function(){
   });
 
   describe("sending messages", function(){
+    var someText = "some test text";
+
     beforeEach(function () {
       messageBus = new FakeMessageBus();
       spyOn(messageBus, 'emit');
       discussionPanel = new Views.DiscussionPanel({messageBus: messageBus}).render();
+      discussionPanel.$discussion_box.val(someText);
     });
 
     it("emits the message-send event", function(){
-      var someText = "some test text";
-      discussionPanel.$discussion_box.val(someText);
       discussionPanel.$discussion_submit_button.click();
 
       expect(messageBus.emit).toHaveBeenCalledWith('message-send', {text: someText});
     });
 
-    it("submits the message when hitting Enter");
-    it("does not send a message with empty text");
-    it("clears the textbox upon submission");
+    it("submits the message when hitting Enter", function() {
+      var keypress = $.Event('keypress');
+      keypress.which = 13;
+      discussionPanel.$discussion_box.trigger(keypress);
+
+      expect(messageBus.emit).toHaveBeenCalledWith("message-send", {text: someText});
+    });
+
+    it("does not submit the message when hitting Shift-Enter", function() {
+      var keypress = $.Event('keypress');
+      keypress.which = 13;
+      keypress.shiftKey = true;
+      discussionPanel.$discussion_box.trigger(keypress);
+
+      expect(messageBus.emit).not.toHaveBeenCalled();
+    });
+
+    it("does not send a message with empty text", function(){
+      discussionPanel.$discussion_box.val('');
+      discussionPanel.$discussion_submit_button.click();
+
+      expect(messageBus.emit).not.toHaveBeenCalled();
+    });
+
+    it("clears the textbox upon submission", function(){
+      discussionPanel.$discussion_submit_button.click();
+
+      expect(discussionPanel.$discussion_box.val()).toEqual('');
+    });
   });
 
 

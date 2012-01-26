@@ -5,7 +5,8 @@ var Views = (function(ns){
 
     events: {
       view: {
-        "click input#submit_discussion" : "sendMessage"
+        "click input#submit_discussion" : "sendMessage",
+        "keypress textarea.discussion": "submitOnEnter"
       },
       messageBus: {
         "message-new" : "renderMessage"
@@ -20,6 +21,8 @@ var Views = (function(ns){
       this.$discussion_submit_button  = this.$('input#submit_discussion');
       this.$discussion_items = this.$('table#discussion_items');
 
+      this.$discussion_box.tabby();
+
       return this;
     },
 
@@ -28,8 +31,19 @@ var Views = (function(ns){
       this.$discussion_items.prepend(html);
     },
 
+    submitOnEnter: function(e) {
+      if(e.which === 13 && !e.shiftKey) {
+        e.preventDefault();
+        this.sendMessage();
+      }
+    },
+
     sendMessage: function(){
-      this.messageBus.emit("message-send", {text: this.$discussion_box.val()});
+      var message = this.$discussion_box.val();
+      if (message.length > 0){
+        this.messageBus.emit("message-send", {text: message});
+        this.$discussion_box.val('');
+      }
     }
   });
 

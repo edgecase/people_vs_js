@@ -25,9 +25,12 @@ var Views = (function(ns){
     },
 
     setName: function() {
-      this.name = this.$('#name').val();
-      this.messageBus.emit("user-join", {name: this.name});
-      this.$el.hide();
+      var name = this.$('#name').val();
+      if (name.length > 0){
+        this.name = name;
+        this.messageBus.emit("user-join", {name: this.name});
+        this.$el.hide();
+      }
     }
 
   });

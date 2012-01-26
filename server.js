@@ -155,9 +155,9 @@ io.sockets.on('connection', function (socket) {
 
     var q = getQuestion(currentQuestion);
     var isCorrect = q.correctIndex == data.answerIndex;
+    _namedClients[socket.id].answerStatus = isCorrect ? "correct" : "incorrect";
 
     isCorrectCallback( {correctIndex: q.correctIndex} );
-    _namedClients[socket.id].answerStatus = isCorrect ? "correct" : "incorrect";
 
     io.sockets.emit("answer-percentages", { possibleAnswers: q.possibleAnswers });
     io.sockets.emit("user-answerstatus", { users: namedClients() });

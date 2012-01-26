@@ -7,7 +7,7 @@ var Views = (function(ns){
 
     events: {
       view: {
-        "click #final_answer" : "submitAnswer",
+        "click #final_answer"   : "submitAnswer",
         "click .possibleAnswer" : "selectAnswer"
       },
       messageBus: {
@@ -33,11 +33,17 @@ var Views = (function(ns){
       this.hasSubmitted = false;
     },
 
-    submitAnswer: function(){
-      var answerIndex = this.getSelectedAnswerIndex();
-      this.$submitAnswerButton.toggleClass('disabled', true);
-      this.messageBus.emit('answer-submitted', {answerIndex: answerIndex}, _.bind(this.answerSubmitted, this));
-      this.hasSubmitted = true;
+    submitAnswer: function(e){
+      e.preventDefault();
+      if(!this.hasSubmitted) {
+        var answerIndex = this.getSelectedAnswerIndex();
+        if(answerIndex >= 0) {
+          this.$submitAnswerButton.toggleClass('disabled', true);
+          this.$('.possibleAnswer input').prop('disabled', true);
+          this.messageBus.emit('answer-submitted', {answerIndex: answerIndex}, _.bind(this.answerSubmitted, this));
+          this.hasSubmitted = true;
+        }
+      }
     },
 
     answerSubmitted: function(data){
@@ -63,9 +69,10 @@ var Views = (function(ns){
                             .map(function(idx, elem) { if($(elem).is(":checked")) return idx; })[0];
     },
 
-    selectAnswer: function(){
+    selectAnswer: function(e){
       if(!this.hasSubmitted) {
         this.$submitAnswerButton.toggleClass('disabled', false);
+        $(e.target).find('input').prop("checked", true);
       }
     }
   });

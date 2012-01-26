@@ -24,6 +24,13 @@ describe("WelcomePanel", function(){
       expect(messageBus.emit).toHaveBeenCalledWith("user-join", {name: "bob"});
     });
 
+    it("does not set the name when the name textbox is empty", function() {
+      welcomePanel.$nameTextbox.val('');
+      welcomePanel.$submitButton.click();
+
+      expect(messageBus.emit).not.toHaveBeenCalled();
+    });
+
    });
 
 });

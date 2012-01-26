@@ -70,7 +70,7 @@ describe("AnswerPanel", function(){
 
     it("submits the selected answer", function() {
       spyOn(messageBus, 'emit');
-      answerPanel.$answerContainer.find('.possibleAnswer input:first').prop('checked', true);
+      answerPanel.$answerContainer.find('.possibleAnswer:first').click();
 
       answerPanel.$submitAnswerButton.click();
 
@@ -78,13 +78,14 @@ describe("AnswerPanel", function(){
     });
 
     it("indicates which is the correct answer", function() {
+      answerPanel.$answerContainer.find('.possibleAnswer:first').click();
       answerPanel.$submitAnswerButton.click();
 
       expect(answerPanel.$answerContainer.find('.possibleAnswer:eq('+ responseData.correctIndex + ')')).toHaveClass('correct');
     });
 
     it("indicates if the submitted answer is incorrect", function() {
-      answerPanel.$answerContainer.find('.possibleAnswer input:first').prop('checked', true);
+      answerPanel.$answerContainer.find('.possibleAnswer:first').click();
       answerPanel.$submitAnswerButton.click();
       expect(answerPanel.$answerContainer.find('.possibleAnswer:eq(0)')).toHaveClass('incorrect');
     });
@@ -101,6 +102,17 @@ describe("AnswerPanel", function(){
       messageBus = new FakeMessageBus();
       answerPanel = new Views.AnswerPanel({messageBus: messageBus}).render();
       answerPanel.renderAnswers({possibleAnswers: ['undefined', 'null']});
+    });
+
+    it("clicking the submit button before selecting an answer does not submit", function() {
+      spyOn(messageBus, 'emit');
+      expect(messageBus.emit).not.toHaveBeenCalled();
+    });
+
+    it("clicking the li.possibleAnswer sets the selected input", function() {
+      answerPanel.$answerContainer.find('.possibleAnswer:first').click();
+
+      expect(answerPanel.$('.possibleAnswer:first input').prop('checked')).toBe(true);
     });
 
     it("enables the answer submission button", function() {

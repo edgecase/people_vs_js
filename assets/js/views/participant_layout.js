@@ -13,6 +13,8 @@ var Views = (function(ns){
       this.$("#question_container").append(new Views.WelcomePanel({messageBus: this.messageBus}).render().el);
       this.$("#discussion_container").append(new Views.DiscussionPanel({messageBus: this.messageBus}).render().el);
 
+      this.$('input#name').focus();
+
       return this;
     }
 
