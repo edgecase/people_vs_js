@@ -5,27 +5,9 @@ html
     meta(name="viewport", content="initial-scale=1.0")
 
     title The People vs. JavaScript
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/prettify.css')
+    != css('app')
     script(src="/socket.io/socket.io.js")
-    script(src="/javascripts/vendor/jquery.js")
-    script(src="/javascripts/vendor/underscore.js")
-    script(src="/javascripts/vendor/prettify.js")
-    script(src="/javascripts/vendor/jquery.tabby.js")
-    script(src="/javascripts/UI.js")
-    script(src="/javascripts/vendor/handlebars.js")
-    script(src="/javascripts/templates.compiled.js")
-    script(src="/javascripts/templates.js")
-    script(src="/javascripts/view_component.js")
-    script(src="/javascripts/answer_panel.js")
-    script(src="/javascripts/discussion_panel.js")
-    script(src="/javascripts/question_panel.js")
-    script(src="/javascripts/user_list.js")
-    script(src="/javascripts/welcome_panel.js")
-    script(src="/javascripts/question_nav.js")
-    script(src="/javascripts/participant_layout.js")
-    script(src="/javascripts/presenter_layout.js")
-    script(src="/javascripts/app.js")
+    != js('app')
 
   body
     #container

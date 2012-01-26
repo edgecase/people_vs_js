@@ -11,5 +11,7 @@
     , "github-flavored-markdown": ">= 1.0.0"
     , "glob": ">=3.0.1"
     , "node-inspector": "0.1.10"
+    , "connect-assets": "2.1.7"
+    , "stylus" : "0.22.6"
   }
 }

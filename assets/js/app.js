@@ -1,3 +1,12 @@
+//= require vendor/jquery.js
+//= require vendor/jquery.tabby.js
+//= require vendor/underscore.js
+//= require vendor/handlebars.js
+//= require vendor/prettify.js
+//= require views/view_component.js
+//= require_tree views
+
+
 var GuideMe = (function(ns){
 
   var App = function(isPresenter){

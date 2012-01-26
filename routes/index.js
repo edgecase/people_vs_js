@@ -4,10 +4,10 @@
 
 var routes = {
   introduction: function(req, res){
-    res.render('index');
+    res.render('index', { isPresenter: false });
   },
   presenter: function(req, res){
-    res.render('presenter', { question: undefined });
+    res.render('index', { isPresenter: true });
   }
 };
 
