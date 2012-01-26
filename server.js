@@ -48,6 +48,8 @@ console.log(questions);
 
 var currentQuestion = -1;
 
+var _namedClients = {};
+
 var getQuestion = function(questionNumber){
   var question = questions[questionNumber];
   question.questionsCount = questions.length;
@@ -88,12 +90,10 @@ function deepCopy(obj) {
 }
 
 function namedClients(){
-  var namedClients = _.chain(io.sockets.sockets)
+  console.log("_namedClients: " + JSON.stringify(_namedClients));
+  var namedClients = _.chain(_namedClients)
                       .map(function(val, key){
-                          return {name: val.store.data.name, answerStatus: 'unanswered'};
-                      })
-                      .filter(function(user){
-                        return user.name;
+                          return val;
                       })
                       .sortBy(function(user){
                         return user.name;
@@ -154,6 +154,7 @@ io.sockets.on('connection', function (socket) {
     var isCorrect = q.correctIndex == data.answerIndex;
 
     isCorrectCallback( {correctIndex: q.correctIndex} );
+    _namedClients[socket.id].answerStatus = isCorrect ? "correct" : "incorrect";
 
     socket.get("name", function(err, name){
       io.sockets.emit("user-answered", {
@@ -172,8 +173,8 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on("user-join", function(data, callback){
-    var existingNamedSocket = _(namedClients).any(function(name){
-      return name.toLowerCase() === data.name.toLowerCase();
+    var existingNamedSocket = _(_namedClients).any(function(val, key){
+      return val.name.toLowerCase() === data.name.toLowerCase();
     });
 
     if (existingNamedSocket){
@@ -181,20 +182,21 @@ io.sockets.on('connection', function (socket) {
       return;
     }
 
-    socket.set("name", data.name, function(){
-      socket.emit("user-new", {users: namedClients()} );
+    _namedClients[socket.id] = _namedClients[socket.id] || {name: data.name, answerStatus: 'unanswered'};
+    io.sockets.emit("user-new", {users: namedClients()} );
 
-      if( currentQuestion > 0 ){
-        socket.emit("question-changed", { question: getQuestion(currentQuestion) });
-      }
-    });
+    if( currentQuestion >= 0 ){
+      socket.emit("question-changed", getQuestion(currentQuestion) );
+    };
+
   });
 
   socket.on("disconnect", function(){
-    var name = socket.store.data.name;
-    socket.set("name", undefined, function(){
-      socket.broadcast.emit("otherQuit", {"name": name});
-    });
+    if(_namedClients[socket.id]){
+      var name = _namedClients[socket.id].name;
+      delete _namedClients[socket.id];
+      socket.broadcast.emit("user-disconnected", {users: namedClients()});
+    }
   });
 });
 
