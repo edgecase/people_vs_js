@@ -7,6 +7,9 @@ var Views = (function(ns){
       view: {
         "click #name_button": "setName",
         "keypress input#name": "setNameOnEnter"
+      },
+      messageBus: {
+        "question-changed": "hideDancingMan"
       }
     },
 
@@ -29,8 +32,13 @@ var Views = (function(ns){
       if (name.length > 0){
         this.name = name;
         this.messageBus.emit("user-join", {name: this.name});
-        this.$el.hide();
+        this.$el.empty().append($('<div id="please_wait"></div>'));
       }
+    },
+
+    hideDancingMan: function() {
+      if(this.name)
+        this.$el.hide();
     }
 
   });
