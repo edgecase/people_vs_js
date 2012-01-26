@@ -44,52 +44,45 @@ var questionLoader = new ql.QuestionLoader();
 var questions = questionLoader.loadAll();
 console.log(questions);
 
+var currentQuestion = -1;
+
 var getQuestion = function(questionNumber){
   var question = questions[questionNumber];
   question.questionsCount = questions.length;
-  question = JSON.stringify(question);
-  question = JSON.parse(question);
 
   question.possibleAnswers =  _(question.possibleAnswers).map(function(answer, idx){
-    if (currentAnswers){
-      return {value: answer, percentageChosen: currentAnswers[idx]};
+
+    if(answer.timesChosen > 0){
+      answer.percentageChosen = Math.floor(100 * (answer.timesChosen / question.timesAnswered));
+    } else {
+      answer.percentageChosen = 0;
     }
-    else
-      return answer;
+
+    return answer;
   });
 
   return question;
 };
 
-var currentQuestion = -1;
-var currentAnswers = null;
+function resetCurrentAnswers(){
+  questions[currentQuestion].timesAnswered = 0;
+  _.map(questions[currentQuestion].possibleAnswers, function(answer, idx) {
+    answer.timesChosen = 0;
+  });
+}
 
 function resetQuiz(){
   currentQuestion = 0;
   resetCurrentAnswers();
 }
 
-function resetCurrentAnswers(){
-  if(currentQuestion >= 0 && currentQuestion < questions.length){
-    var q = getQuestion(currentQuestion);
-    currentAnswers = [];
-    for(var i=0;i<q.possibleAnswers.length;i++){
-      currentAnswers.push(0);
-    }
-  } else {
-    currentAnswers = null;
-  }
-}
-
 function userAnsweredAtIndex(index){
-  currentAnswers[index]++;
+  questions[currentQuestion].timesAnswered++;
+  questions[currentQuestion].possibleAnswers[index].timesChosen++;
 }
 
-function calculateAnswerPercentages(){
-  var totalAnswers = _.reduce(currentAnswers, function(memo, num){ return memo + num; }, 0);
-  return _.map(currentAnswers, function(answerCount){
-    return Math.floor((answerCount / totalAnswers) * 100);
-  });
+function deepCopy(obj) {
+  return JSON.parse(JSON.stringify(obj));
 }
 
 function namedClients(){
@@ -125,8 +118,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on("question-reset", function(){
     resetQuiz();
-    var questionToPresent = getQuestion(0);
-    io.sockets.emit("question-changed", questionToPresent );
+    io.sockets.emit("question-changed", getQuestion(currentQuestion));
   });
 
   socket.on("question-next", function() {
@@ -136,8 +128,7 @@ io.sockets.on('connection', function (socket) {
     else {
       currentQuestion++;
       resetCurrentAnswers();
-      var questionToPresent = getQuestion(currentQuestion);
-      io.sockets.emit("question-changed", questionToPresent );
+      io.sockets.emit("question-changed", getQuestion(currentQuestion));
     }
   });
 
@@ -150,16 +141,16 @@ io.sockets.on('connection', function (socket) {
     else {
       currentQuestion--;
       resetCurrentAnswers();
-      var questionToPresent = getQuestion(currentQuestion);
-      io.sockets.emit("question-changed", questionToPresent );
+      io.sockets.emit("question-changed", getQuestion(currentQuestion));
     }
   });
 
   socket.on("answer-submitted", function(data, isCorrectCallback){
+    userAnsweredAtIndex(data.answerIndex);
+
     var q = getQuestion(currentQuestion);
     var isCorrect = q.correctIndex == data.answerIndex;
 
-    userAnsweredAtIndex(data.answerIndex);
     isCorrectCallback( {correctIndex: q.correctIndex} );
 
     socket.get("name", function(err, name){
@@ -192,8 +183,7 @@ io.sockets.on('connection', function (socket) {
       socket.emit("user-new", {users: namedClients()} );
 
       if( currentQuestion > 0 ){
-        var questionToPresent = getQuestion(currentQuestion);
-        socket.emit("question-changed", { question: questionToPresent });
+        socket.emit("question-changed", { question: getQuestion(currentQuestion) });
       }
     });
   });
