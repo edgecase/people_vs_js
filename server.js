@@ -80,7 +80,7 @@ function resetQuiz(){
   resetCurrentAnswers();
 }
 
-function userAnsweredAtIndex(index){
+function participantAnsweredAtIndex(index){
   questions[currentQuestion].timesAnswered++;
   questions[currentQuestion].possibleAnswers[index].timesChosen++;
 }
@@ -95,17 +95,17 @@ function namedClients(){
                       .map(function(val, key){
                           return val;
                       })
-                      .sortBy(function(user){
-                        return user.name;
+                      .sortBy(function(participant){
+                        return participant.name;
                       })
                       .value();
 
   return namedClients;
 }
 
-function isMessageForMe(userName, message){
-  var userRegex = new RegExp("(?:^|\\s|\\W)(@" + userName + ")(?:$|\\s|\\W)", "gi");
-  return userRegex.test(message);
+function isMessageForMe(participantName, message){
+  var participantRegex = new RegExp("(?:^|\\s|\\W)(@" + participantName + ")(?:$|\\s|\\W)", "gi");
+  return participantRegex.test(message);
 }
 
 // use polling since heroku does not yet support websockets
@@ -116,12 +116,12 @@ io.configure(function () {
 
 io.sockets.on('connection', function (socket) {
 
-  socket.emit('user-welcome', { users: namedClients() });
+  socket.emit('participant-welcome', { participants: namedClients() });
 
   socket.on("question-reset", function(){
     resetQuiz();
     io.sockets.emit("question-changed", getQuestion(currentQuestion));
-    io.sockets.emit("user-answerstatus", { users: namedClients() });
+    io.sockets.emit("participant-answerstatus", { participants: namedClients() });
   });
 
   socket.on("question-next", function() {
@@ -132,7 +132,7 @@ io.sockets.on('connection', function (socket) {
       currentQuestion++;
       resetCurrentAnswers();
       io.sockets.emit("question-changed", getQuestion(currentQuestion));
-      io.sockets.emit("user-answerstatus", { users: namedClients() });
+      io.sockets.emit("participant-answerstatus", { participants: namedClients() });
     }
   });
 
@@ -140,18 +140,18 @@ io.sockets.on('connection', function (socket) {
     resetCurrentAnswers();
 
     if (currentQuestion - 1 < 0) {
-      io.sockets.emit("user-answerstatus", { users: namedClients() });
+      io.sockets.emit("participant-answerstatus", { participants: namedClients() });
     }
     else {
       currentQuestion--;
       resetCurrentAnswers();
       io.sockets.emit("question-changed", getQuestion(currentQuestion));
-      io.sockets.emit("user-answerstatus", { users: namedClients() });
+      io.sockets.emit("participant-answerstatus", { participants: namedClients() });
     }
   });
 
   socket.on("answer-submitted", function(data, isCorrectCallback){
-    userAnsweredAtIndex(data.answerIndex);
+    participantAnsweredAtIndex(data.answerIndex);
 
     var q = getQuestion(currentQuestion);
     var isCorrect = q.correctIndex == data.answerIndex;
@@ -160,18 +160,19 @@ io.sockets.on('connection', function (socket) {
     isCorrectCallback( {correctIndex: q.correctIndex} );
 
     io.sockets.emit("answer-percentages", { possibleAnswers: q.possibleAnswers });
-    io.sockets.emit("user-answerstatus", { users: namedClients() });
+    io.sockets.emit("participant-answerstatus", { participants: namedClients() });
   });
 
   socket.on("message-send", function(message){
     var markedup = md.parse(message.text);
+    var name = _namedClients[socket.id].name;
 
-    io.sockets.emit("message-new", { user: socket.store.data.name || 'Anonymous',
+    io.sockets.emit("message-new", { participant: name || 'Anonymous',
                                      text: markedup,
-                                     isForMe: isMessageForMe(socket.store.data.name, message.text)});
+                                     isForMe: isMessageForMe(name, message.text)});
   });
 
-  socket.on("user-join", function(data, callback){
+  socket.on("participant-join", function(data, callback){
     var existingNamedSocket = _(_namedClients).any(function(val, key){
       return val.name.toLowerCase() === data.name.toLowerCase();
     });
@@ -189,7 +190,7 @@ io.sockets.on('connection', function (socket) {
     }
 
     _namedClients[socket.id] = _namedClients[socket.id] || {name: data.name, answerStatus: 'unanswered'};
-    io.sockets.emit("user-new", {users: namedClients()} );
+    io.sockets.emit("participant-new", {participants: namedClients()} );
 
     if( currentQuestion >= 0 ){
       socket.emit("question-changed", getQuestion(currentQuestion));
@@ -202,7 +203,7 @@ io.sockets.on('connection', function (socket) {
     if(_namedClients[socket.id]){
       var name = _namedClients[socket.id].name;
       delete _namedClients[socket.id];
-      socket.broadcast.emit("user-disconnected", {users: namedClients()});
+      socket.broadcast.emit("participant-disconnected", {participants: namedClients()});
     }
   });
 });

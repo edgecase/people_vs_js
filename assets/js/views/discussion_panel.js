@@ -7,7 +7,7 @@ var Views = (function(ns){
       view: {
         "click input#submit_discussion" : "sendMessage",
         "keypress textarea.discussion": "submitOnEnter",
-        "click a.reply" : "replyToUser"
+        "click a.reply" : "replyToParticipant"
       },
       messageBus: {
         "message-new" : "renderMessage"
@@ -47,7 +47,7 @@ var Views = (function(ns){
       }
     },
 
-    replyToUser: function(e){
+    replyToParticipant: function(e){
       e.preventDefault();
       var val = this.$discussion_box.val();
       val += "@" + $(e.target).text() + ' ';
