@@ -6,7 +6,8 @@ var Views = (function(ns){
     events: {
       view: {
         "click input#submit_discussion" : "sendMessage",
-        "keypress textarea.discussion": "submitOnEnter"
+        "keypress textarea.discussion": "submitOnEnter",
+        "click a.reply" : "replyToUser"
       },
       messageBus: {
         "message-new" : "renderMessage"
@@ -39,12 +40,21 @@ var Views = (function(ns){
     },
 
     sendMessage: function(){
-      var message = this.$discussion_box.val();
+      var message = this.$discussion_box.val().trim();
       if (message.length > 0){
         this.messageBus.emit("message-send", {text: message});
         this.$discussion_box.val('');
       }
+    },
+
+    replyToUser: function(e){
+      e.preventDefault();
+      var val = this.$discussion_box.val();
+      val += "@" + $(e.target).text() + ' ';
+      this.$discussion_box.val(val);
+      this.$discussion_box.setCursorPosition(val.length, true);
     }
+
   });
 
 

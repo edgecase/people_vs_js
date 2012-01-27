@@ -28,7 +28,7 @@ var Views = (function(ns){
     },
 
     setName: function() {
-      var name = this.$('#name').val();
+      var name = this.$('#name').val().trim();
       if (name.length > 0){
         this.name = name;
         this.messageBus.emit("user-join", {name: this.name});

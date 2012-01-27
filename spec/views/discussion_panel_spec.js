@@ -103,6 +103,20 @@ describe("DiscussionPanel", function(){
     });
   });
 
+  describe("replying to a user by clicking their name on a previous message", function(){
+    beforeEach(function () {
+      messageBus = new FakeMessageBus();
+      discussionPanel = new Views.DiscussionPanel({messageBus: messageBus}).render();
+      discussionPanel.renderMessage({user:'alex', text:'first test text', isForMe:false});
+    });
+
+    it("adds a reply to the new message", function(){
+      discussionPanel.$discussion_items.find("a.reply:first").click();
+
+      expect(discussionPanel.$discussion_box.val()).toContain("@alex");
+    });
+
+  });
 
 });
 
