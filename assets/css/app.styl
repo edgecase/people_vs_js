@@ -27,27 +27,35 @@ body { font: 16px Helvetica, Arial, sans-serif; }
   left     : 0;
 }
 
-input[type=text] {  standard_field_bedazzle() }
-input[type=text]:focus {  standard_field_focus() }
+input[type=text] {
+  standard_field_bedazzle()
+}
+input[type=text]:focus {
+  standard_field_focus()
+}
 
 
 /* Flash Messages
 -------------------------------------------- */
 
-.msg {
+#flash {
+  position  : absolute
+  top       : 0
+  left      : 0
   margin    : 0 0 10px 0;
   padding   : 4px 0 4px 0;
   color     : #333;
   font-size : 14px;
+  z-index   : 1000;
 }
 
-.msg.error {
+#flash.error {
   padding-left : 30px;
   color        : #d00;
   background   : url(/images/attention_error.png) no-repeat 0 50%;
 }
 
-.msg.success {
+#flash.success {
   color        : #539000;
   padding-left : 30px;
   background   : url(/images/attention_success.png) no-repeat 0 50%;
@@ -95,25 +103,16 @@ input[type=text]:focus {  standard_field_focus() }
 /* Header
 -------------------------------------------- */
 
-#header {
-  position      : absolute;
-  top           : 0;
-  right         : 0;
-  left          : 221px;
+#progress_bar_container {
   height        : 46px;
   border-bottom : 1px solid #c3c3c3;
   background    : url(/images/header_background.png);
   z-index       : 1;
-   box_shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-   user_select(none);
+  box_shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+  user_select(none);
 }
 
-#header_left {
-  position   : absolute;
-  top        : 0;
-  right      : 50%;
-  bottom     : 0;
-  left       : 0;
+#progress_bar_wrapper {
   background : url(/images/Q.png) no-repeat 12px 50%;
 }
 
@@ -345,7 +344,8 @@ input[type=text]:focus {  standard_field_focus() }
   font-weight : bold;
   line-height : 90px;
   text-align  : center;
-  background  : url(/images/dancing.gif) no-repeat 50% 50%;
+  background  : #fff url(/images/dancing.gif) no-repeat 50% 50%;
+  display     : none;
 }
 
 

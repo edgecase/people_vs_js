@@ -1,6 +1,7 @@
 var Views = (function(ns){
 
   var ProgressBar = Views.ViewComponent.extend({
+    id: "progress_bar_wrapper",
 
     events: {
       messageBus: {
@@ -16,8 +17,9 @@ var Views = (function(ns){
     },
 
     renderProgress: function(data){
-      this.$el.find('.text').text(data.text);
-      this.$el.find('.bar').animate({ width: data.percent }, 400);
+      var percent = (data.number / data.questionsCount) * 100;
+      this.$('.text').text(data.number + "/" + data.questionsCount);
+      this.$('.bar').animate({ width: percent + "%" }, 400);
     }
 
   });
