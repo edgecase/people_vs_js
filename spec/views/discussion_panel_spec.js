@@ -13,15 +13,15 @@ describe("DiscussionPanel", function(){
     });
 
     it("displays messages in chat", function(){
-      discussionPanel.renderMessage({user:'alex', text:'first test text', isForMe:false});
+      discussionPanel.renderMessage({participant:'alex', text:'first test text', isForMe:false});
       expect(discussionPanel.$discussion_items.find('.message').length).toBe(1);
     });
 
     it("correctly orders the messages in the message window", function(){
-      var msg0 = {user:'alex', text:'0'};
+      var msg0 = {participant:'alex', text:'0'};
       discussionPanel.renderMessage(msg0);
 
-      var msg1 = {user:'alex', text:'1'};
+      var msg1 = {participant:'alex', text:'1'};
       discussionPanel.renderMessage(msg1);
 
       var rows = discussionPanel.$discussion_items.find('.message').map(function(index, td) {
@@ -33,8 +33,8 @@ describe("DiscussionPanel", function(){
     });
 
     it("highlights @reply messages", function(){
-      discussionPanel.renderMessage({user:'alex', text:'this is for alex',  isForMe:false});
-      discussionPanel.renderMessage({user:'alex', text:'this is for alex',  isForMe:true});
+      discussionPanel.renderMessage({participant:'alex', text:'this is for alex',  isForMe:false});
+      discussionPanel.renderMessage({participant:'alex', text:'this is for alex',  isForMe:true});
 
       expect(discussionPanel.$discussion_items.find('.forMe').length).toBe(1);
 
@@ -49,7 +49,7 @@ describe("DiscussionPanel", function(){
     });
 
     it("renders on message-new event", function(){
-      messageBus.emit('message-new', {user:'alex', text:'this is for alex'});
+      messageBus.emit('message-new', {participant:'alex', text:'this is for alex'});
 
       expect(discussionPanel.renderMessage).toHaveBeenCalled();
     });
@@ -103,11 +103,11 @@ describe("DiscussionPanel", function(){
     });
   });
 
-  describe("replying to a user by clicking their name on a previous message", function(){
+  describe("replying to a participant by clicking their name on a previous message", function(){
     beforeEach(function () {
       messageBus = new FakeMessageBus();
       discussionPanel = new Views.DiscussionPanel({messageBus: messageBus}).render();
-      discussionPanel.renderMessage({user:'alex', text:'first test text', isForMe:false});
+      discussionPanel.renderMessage({participant:'alex', text:'first test text', isForMe:false});
     });
 
     it("adds a reply to the new message", function(){

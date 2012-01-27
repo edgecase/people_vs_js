@@ -16,7 +16,7 @@ var GuideMe = (function(ns){
 
     if(this.isPresenter){
       layout = new Views.PresenterLayout({messageBus: this.messageBus});
-      this.messageBus.emit('user-join', {name: "The_Presenter"});
+      this.messageBus.emit('participant-join', {name: "The_Presenter"});
     }
     else
     {

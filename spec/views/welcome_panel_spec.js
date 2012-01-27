@@ -9,11 +9,11 @@ describe("WelcomePanel", function(){
       welcomePanel.$nameTextbox.val("bob");
     });
 
-    it("emits the user-join message with the proper name", function() {
+    it("emits the participant-join message with the proper name", function() {
       spyOn(messageBus, "emit");
       welcomePanel.$submitButton.click();
 
-      expect(messageBus.emit).toHaveBeenCalledWith("user-join", {name: "bob"}, jasmine.any(Function));
+      expect(messageBus.emit).toHaveBeenCalledWith("participant-join", {name: "bob"}, jasmine.any(Function));
     });
 
     it("sets the name when pressing enter on the textbox", function() {
@@ -22,7 +22,7 @@ describe("WelcomePanel", function(){
       keypress.which = 13;
       welcomePanel.$nameTextbox.trigger(keypress);
 
-      expect(messageBus.emit).toHaveBeenCalledWith("user-join", {name: "bob"}, jasmine.any(Function));
+      expect(messageBus.emit).toHaveBeenCalledWith("participant-join", {name: "bob"}, jasmine.any(Function));
     });
 
     it("does not set the name when the name textbox is empty", function() {
