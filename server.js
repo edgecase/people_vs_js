@@ -177,7 +177,14 @@ io.sockets.on('connection', function (socket) {
     });
 
     if (existingNamedSocket){
-      socket.emit("msg", {type: 'error', msg: 'A team with that name already exists, please choose another!'});
+      socket.emit("flash-new", {type: 'error', msg: 'A team with that name already exists, please choose another!'});
+      callback({success:false});
+      return;
+    }
+
+    if(/[^\w]/.test(data.name)){
+      socket.emit("flash-new", { type: "error", msg: "Names can only contain alphanumerics and underscores!" } );
+      callback({success:false});
       return;
     }
 
@@ -188,6 +195,7 @@ io.sockets.on('connection', function (socket) {
       socket.emit("question-changed", getQuestion(currentQuestion));
     };
 
+    callback({success:true});
   });
 
   socket.on("disconnect", function(){

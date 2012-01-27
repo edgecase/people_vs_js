@@ -9,7 +9,7 @@ var Views = (function(ns){
         "keypress input#name": "setNameOnEnter"
       },
       messageBus: {
-        "question-changed": "hideDancingMan"
+        "question-changed": "hide"
       }
     },
 
@@ -19,6 +19,7 @@ var Views = (function(ns){
 
       this.$nameTextbox = this.$("input#name");
       this.$submitButton = this.$("#name_button");
+      this.$pleaseWait = this.$("#please_wait");
 
       return this;
     },
@@ -29,14 +30,19 @@ var Views = (function(ns){
 
     setName: function() {
       var name = this.$('#name').val().trim();
+
       if (name.length > 0){
         this.name = name;
-        this.messageBus.emit("user-join", {name: this.name});
-        this.$el.empty().append($('<div id="please_wait"></div>'));
+        this.messageBus.emit("user-join", {name: this.name}, _.bind(this.nameSet, this));
       }
     },
 
-    hideDancingMan: function() {
+    nameSet: function(data){
+      if (data.success)
+        this.$pleaseWait.show();
+    },
+
+    hide: function() {
       if(this.name)
         this.$el.hide();
     }
