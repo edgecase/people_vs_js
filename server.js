@@ -8,6 +8,10 @@ var express = require('express')
   , _ = require('underscore')
   , ql = require('./lib/question_loader')
   , md = require('github-flavored-markdown')
+  , mongoose = require("mongoose")
+  , everyauth = require("everyauth")
+  , Schema = mongoose.Schema
+  , auth = require("mongoose-auth")
   , assets = require('connect-assets');
 
 var app = module.exports = express.createServer();
@@ -19,14 +23,42 @@ GLOBAL._ = _;
 
 // Configuration
 
+everyauth.debug = true;
+
+var UserSchema = new Schema({});
+var User;
+
+UserSchema.plugin(auth, {
+  everymodule: {
+    everyauth: {
+      User: function(){ return User; }
+    },
+  }
+  , twitter:{
+    everyauth: 
+    { myHostname: "http://local.host:3000"
+    , consumerKey: "cEPHLnljFSM5AM5233DxLg"
+    , consumerSecret: "7gEXZFpOq5gdhT9m8P8XpYO3W2fMLLSy7pUYkWCs"
+    , redirectPath: "/presenter"
+    }
+  }
+});
+
+mongoose.model("User", UserSchema);
+mongoose.connect("mongodb://localhost/guideme_"+app.settings.env);
+User = mongoose.model('User');
+
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: "UseThFor$eLuke" }));
+
   app.use(assets());
   app.use(express.static(__dirname + '/public'));
+  app.use( auth.middleware() );
 });
 
 app.configure('development', function(){
@@ -37,14 +69,20 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+var authorizeUser = function(req, res, next){
+  if(req.loggedIn &&
+     req.user.twit.screenName === "rubybuddha"){ next(); }
+  else res.redirect("/auth/twitter");
+};
+
 app.get('/', routes.introduction);
-app.get('/presenter',
-        express.basicAuth("presenter", "esacegde"),
-        routes.presenter);
+app.get('/presenter', authorizeUser , routes.presenter);
+auth.helpExpress(app);
+
+console.log(everyauth.twitter.routes);
 
 var questionLoader = new ql.QuestionLoader();
 var questions = questionLoader.loadAll();
-console.log(questions);
 
 var currentQuestion = -1;
 

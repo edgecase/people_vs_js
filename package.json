@@ -4,7 +4,7 @@
   , "description": "Quiz for helping folks learn JavaScript"
   , "private": true
   , "dependencies": {
-      "express": "2.5.4"
+      "express": ">= 2.5.4"
     , "jade": ">= 0.0.1"
     , "socket.io": ">= 0.8.7"
     , "underscore": ">= 1.2.4"
@@ -14,5 +14,9 @@
     , "connect-assets": "2.1.7"
     , "stylus" : "0.22.6"
     , "jasmine-node" : "1.0.20"
+    , "mongoose" : ">= 2.5.1"
+    , "mongoose-auth" : ">= 0.0.11"
+    , "everyauth" : ">= 0"
+
   }
 }
