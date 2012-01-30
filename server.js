@@ -6,7 +6,6 @@
 var express = require('express')
   , routes = require('./routes')
   , _ = require('underscore')
-  , ql = require('./lib/question_loader')
   , md = require('github-flavored-markdown')
   , mongoose = require("mongoose")
   , everyauth = require("everyauth")
@@ -17,36 +16,19 @@ var express = require('express')
 var app = module.exports = express.createServer();
 var io = require('socket.io').listen(app);
 
+io.set("log level", 1);
+
 GLOBAL.app = app;
 GLOBAL.io = io;
 GLOBAL._ = _;
 
 // Configuration
-
-everyauth.debug = true;
-
-var UserSchema = new Schema({});
-var User;
-
-UserSchema.plugin(auth, {
-  everymodule: {
-    everyauth: {
-      User: function(){ return User; }
-    },
-  }
-  , twitter:{
-    everyauth: 
-    { myHostname: "http://local.host:3000"
-    , consumerKey: "cEPHLnljFSM5AM5233DxLg"
-    , consumerSecret: "7gEXZFpOq5gdhT9m8P8XpYO3W2fMLLSy7pUYkWCs"
-    , redirectPath: "/presenter"
-    }
-  }
-});
-
-mongoose.model("User", UserSchema);
+app.mongoose = mongoose;
+app.auth = auth;
 mongoose.connect("mongodb://localhost/guideme_"+app.settings.env);
-User = mongoose.model('User');
+require("./lib/index");
+
+//var User = mongoose.model("User");
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -75,14 +57,21 @@ var authorizeUser = function(req, res, next){
   else res.redirect("/auth/twitter");
 };
 
+// auth routes
+app.get('/:name', authorizeUser , routes.dashboard);
+app.get('/:name/plans/:slug', authorizeUser , routes.presentPlan);
+app.post('/:name/plans/:slug', authorizeUser , routes.savePlan);
+
+app.get('/authorized', authorizeUser, function(req, res){
+  res.redirect("/"+req.user.twit.screenName);
+});
+
+// open routes
+app.get('/:slug', routes.showPlan);
 app.get('/', routes.introduction);
-app.get('/presenter', authorizeUser , routes.presenter);
+
 auth.helpExpress(app);
 
-console.log(everyauth.twitter.routes);
-
-var questionLoader = new ql.QuestionLoader();
-var questions = questionLoader.loadAll();
 
 var currentQuestion = -1;
 
