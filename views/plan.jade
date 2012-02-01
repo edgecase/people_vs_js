@@ -1,0 +1,75 @@
+script
+  $(function(){
+
+    var formEl = $("form");
+    $(".delQuestion").click(function(e){
+      e.preventDefault();
+      var self = $(this);
+      $.post(location.href+"/questions", { "_method":"delete", "question_id":self.data('question-id') }, function(resp){
+        console.log("delete!");
+        self.parent().remove();
+      });
+    });
+
+    $(".updateQuestion").click(function(e){
+      e.preventDefault();
+      var self = $(this);
+      $.post(location.href+"/questions", { "_method":"put", "question_id":self.data('question-id') }, function(resp){
+        console.log("update!");
+      });
+    });
+
+    $(".createQuestion").click(function(e){
+      e.preventDefault();
+      var self = $(this);
+      var data = formEl.serializeArray();
+      $.post(location.href+"/questions", data, function(resp){
+        formEl.get(0).reset();
+        console.log(resp);
+      });
+
+    });
+  });
+
+h1 #{plan.title}
+
+form(method="POST", action="/users/#{user.screen_name}/plans/"+ plan.slug +"/questions")
+  label(for="prompt") Question Prompt:
+  input(name="prompt")
+  br
+
+  label(for="code") Code:
+  textarea(name="code")
+  br
+
+  label(for="answers") Possible Answers:
+  input(name="answers")
+  br
+  input(name="answers")
+  br
+  input(name="answers")
+  br
+  input(name="answers")
+  br
+
+  label(for="correctIndex") Correct Answer Index:
+  input(name="correctIndex")
+  br
+
+  input(type="hidden", name="hidden", value="false")
+  input(type="hidden", name="question_id", value="")
+  input.createQuestion(type="submit", value="Create Question")
+  br
+
+hr
+
+ul
+  each question, i in plan.questions
+    li.question
+      a.deleteQuestion(href="#", data-question-id=question._id) X 
+      a.editQuestion(href="#", data-question-id=question._id) E 
+
+      input(type="checkbox", checked=question.hidden) 
+
+      #{question.prompt}
+

@@ -14,8 +14,7 @@
     , "connect-assets": "2.1.7"
     , "stylus" : "0.22.6"
     , "jasmine-node" : "1.0.20"
-    , "mongoose" : ">= 2.5.1"
-    , "mongoose-auth" : ">= 0.0.11"
+    , "mongoskin" : ">= 0.3.0"
     , "everyauth" : ">= 0"
 
   }

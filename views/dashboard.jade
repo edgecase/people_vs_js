@@ -1,5 +1,30 @@
+script
+  $(function(){
+    $(".delPreso").click(function(e){
+      e.preventDefault();
+      var self = $(this);
+      $.post(self.attr("href"), { "_method":"delete", "plan_id":self.data('plan-id') }, function(resp){
+        console.log("delete!");
+        self.parent().remove();
+      });
+    });
+  });
+
 h1 Your Lesson Plans
 
+form(method="POST", action="/users/#{user.screen_name}/plans")
+  label(for="name") Name:
+  input(name="title")
+  input(type="submit", value="Create a Lesson Plan")
+
+hr
 ul
-  each plan, i in plans
-    li #{plan.title} @ #{plan.slug}
+  each plan, i in user.lessonPlans
+    li 
+      a(href='/#{plan.slug}/presenter')
+        #{plan.title} @ #{plan.slug}
+      &nbsp;
+      a(href='/users/#{user.screen_name}/plans/#{plan.slug}') edit
+      &nbsp;
+      a(href='/users/#{user.screen_name}/plans/#{plan.slug}', data-plan-id=plan._id, class='delPreso') delete
+

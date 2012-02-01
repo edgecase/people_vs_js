@@ -7,10 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , _ = require('underscore')
   , md = require('github-flavored-markdown')
-  , mongoose = require("mongoose")
   , everyauth = require("everyauth")
-  , Schema = mongoose.Schema
-  , auth = require("mongoose-auth")
+  , mongo = require("mongoskin")
   , assets = require('connect-assets');
 
 var app = module.exports = express.createServer();
@@ -22,13 +20,38 @@ GLOBAL.app = app;
 GLOBAL.io = io;
 GLOBAL._ = _;
 
-// Configuration
-app.mongoose = mongoose;
-app.auth = auth;
-mongoose.connect("mongodb://localhost/guideme_"+app.settings.env);
-require("./lib/index");
+// Database Configuration
+var db = GLOBAL.db = mongo.db('localhost:27017/guideme_'+app.settings.env);
 
-//var User = mongoose.model("User");
+// Auth Configuration
+
+everyauth.twitter
+  .consumerKey('cEPHLnljFSM5AM5233DxLg')
+  .consumerSecret('7gEXZFpOq5gdhT9m8P8XpYO3W2fMLLSy7pUYkWCs')
+  .findOrCreateUser( function(session, accessToken, accessTokenSecret, twitterUserMetadata) {
+    var userPromise = new everyauth.Promise();
+    db.collection("users").findOne({ screen_name: twitterUserMetadata.screen_name }, function(err, doc){
+      if(err) return userPromise.fail(err);
+      if(doc) { return userPromise.fulfill(doc); }
+
+      db.collection("users").insert(_.extend(twitterUserMetadata, { "lessonPlans": [] }),
+                                    {},
+                                    function(err, userDoc){
+        if(err) console.log(err);
+        return userPromise.fulfill(userDoc);
+      });
+    });
+    return userPromise;
+  })
+  .redirectPath('/authorized');
+
+  everyauth.everymodule.findUserById( function(userId, callback) {
+    db.collection("users").findOne({ id: userId }, function(err, doc){
+      if(callback) callback(err, doc);
+    });
+  });
+
+// Express Configuration
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -37,10 +60,10 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.session({ secret: "UseThFor$eLuke" }));
-
+  app.use( everyauth.middleware() );
+  app.use(app.router);
   app.use(assets());
   app.use(express.static(__dirname + '/public'));
-  app.use( auth.middleware() );
 });
 
 app.configure('development', function(){
@@ -52,26 +75,39 @@ app.configure('production', function(){
 });
 
 var authorizeUser = function(req, res, next){
-  if(req.loggedIn &&
-     req.user.twit.screenName === "rubybuddha"){ next(); }
+  if(req.loggedIn){ next(); }
   else res.redirect("/auth/twitter");
 };
 
 // auth routes
-app.get('/:name', authorizeUser , routes.dashboard);
-app.get('/:name/plans/:slug', authorizeUser , routes.presentPlan);
-app.post('/:name/plans/:slug', authorizeUser , routes.savePlan);
+app.get('/users/:name', authorizeUser , routes.dashboard);
+app.get('/users/:name/plans/:slug', authorizeUser , routes.showPlan);
+app.post('/users/:name/plans/:slug?', authorizeUser , routes.createPlan);
+app.put('/users/:name/plans/:slug?', authorizeUser , routes.updatePlan);
+app.del('/users/:name/plans/:slug?', authorizeUser , routes.deletePlan);
+
+app.post('/users/:name/plans/:slug/questions', authorizeUser , routes.createQuestion);
+app.put('/users/:name/plans/:slug/questions', authorizeUser , routes.updateQuestion);
+app.del('/users/:name/plans/:slug/questions', authorizeUser , routes.deleteQuestion);
 
 app.get('/authorized', authorizeUser, function(req, res){
-  res.redirect("/"+req.user.twit.screenName);
+  res.redirect("/users/"+req.user.screen_name);
 });
 
 // open routes
-app.get('/:slug', routes.showPlan);
-app.get('/', routes.introduction);
+app.get('/:slug/presenter', authorizeUser, routes.presentPlan);
+app.get('/:slug', routes.presentPlan);
 
-auth.helpExpress(app);
+/* app.get('/', routes.introduction); */
+app.get('/', function(req, res) { res.redirect('/users/rubybuddha'); } );
 
+everyauth.helpExpress(app);
+
+
+
+// App Stuff
+// **********************************
+//
 
 var currentQuestion = -1;
 
@@ -117,7 +153,6 @@ function deepCopy(obj) {
 }
 
 function namedClients(){
-  console.log("_namedClients: " + JSON.stringify(_namedClients));
   var namedClients = _.chain(_namedClients)
                       .map(function(val, key){
                           return val;
