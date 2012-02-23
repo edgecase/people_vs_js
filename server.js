@@ -44,7 +44,6 @@ app.get('/presenter',
 
 var questionLoader = new ql.QuestionLoader();
 var questions = questionLoader.loadAll();
-console.log(questions);
 
 var currentQuestion = -1;
 
