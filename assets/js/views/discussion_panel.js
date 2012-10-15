@@ -1,5 +1,11 @@
 var Views = (function(ns){
 
+
+  function isMessageForMe(participantName, message){
+    var participantRegex = new RegExp("(?:^|\\s|\\W)(@" + participantName + ")(?:$|\\s|\\W)", "gi");
+    return participantRegex.test(message);
+  }
+
   var DiscussionPanel = Views.ViewComponent.extend({
     id: "discussion_panel",
 
@@ -28,6 +34,7 @@ var Views = (function(ns){
     },
 
     renderMessage: function(messages) {
+      messages.isForMe = isMessageForMe(GuideMe.App.participantName, messages.text)
       var html = $(Templates.render('discussion_list_items', messages));
       this.$discussion_items.prepend(html);
     },

@@ -34,6 +34,7 @@ var Views = (function(ns){
       if (name.length > 0){
         this.name = name;
         this.messageBus.emit("participant-join", {name: this.name}, _.bind(this.nameSet, this));
+        GuideMe.App.participantName = name;
       }
     },
 

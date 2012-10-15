@@ -102,11 +102,6 @@ function namedClients(){
   return namedClients;
 }
 
-function isMessageForMe(participantName, message){
-  var participantRegex = new RegExp("(?:^|\\s|\\W)(@" + participantName + ")(?:$|\\s|\\W)", "gi");
-  return participantRegex.test(message);
-}
-
 // use polling since heroku does not yet support websockets
 io.configure(function () {
   io.set("transports", ["xhr-polling"]);
@@ -167,8 +162,7 @@ io.sockets.on('connection', function (socket) {
     var name = _namedClients[socket.id].name;
 
     io.sockets.emit("message-new", { participant: name || 'Anonymous',
-                                     text: markedup,
-                                     isForMe: isMessageForMe(name, message.text)});
+                                     text: markedup });
   });
 
   socket.on("participant-join", function(data, callback){

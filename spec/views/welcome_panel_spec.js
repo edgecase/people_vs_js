@@ -16,6 +16,12 @@ describe("WelcomePanel", function(){
       expect(messageBus.emit).toHaveBeenCalledWith("participant-join", {name: "bob"}, jasmine.any(Function));
     });
 
+    it("sets the participantName at the app level", function(){
+      spyOn(messageBus, "emit");
+      welcomePanel.$submitButton.click();
+      expect(GuideMe.App.participantName).toBe("bob");
+    });
+
     it("sets the name when pressing enter on the textbox", function() {
       spyOn(messageBus, "emit");
       var keypress = $.Event('keypress');

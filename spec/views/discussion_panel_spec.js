@@ -33,8 +33,8 @@ describe("DiscussionPanel", function(){
     });
 
     it("highlights @reply messages", function(){
-      discussionPanel.renderMessage({participant:'alex', text:'this is for alex',  isForMe:false});
-      discussionPanel.renderMessage({participant:'alex', text:'this is for alex',  isForMe:true});
+      GuideMe.App.participantName = 'alex';
+      discussionPanel.renderMessage({participant:'alex', text:'this is for @alex'});
 
       expect(discussionPanel.$discussion_items.find('.forMe').length).toBe(1);
 
