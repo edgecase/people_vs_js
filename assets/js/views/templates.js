@@ -17,11 +17,24 @@ var Templates = (function(ns){
       }
     },
 
+    prettyPrintMessage: function(message) {
+      var $container = $("<div></div>").append(message),
+          $codeSegments = $container.find(".highlight");
+
+      $codeSegments.each(function(i, e){
+        var codeToPrettify = $(e).find('pre').text(),
+            prettyCode = Handlebars.helpers.prettyPrintCode(codeToPrettify);
+        $(e).replaceWith(prettyCode.string);
+      });
+
+      return new Handlebars.SafeString($container.html());
+    },
+
     prettyPrintCode: function(code){
       code = Handlebars.helpers.prettyPrint(code);
       return new Handlebars.SafeString(prettyPrintOne(code, "js", true));
     }
-  }
+  };
 
   function render(templateName, data){
     // This block of merging local helpers with handlebars helpers is to work around

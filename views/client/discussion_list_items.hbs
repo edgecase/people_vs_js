@@ -3,6 +3,6 @@
     <td class='participant'>
       <a class='reply' href='#' title='Reply to {{ participant }}'>{{ participant }}</a>
     </td>
-    <td class="message {{#if isForMe }} forMe {{/if }}">{{{ text }}}</td>
+    <td class="message {{#if isForMe }} forMe {{/if }}">{{{prettyPrintMessage text }}}</td>
   </tr>
 {{/if}}
